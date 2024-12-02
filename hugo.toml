@@ -1,3 +1,13 @@
+[params]
+  # Auto translation configuration
+  # See: https://github.com/xnx3/translate/
+  [params.autoTranslate]
+    enable = true
+    # Languages IDs to translate to, See: https://api.translate.zvo.cn/language.json
+    languages = []
+    # Ignore class names that should not be translated
+    ignoreClass = []
+
 [module]
   [module.hugoVersion]
     extended = true

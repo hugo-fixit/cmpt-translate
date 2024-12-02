@@ -4,13 +4,16 @@
 
 A component for website automatic translation.
 
+> [!WARNING]
+> Work in progress, not ready for production use.
+
 ## Demo
 
 TODO demo here if needed
 
 ## Requirements
 
-- FixIt v0.3.12 or later.
+- FixIt v0.3.16 or later.
 
 ## Install Component
 
