@@ -1,8 +1,8 @@
-# {component-xxx}
+# cmpt-translate
 
 👉 简体中文说明 | [English README](/README.md)
 
-TODO 如有需要，请在此处添加描述
+一个用于网站自动翻译的组件。
 
 ## Demo
 
@@ -27,7 +27,7 @@ TODO 如有需要，请在此处添加演示
   [[module.imports]]
     path = "github.com/hugo-fixit/FixIt"
   [[module.imports]]
-    path = "github.com/hugo-fixit/{component-xxx}"
+    path = "github.com/hugo-fixit/cmpt-translate"
 ```
 
 在 Hugo 的第一次启动时，它将下载所需的文件。
@@ -45,18 +45,18 @@ hugo mod tidy
 
 ```bash
 git submodule add https://github.com/hugo-fixit/FixIt.git themes/FixIt
-git submodule add https://github.com/hugo-fixit/{component-xxx}.git themes/{component-xxx}
+git submodule add https://github.com/hugo-fixit/cmpt-translate.git themes/cmpt-translate
 ```
 
 接下来编辑项目的 `hugo.toml` 并将此主题组件添加到你的主题中：
 
 ```toml
-theme = ["FixIt", "{component-xxx}"]
+theme = ["FixIt", "cmpt-translate"]
 ```
 
 ## 配置
 
-为了通过 FixIt 主题在 `layouts/partials/custom.html` 文件中开放的 [自定义块](https://fixit.lruihao.cn/references/blocks/) 将 `{component-xxx}.html` 注入到 `custom-assets` 中，你需要填写以下必要配置：
+为了通过 FixIt 主题在 `layouts/partials/custom.html` 文件中开放的 [自定义块](https://fixit.lruihao.cn/references/blocks/) 将 `cmpt-translate.html` 注入到 `custom-assets` 中，你需要填写以下必要配置：
 
 ```toml
 [params]
@@ -68,21 +68,13 @@ theme = ["FixIt", "{component-xxx}"]
     footer = []
     widgets = []
     assets = [
-      "inject/{component-xxx}.html",
+      "inject/cmpt-translate.html",
     ]
     postFooterBefore = []
     postFooterAfter = []
 ```
 
 TODO 如有需要，请在此处添加配置...
-
-## 使用 Shortcode
-
-以下是一个使用示例：
-
-```markdown
-{{< shortcode-xxx >}}
-```
 
 ## 参考
 

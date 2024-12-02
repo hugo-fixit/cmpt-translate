@@ -1,8 +1,8 @@
-# {component-xxx}
+# cmpt-translate
 
 👉 English README | [简体中文说明](/README.zh-cn.md)
 
-TODO description here if needed
+A component for website automatic translation.
 
 ## Demo
 
@@ -27,7 +27,7 @@ Then add this theme component to your `hugo.toml` configuration file:
   [[module.imports]]
     path = "github.com/hugo-fixit/FixIt"
   [[module.imports]]
-    path = "github.com/hugo-fixit/{component-xxx}"
+    path = "github.com/hugo-fixit/cmpt-translate"
 ```
 
 On the first start of Hugo it will download the required files.
@@ -45,18 +45,18 @@ Clone [FixIt](https://github.com/hugo-fixit) and this git repository into your t
 
 ```bash
 git submodule add https://github.com/hugo-fixit/FixIt.git themes/FixIt
-git submodule add https://github.com/hugo-fixit/{component-xxx}.git themes/{component-xxx}
+git submodule add https://github.com/hugo-fixit/cmpt-translate.git themes/cmpt-translate
 ```
 
 Next edit `hugo.toml` of your project and add this theme component to your themes:
 
 ```toml
-theme = ["FixIt", "{component-xxx}"]
+theme = ["FixIt", "cmpt-translate"]
 ```
 
 ## Configuration
 
-In order to Inject the partial `{component-xxx}.html` into the `custom-assets` through the [custom block](https://fixit.lruihao.cn/references/blocks/) opened by the FixIt theme in the `layouts/partials/custom.html` file, you need to fill in the following necessary configurations:
+In order to Inject the partial `cmpt-translate.html` into the `custom-assets` through the [custom block](https://fixit.lruihao.cn/references/blocks/) opened by the FixIt theme in the `layouts/partials/custom.html` file, you need to fill in the following necessary configurations:
 
 ```toml
 [params]
@@ -68,21 +68,13 @@ In order to Inject the partial `{component-xxx}.html` into the `custom-assets` t
     footer = []
     widgets = []
     assets = [
-      "inject/{component-xxx}.html",
+      "inject/cmpt-translate.html",
     ]
     postFooterBefore = []
     postFooterAfter = []
 ```
 
 TODO configuration here if needed ...
-
-## Use Shortcode
-
-Here is an example of usage:
-
-```markdown
-{{< shortcode-xxx >}}
-```
 
 ## References
 
