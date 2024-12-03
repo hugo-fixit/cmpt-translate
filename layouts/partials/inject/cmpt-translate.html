@@ -3,11 +3,17 @@
 {{- $autoTranslate := .Site.Params.autoTranslate -}}
 
 {{- if $autoTranslate.enable -}}
-  {{- dict "Source" "lib/translate.js" "Fingerprint" $fingerprint "Async" true "Defer" true "Minify" hugo.IsProduction | dict "Scratch" .Scratch "Data" | partial "scratch/script.html" -}}
+  {{- dict "Source" "lib/translate.js" "Fingerprint" $fingerprint "Defer" true "Minify" hugo.IsProduction | dict "Scratch" .Scratch "Data" | partial "scratch/script.html" -}}
   {{- $options := dict "targetPath" "js/cmpt-translate.min.js" "minify" hugo.IsProduction -}}
   {{- $languages := $autoTranslate.languages | default slice -}}
   {{- $ignoreClass := $autoTranslate.ignoreClass | default slice -}}
-  {{- $options = dict "languages" $languages "ignoreClass" $ignoreClass | dict "params" | merge $options -}}
+  {{- $detectionLocalLanguage := $autoTranslate.detectionLocalLanguage | default false -}}
+  {{- $params := dict
+    "languages" $languages
+    "ignoreClass" $ignoreClass
+    "detectionLocalLanguage" $detectionLocalLanguage
+  -}}
+  {{- $options = dict "params" $params | merge $options -}}
   {{- if not hugo.IsProduction -}}
     {{- $options = dict "sourceMap" "inline" | merge $options -}}
   {{- end -}}

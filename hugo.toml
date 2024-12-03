@@ -3,10 +3,18 @@
   # See: https://github.com/xnx3/translate/
   [params.autoTranslate]
     enable = true
-    # Languages IDs to translate to, See: https://api.translate.zvo.cn/language.json
-    languages = []
+    # Languages IDs to translate to, e.g. ["english", "chinese_simplified", "chinese_traditional", ...]
+    # See the full language list: https://api.translate.zvo.cn/language.json
+    languages = [
+      'english',
+      'chinese_simplified',
+      'chinese_traditional',
+    ]
     # Ignore class names that should not be translated
     ignoreClass = []
+    # Detection local language
+    # If your site itself is multilingual in Hugo, it is not recommended to enable this feature!
+    detectionLocalLanguage = false
 
 [module]
   [module.hugoVersion]

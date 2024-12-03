@@ -1,0 +1,60 @@
+{{- $autoTranslate := .Site.Params.autoTranslate -}}
+{{- $languages := site.Store.Get "languages" -}}
+{{- if not $languages -}}
+  {{- $languageURL := "https://api.translate.zvo.cn/language.json" -}}
+  {{- $cacheKey := print $languageURL (now.Format "2006-01-02") -}}
+  {{- $languages = partial "function/get-remote-json" (dict "URL" $languageURL "OPTIONS" (dict "key" $cacheKey)) -}}
+  {{- $languages = $languages.list | default slice -}}
+  {{- site.Store.Set "languages" $languages -}}
+{{- end -}}
+{{- with $autoTranslate.languages -}}
+  {{- $languages = where $languages "id" "in" . -}}
+{{- end -}}
+
+{{- if gt (len $languages) 0 -}}
+  <li class="menu-item language-switch auto d-none">
+    <span role="button" aria-label="{{ T "header.selectLanguage" }}" title="{{ T "header.selectLanguage" }}">
+      {{- dict "Class" "fa-solid fa-language fa-fw" | partial "plugin/icon.html" -}}
+    </span>
+    <ul class="sub-menu">
+      {{- if hugo.IsMultilingual -}}
+        {{- if (eq .Kind "404") -}}
+          {{- range .Sites -}}
+            {{- if ne . $.Site -}}
+              {{- $link := printf "%v/404.html" .LanguagePrefix -}}
+              <li class="menu-item" data-type="artificial">
+                <a href="{{ $link }}" class="menu-link" title="{{ .Language.LanguageName }}">
+                  {{- .Language.LanguageName -}}
+                </a>
+              </li>
+            {{- end -}}
+          {{- end -}}
+        {{- else if .IsTranslated -}}
+          {{- range .AllTranslations -}}
+            <li class="menu-item" data-type="artificial">
+              {{- if ne .Lang $.Lang -}}
+                <a href="{{ .RelPermalink }}" class="menu-link" title="{{ .Language.LanguageName }}">
+                  <i class="fa-solid fa-person fa-fw fa-sm" aria-hidden="true"></i> {{ .Language.LanguageName -}}
+                </a>
+              {{- else -}}
+                <span class="text-secondary" title="{{ .Language.LanguageName }}">
+                  <i class="fa-solid fa-person fa-fw fa-sm" aria-hidden="true"></i> {{ .Language.LanguageName -}}
+                </span>
+              {{- end -}}
+            </li>
+          {{- end -}}
+        {{- end -}}
+        <li class="menu-item-divider" aria-hidden="true"></li>
+      {{- end -}}
+
+      {{- range $languages -}}
+        <li class="menu-item" data-type="machine">
+          <a data-lang="{{ .id }}" class="menu-link" title="{{ .name }}">
+            <i class="fa-solid fa-robot fa-fw fa-sm" aria-hidden="true"></i> {{ .name -}}
+          </a>
+        </li>
+      {{- end -}}
+    </ul>
+  </li>
+{{- end -}}
+{{- /* EOF */ -}}
