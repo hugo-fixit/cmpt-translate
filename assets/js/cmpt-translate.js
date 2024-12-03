@@ -13,6 +13,7 @@ class AutoTranslate {
    */
   constructor() {
     this.#IGNORE_CLASS = [
+      // for the Fixit theme
       'header-title',
       'language-switch',
       'post-author',
@@ -20,6 +21,10 @@ class AutoTranslate {
       'author',
       'typeit',
       'katex-display',
+      // for the theme components of hugo-fixit
+      'repo-url',
+      'netease-music',
+      'comment-163',
       ...params.ignoreClass,
     ];
     this.isMobile = fixit.util.isMobile();
