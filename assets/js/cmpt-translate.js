@@ -116,7 +116,7 @@ class AutoTranslate {
   }
 
   setup() {
-    if (params.detectionLocalLanguage) {
+    if (params.detectLocalLanguage) {
       translate.setAutoDiscriminateLocalLanguage();
     }
     // Set active class for current language (only machine translation)
@@ -138,6 +138,10 @@ class AutoTranslate {
     this.afterTranslateEvents.forEach((event) => {
       event();
     });
+
+    // TODO: selection translate (maybe)
+    // translate.language.setDefaultTo('chinese_simplified');
+    // translate.selectionTranslate.start();
   }
 
   init() {

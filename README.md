@@ -2,14 +2,11 @@
 
 👉 English README | [简体中文说明](/README.zh-cn.md)
 
-A component for website automatic translation.
-
-> [!WARNING]
-> Work in progress, not ready for production use.
+A component for website automatic translation base on [translate.js](https://github.com/xnx3/translate).
 
 ## Demo
 
-TODO demo here if needed
+- https://fixit.lruihao.cn
 
 ## Requirements
 
@@ -65,6 +62,12 @@ In order to Inject the partial `cmpt-translate.html` into the `custom-assets` th
 [params]
   [params.customPartials]
     head = []
+    menuDesktop = [
+      'inject/translate-menu-desktop.html',
+    ]
+    menuMobile = [
+      'inject/translate-menu-mobile.html',
+    ]
     profile = []
     aside = []
     comment = []
@@ -77,7 +80,27 @@ In order to Inject the partial `cmpt-translate.html` into the `custom-assets` th
     postFooterAfter = []
 ```
 
-TODO configuration here if needed ...
+In addition, you can customize the translated language through the following configuration:
+
+```toml
+[params]
+  [params.autoTranslate]
+    enable = true
+    service = 'client.edge'
+    languages = []
+    ignoreClass = []
+    detectLocalLanguage = false
+```
+
+- `enable`: Whether to enable automatic translation.
+- `service`: The translation service provider, optional values are `client.edge` and `translate.service`, see: [Translation Service Provider](https://translate.zvo.cn/43086.html).
+- `languages`: List of language ID to translate to, e.g. `["english", "chinese_simplified", "chinese_traditional", ...]`, see the full language list: [Full Language List](https://api.translate.zvo.cn/language.json).
+- `ignoreClass`: Class names that need to be ignored for translation.
+- `detectLocalLanguage`: Whether to detect the local language.
+
+## Acknowledgements
+
+- [translate.js](https://github.com/xnx3/translate)
 
 ## References
 

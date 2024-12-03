@@ -6,20 +6,16 @@
     # The translation service provider, ['client.edge', 'translate.service']
     # See: https://translate.zvo.cn/43086.html
     service = 'client.edge'
-    # Languages IDs to translate to, e.g. ["english", "chinese_simplified", "chinese_traditional", ...]
+    # List of language ID to translate to, e.g. ["english", "chinese_simplified", "chinese_traditional", ...]
     # See the full language list: https://api.translate.zvo.cn/language.json
-    languages = [
-      'english',
-      'chinese_simplified',
-      'chinese_traditional',
-    ]
-    # Ignore class names that should not be translated
+    languages = []
+    # Class names that need to be ignored for translation.
     ignoreClass = []
-    # Detection local language
+    # Whether to detect the local language
     # If your site itself is multilingual in Hugo, it is not recommended to enable this feature!
-    detectionLocalLanguage = false
+    detectLocalLanguage = false
 
 [module]
   [module.hugoVersion]
     extended = true
-    min = "0.134.1"
+    min = "0.139.0"

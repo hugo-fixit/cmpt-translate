@@ -11,7 +11,7 @@
   {{- $languages = where $languages "id" "in" . -}}
 {{- end -}}
 
-{{- if gt (len $languages) 0 -}}
+{{- if $autoTranslate.enable | and (gt (len $languages) 0) -}}
   <li class="menu-item language-switch auto d-none">
     <span role="button" aria-label="{{ T "header.selectLanguage" }}" title="{{ T "header.selectLanguage" }}">
       {{- dict "Class" "fa-solid fa-language fa-fw" | partial "plugin/icon.html" -}}

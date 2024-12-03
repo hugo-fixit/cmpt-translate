@@ -5,7 +5,7 @@ name = 'cmpt-translate'
 license = 'MIT'
 licenselink = 'https://github.com/hugo-fixit/cmpt-translate/LICENSE'
 description = 'A component for website automatic translation.'
-min_version = "0.134.1"
+min_version = "0.139.0"
 
 # The home page of the theme, where the source can be found
 homepage = 'https://github.com/hugo-fixit/cmpt-translate'

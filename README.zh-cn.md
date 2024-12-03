@@ -2,11 +2,11 @@
 
 👉 简体中文说明 | [English README](/README.md)
 
-一个用于网站自动翻译的组件。
+一个基于 [translate.js](https://github.com/xnx3/translate) 实现网站自动翻译的组件。
 
 ## Demo
 
-TODO 如有需要，请在此处添加演示
+- https://fixit.lruihao.cn
 
 ## 要求
 
@@ -62,6 +62,12 @@ theme = ["FixIt", "cmpt-translate"]
 [params]
   [params.customPartials]
     head = []
+    menuDesktop = [
+      'inject/translate-menu-desktop.html',
+    ]
+    menuMobile = [
+      'inject/translate-menu-mobile.html',
+    ]
     profile = []
     aside = []
     comment = []
@@ -74,7 +80,27 @@ theme = ["FixIt", "cmpt-translate"]
     postFooterAfter = []
 ```
 
-TODO 如有需要，请在此处添加配置...
+另外，你还可以通过以下配置来自定义翻译的语言：
+
+```toml
+[params]
+  [params.autoTranslate]
+    enable = true
+    service = 'client.edge'
+    languages = []
+    ignoreClass = []
+    detectLocalLanguage = false
+```
+
+- `enable`：是否启用自动翻译。
+- `service`：翻译服务提供商，可选值为 `client.edge` 和 `translate.service`，详见：[翻译服务提供商](https://translate.zvo.cn/43086.html)。
+- `languages`：要翻译到的语言 ID 列表，例如 `["english", "chinese_simplified", "chinese_traditional", ...]`，详见：[完整语言列表](https://api.translate.zvo.cn/language.json)。
+- `ignoreClass`：需要忽略翻译的类名。
+- `detectLocalLanguage`：是否检测本地语言。
+
+## 致谢
+
+- [translate.js](https://github.com/xnx3/translate)
 
 ## 参考
 

@@ -9,7 +9,7 @@
     "service" ($autoTranslate.service | default "client.edge")
     "languages" ($autoTranslate.languages | default slice)
     "ignoreClass" ($autoTranslate.ignoreClass | default slice)
-    "detectionLocalLanguage" ($autoTranslate.detectionLocalLanguage | default false)
+    "detectLocalLanguage" ($autoTranslate.detectLocalLanguage | default false)
   -}}
   {{- $options = dict "params" $params | merge $options -}}
   {{- if not hugo.IsProduction -}}
