@@ -6,13 +6,12 @@ import * as params from '@params';
  * @author [Lruihao](https://lruihao.cn)
  */
 class AutoTranslate {
-  #IGNORE_CLASS;
 
   /**
    * @class
    */
   constructor() {
-    this.#IGNORE_CLASS = [
+    this.ignoreClass = [
       // for the Fixit theme
       'header-title',
       'language-switch',
@@ -131,7 +130,9 @@ class AutoTranslate {
         link.parentElement.classList.add('active');
       });
     }
-    translate.ignore.class.push(...this.#IGNORE_CLASS);
+    translate.ignore.id.push(...params.ignoreID);
+    translate.ignore.class.push(...this.ignoreClass);
+    translate.ignore.tag.push(...params.ignoreTag);
     translate.service.use(params.service);
     translate.language.setUrlParamControl('lang');
     translate.listener.start();

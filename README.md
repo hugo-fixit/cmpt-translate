@@ -88,14 +88,18 @@ In addition, you can customize the translated language through the following con
     enable = true
     service = 'client.edge'
     languages = []
+    ignoreID = []
     ignoreClass = []
+    ignoreTag = []
     detectLocalLanguage = false
 ```
 
 - `enable`: Whether to enable automatic translation.
 - `service`: The translation service provider, optional values are `client.edge` and `translate.service`, see: [Translation Service Provider](https://translate.zvo.cn/43086.html).
 - `languages`: List of language ID to translate to, e.g. `["english", "chinese_simplified", "chinese_traditional", ...]`, see the full language list: [Full Language List](https://api.translate.zvo.cn/language.json).
+- `ignoreID`: Element IDs that needs to be ignored for translation.
 - `ignoreClass`: Class names that need to be ignored for translation.
+- `ignoreTag`: Tag names that need to be ignored for translation.
 - `detectLocalLanguage`: Whether to detect the local language.
 
 ## Acknowledgements

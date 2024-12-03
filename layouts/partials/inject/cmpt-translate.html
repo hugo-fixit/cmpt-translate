@@ -8,7 +8,9 @@
   {{- $params := dict
     "service" ($autoTranslate.service | default "client.edge")
     "languages" ($autoTranslate.languages | default slice)
+    "ignoreID" ($autoTranslate.ignoreID | default slice)
     "ignoreClass" ($autoTranslate.ignoreClass | default slice)
+    "ignoreTag" ($autoTranslate.ignoreTag | default slice)
     "detectLocalLanguage" ($autoTranslate.detectLocalLanguage | default false)
   -}}
   {{- $options = dict "params" $params | merge $options -}}
