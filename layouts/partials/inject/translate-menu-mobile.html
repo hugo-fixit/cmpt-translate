@@ -6,11 +6,11 @@
         {{- dict "Class" "dropdown-icon fa-solid fa-chevron-down" | partial "plugin/icon.html" -}}
       </span>
       <select class="language-select" onchange="location = this.value;">
-        <option value="{{ .RelPermalink }}" selected>
+        <option value="{{ .RelPermalink }}" data-lang="{{ .Language.LanguageCode }}" selected>
           {{- .Language.LanguageName -}}
         </option>
       </select>
     </span>
   {{- end -}}
-  <span id="translate" class="menu-system-item language-switch auto d-none"></span>
+  <span id="translate" class="menu-system-item language-switch auto d-none" aria-hidden="true"></span>
 {{- end -}}

@@ -12,7 +12,7 @@
 {{- end -}}
 
 {{- if $autoTranslate.enable | and (gt (len $languages) 0) -}}
-  <li class="menu-item language-switch auto d-none">
+  <li class="menu-item language-switch auto d-none" aria-hidden="true">
     <span role="button" aria-label="{{ T "header.selectLanguage" }}" title="{{ T "header.selectLanguage" }}">
       {{- dict "Class" "fa-solid fa-language fa-fw" | partial "plugin/icon.html" -}}
     </span>
@@ -23,7 +23,7 @@
             {{- if ne . $.Site -}}
               {{- $link := printf "%v/404.html" .LanguagePrefix -}}
               <li class="menu-item" data-type="artificial">
-                <a href="{{ $link }}" class="menu-link" title="{{ .Language.LanguageName }}">
+                <a href="{{ $link }}" data-lang="{{ .Language.LanguageCode }}" class="menu-link" title="{{ .Language.LanguageName }}">
                   {{- .Language.LanguageName -}}
                 </a>
               </li>
@@ -31,16 +31,10 @@
           {{- end -}}
         {{- else if .IsTranslated -}}
           {{- range .AllTranslations -}}
-            <li class="menu-item" data-type="artificial">
-              {{- if ne .Lang $.Lang -}}
-                <a href="{{ .RelPermalink }}" class="menu-link" title="{{ .Language.LanguageName }}">
-                  <i class="fa-solid fa-person fa-fw fa-sm" aria-hidden="true"></i> {{ .Language.LanguageName -}}
-                </a>
-              {{- else -}}
-                <span class="text-secondary" title="{{ .Language.LanguageName }}">
-                  <i class="fa-solid fa-person fa-fw fa-sm" aria-hidden="true"></i> {{ .Language.LanguageName -}}
-                </span>
-              {{- end -}}
+            <li class="menu-item{{ if eq .Lang $.Lang }} active{{ end }}" data-type="artificial">
+              <a href="{{ .RelPermalink }}" data-lang="{{ .Language.LanguageCode }}" class="menu-link" title="{{ .Language.LanguageName }}">
+                <i class="fa-solid fa-person fa-fw fa-sm" aria-hidden="true"></i> {{ .Language.LanguageName -}}
+              </a>
             </li>
           {{- end -}}
         {{- end -}}

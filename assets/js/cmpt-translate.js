@@ -55,7 +55,7 @@ class AutoTranslate {
     this.afterTranslateEvents = new Set();
     this.lang = {
       current: translate.language.getCurrent(),
-      local: window.pageLang || translate.language.getLocal(),
+      local: window.ATConfig.local || translate.language.getLocal(),
       query: window.location.search.split('lang=')[1],
       browser: translate.util.browserDefaultLanguage(),
     };
@@ -63,15 +63,44 @@ class AutoTranslate {
       'client.edge': translate.service.edge.language.json,
       'translate.service': supportLanguages,
     };
+    this.hugoLangCodes = window.ATConfig.hugoLangCodes;
   }
 
   /**
    * Get language name by language id from translate.js service
-   * @param {String} id The language id
-   * @returns {String} The language name
+   * @param {String} id The language id, e.g. 'chinese_simplified'
+   * @returns {String} The language name, e.g. '简体中文'
    */
   getLangNameById(id) {
     return this.supportLanguages[this.service]?.find((lang) => lang.id === id)?.name;
+  }
+
+  /**
+   * Get browser language code by language id from translate.js service
+   * @param {String} id The language id, e.g. 'chinese_simplified'
+   * @returns {String} The language code, e.g. 'zh-CN'
+   */
+  getLangCodeById(id) {
+    return Object.keys(translate.util.browserLanguage).find((code) => translate.util.browserLanguage[code] === id);
+  }
+
+  /**
+   * Get language id by browser language code
+   * @param {String} code The language code, e.g. 'zh-CN'
+   * @returns {String} The language id, e.g. 'chinese_simplified'
+   */
+  getLangIdByCode(code) {
+    return translate.util.browserLanguage[code];
+  }
+  
+  /**
+   * Toggle element visibility
+   * @param {Element} el
+   * @param {Boolean} visibility
+   */
+  toggleVisibility(el, visibility) {
+    el.classList.toggle('d-none', !visibility);
+    el.setAttribute('aria-hidden', !visibility);
   }
 
   bindDesktopEvents() {
@@ -82,8 +111,13 @@ class AutoTranslate {
     const switchMenu = switchDesktop.querySelector('.sub-menu');
     if (this.detectLocalLanguage) {
       const langName = this.getLangNameById(this.lang.browser);
-      // add detect local language item
-      if (langName) {
+      const langCode = this.getLangCodeById(this.lang.browser);
+      if (
+        langName &&
+        !this.hugoLangCodes.includes(langCode) &&
+        !switchMenu.querySelector(`[data-lang="${this.lang.browser}"]`)
+      ) {
+        // add detect local language item
         const localItem = document.createElement('li');
         localItem.classList.add('menu-item');
         localItem.dataset.type = 'machine';
@@ -101,31 +135,39 @@ class AutoTranslate {
     // Machine language items by translate.js service
     const machineItems = Array.from(switchMenu.childNodes).filter((node) => node.dataset.type === 'machine');
     fixit.util.forEach(machineItems, (item) => {
-      const lang = item.children[0].dataset.lang;
+      const langId = item.children[0].dataset.lang;
+      const langName = this.getLangNameById(langId);
+      const langCode = this.getLangCodeById(langId);
       // hide unsupported languages for 'client.edge' service
       if (this.service === 'client.edge') {
-        if (!this.getLangNameById(lang)) {
-          item.classList.add('d-none');
+        if (!langName) {
+          this.toggleVisibility(item, false);
           return;
         }
       }
+      if (this.hugoLangCodes.includes(langCode)) {
+        this.toggleVisibility(item, false);
+        return;
+      }
       item.addEventListener('click', (e) => {
         // set query param 'lang' to url
-        window.history.pushState({}, '', `?lang=${lang}`);
+        window.history.pushState({}, '', `?lang=${langId}`);
         // toggle active class
         machineItems.forEach((item) => {
           item.classList.remove('active');
+          item.children[0].classList.remove('text-secondary')
         });
         item.classList.add('active');
+        item.children[0].classList.add('text-secondary')
         // translate to selected language
-        translate.changeLanguage(lang);
+        translate.changeLanguage(langId);
       });
     })
     const originSwitchDesktop = switchDesktop.previousElementSibling;
     if (originSwitchDesktop.classList.contains('language-switch')) {
-      originSwitchDesktop.classList.add('d-none');
+      this.toggleVisibility(originSwitchDesktop, false);
     }
-    switchDesktop.classList.remove('d-none');
+    this.toggleVisibility(switchDesktop, true);
   }
 
   bindMobileEvents() {
@@ -152,13 +194,16 @@ class AutoTranslate {
       selectEl.classList.add('language-select');
       fixit.util.forEach(selectEl.querySelectorAll('option'), (option) => {
         option.dataset.type = 'machine';
+        option.innerText = `🤖 ${option.innerText}`;
+        const langCode = this.getLangCodeById(option.value);
+        if (this.hugoLangCodes.includes(langCode)) {
+          this.toggleVisibility(option, false);
+        }
       });
-      const divider = document.createElement('option');
-      divider.disabled = true;
-      divider.innerHTML = '-';
-      selectEl.prepend(divider);
       fixit.util.forEach(originSwitchMobile.querySelectorAll('option'), (option) => {
         option.dataset.type = 'artificial';
+        option.innerText = `👤 ${option.innerText}`;
+        option.disabled && option.removeAttribute('disabled');
       });
       selectEl.prepend(...originSwitchMobile.querySelectorAll('option:not([selected])'));
       selectEl.prepend(originSwitchMobile.querySelector('option[selected]'));
@@ -166,8 +211,8 @@ class AutoTranslate {
       if (current !== local || query) {
         selectEl.value = current;
       }
-      originSwitchMobile.classList.add('d-none');
-      switchMobile.classList.remove('d-none');
+      this.toggleVisibility(originSwitchMobile, false);
+      this.toggleVisibility(switchMobile, true);
     });
   }
 
@@ -184,9 +229,9 @@ class AutoTranslate {
     if (this.detectLocalLanguage) {
       translate.setAutoDiscriminateLocalLanguage();
       if (
+        this.getLangNameById(this.lang.browser) &&
         this.languages.length &&
-        !this.languages.includes(this.lang.browser) &&
-        this.getLangNameById(this.lang.browser)
+        !this.languages.includes(this.lang.browser)
       ) {
         // add detect local language
         this.languages.push(this.lang.browser);
@@ -197,6 +242,7 @@ class AutoTranslate {
     if (current !== local || query) {
       fixit.util.forEach(document.querySelectorAll(`.menu-link[data-lang="${current}"]`), (link) => {
         link.parentElement.classList.add('active');
+        link.classList.add('text-secondary')
       });
     }
     translate.ignore.id.push(...this.ignoreID);

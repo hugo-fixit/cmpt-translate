@@ -1,10 +1,27 @@
-{{- /* translate.js */ -}}
 {{- $fingerprint := .Scratch.Get "fingerprint" -}}
 {{- $autoTranslate := .Site.Params.autoTranslate -}}
 {{- $languages := site.Store.Get "languages" -}}
 
 {{- if $autoTranslate.enable -}}
+  {{- /* translate.js */ -}}
   {{- dict "Source" "lib/translate.js" "Fingerprint" $fingerprint "Defer" true "Minify" hugo.IsProduction | dict "Scratch" .Scratch "Data" | partial "scratch/script.html" -}}
+
+  {{- /* Config script */ -}}
+  {{- $hugoLangCodes := slice -}}
+  {{- range .AllTranslations }}
+    {{- $hugoLangCodes = $hugoLangCodes | append .Language.LanguageCode -}}
+  {{- end -}}
+  {{- $config := dict "hugoLangCodes" $hugoLangCodes -}}
+  {{- with .Params.local -}}
+    {{- $config = dict "local" . | merge $config -}}
+  {{- end -}}
+  {{- $configJS := $config | jsonify | printf "window.ATConfig=%s;" -}}
+  {{- if hugo.IsServer -}}
+    {{- $configJS = add $configJS "console.log('Auto Translate config:', window.ATConfig);" -}}
+  {{- end -}}
+  {{- $configJS | dict "Content" | dict "Scratch" .Scratch "Data" | partial "scratch/script.html" -}}
+
+  {{- /* cmpt-translate.js */ -}}
   {{- $options := dict "targetPath" "js/cmpt-translate.min.js" "minify" hugo.IsProduction -}}
   {{- $params := dict
     "service" ($autoTranslate.service | default "client.edge")
@@ -18,9 +35,6 @@
   {{- $options = dict "params" $params | merge $options -}}
   {{- if not hugo.IsProduction -}}
     {{- $options = dict "sourceMap" "inline" | merge $options -}}
-  {{- end -}}
-  {{- with .Params.local -}}
-    {{- (printf "window.pageLang='%v';" .) | dict "Content" | dict "Scratch" $.Scratch "Data" | partial "scratch/script.html" -}}
   {{- end -}}
   {{- dict "Source" "js/cmpt-translate.js" "Build" $options "Fingerprint" $fingerprint "Defer" true | dict "Scratch" .Scratch "Data" | partial "scratch/script.html" -}}
 {{- end -}}
