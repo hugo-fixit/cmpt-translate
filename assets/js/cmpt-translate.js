@@ -197,7 +197,9 @@ class AutoTranslate {
         option.innerText = `🤖 ${option.innerText}`;
         const langCode = this.getLangCodeById(option.value);
         if (this.hugoLangCodes.includes(langCode)) {
-          this.toggleVisibility(option, false);
+          // Safari can not use "display: none;" for option. (Safari sucks!!!)
+          // this.toggleVisibility(option, false);
+          option.parentElement.removeChild(option);
         }
       });
       fixit.util.forEach(originSwitchMobile.querySelectorAll('option'), (option) => {
