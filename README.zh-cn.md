@@ -6,7 +6,10 @@
 
 ## Demo
 
-- https://fixit.lruihao.cn
+无论原站点是多语言还是单语言，都可以通过此组件额外增加自动翻译功能。
+
+- 多语言 Hugo 站点：[fixit.lruihao.cn](https://fixit.lruihao.cn)
+- 单语言 Hugo 站点：[lruihao.cn](https://lruihao.cn)
 
 ## 要求
 
@@ -63,10 +66,10 @@ theme = ["FixIt", "cmpt-translate"]
   [params.customPartials]
     head = []
     menuDesktop = [
-      'inject/translate-menu-desktop.html',
+      "inject/translate-menu-desktop.html",
     ]
     menuMobile = [
-      'inject/translate-menu-mobile.html',
+      "inject/translate-menu-mobile.html",
     ]
     profile = []
     aside = []

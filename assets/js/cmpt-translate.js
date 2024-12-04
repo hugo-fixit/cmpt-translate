@@ -1,4 +1,35 @@
-import * as params from '@params';
+import {
+  service,
+  languages,
+  ignoreID,
+  ignoreClass,
+  ignoreTag,
+  detectLocalLanguage,
+} from '@params';
+
+/**
+ * Ignore class list for the Fixit theme
+ * @type {Array<string>}
+ */
+const IGNORE_FIXIT = [
+  'header-title',
+  'language-switch',
+  'post-author',
+  'powered',
+  'author',
+  'typeit',
+  'katex-display',
+];
+
+/**
+ * Ignore class list for the hugo-fixit components
+ * @type {Array<string>}
+ */
+const IGNORE_CMPTS = [
+  'repo-url',
+  'netease-music',
+  'comment-163',
+];
 
 /**
  * AutoTranslate Class
@@ -6,29 +37,22 @@ import * as params from '@params';
  * @author [Lruihao](https://lruihao.cn)
  */
 class AutoTranslate {
-
-  /**
-   * @class
-   */
   constructor() {
+    // Get params from Hugo project config
+    this.service = service;
+    this.languages = languages;
     this.ignoreClass = [
-      // for the Fixit theme
-      'header-title',
-      'language-switch',
-      'post-author',
-      'powered',
-      'author',
-      'typeit',
-      'katex-display',
-      // for the theme components of hugo-fixit
-      'repo-url',
-      'netease-music',
-      'comment-163',
-      ...params.ignoreClass,
+      ...IGNORE_FIXIT,
+      ...IGNORE_CMPTS,
+      ...ignoreClass,
     ];
+    this.ignoreID = ignoreID;
+    this.ignoreTag = ignoreTag;
+    this.detectLocalLanguage = detectLocalLanguage;
+
     this.isMobile = fixit.util.isMobile();
     this.afterTranslateEvents = new Set();
-    this.language = {
+    this.lang = {
       current: translate.language.getCurrent(),
       local: translate.language.getLocal(),
       query: window.location.search.split('lang=')[1],
@@ -102,7 +126,7 @@ class AutoTranslate {
       });
       selectEl.prepend(...originSwitchMobile.querySelectorAll('option:not([selected])'));
       selectEl.prepend(originSwitchMobile.querySelector('option[selected]'));
-      const { current, local, query } = this.language;
+      const { current, local, query } = this.lang;
       if (current !== local || query) {
         selectEl.value = current;
       }
@@ -117,49 +141,52 @@ class AutoTranslate {
     } else {
       this.bindDesktopEvents();
     }
+    return this;
   }
 
   setup() {
-    if (params.detectLocalLanguage) {
+    if (this.detectLocalLanguage) {
       translate.setAutoDiscriminateLocalLanguage();
     }
     // Set active class for current language (only machine translation)
-    const { current, local, query } = this.language;
+    const { current, local, query } = this.lang;
     if (current !== local || query) {
       fixit.util.forEach(document.querySelectorAll(`.menu-link[data-lang="${current}"]`), (link) => {
         link.parentElement.classList.add('active');
       });
     }
-    translate.ignore.id.push(...params.ignoreID);
+    translate.ignore.id.push(...this.ignoreID);
     translate.ignore.class.push(...this.ignoreClass);
-    translate.ignore.tag.push(...params.ignoreTag);
-    translate.service.use(params.service);
+    translate.ignore.tag.push(...this.ignoreTag);
+    translate.service.use(this.service);
     translate.language.setUrlParamControl('lang');
     translate.listener.start();
     translate.selectLanguageTag.show = this.isMobile;
-    translate.selectLanguageTag.languages = params.languages.join(',');
+    translate.selectLanguageTag.languages = this.languages.join(',');
+    return this;
+  }
 
+  execute() {
     translate.execute();
-
     this.afterTranslateEvents.forEach((event) => {
       event();
     });
-
     // TODO: selection translate (maybe)
     // translate.language.setDefaultTo('chinese_simplified');
     // translate.selectionTranslate.start();
   }
 
   init() {
-    this.bindEvents();
-    this.setup();
+    this.setup()
+      .bindEvents()
+      .execute();
   }
 }
 
-const autoTranslate = new AutoTranslate();
+fixit.autoTranslate = new AutoTranslate();
 
 if (document.readyState !== 'loading') {
-  autoTranslate.init();
+  fixit.autoTranslate.init();
 } else {
-  document.addEventListener('DOMContentLoaded', () => autoTranslate.init(), false);
+  document.addEventListener('DOMContentLoaded', () => fixit.autoTranslate.init(), false);
 }

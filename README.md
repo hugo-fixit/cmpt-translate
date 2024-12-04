@@ -6,7 +6,10 @@ A component for website automatic translation base on [translate.js](https://git
 
 ## Demo
 
-- https://fixit.lruihao.cn
+Whether the original site is multilingual or single-language, you can add automatic translation feature through this component.
+
+- Multilingual Hugo site: [fixit.lruihao.cn](https://fixit.lruihao.cn)
+- Single-language Hugo site: [lruihao.cn](https://lruihao.cn)
 
 ## Requirements
 
@@ -63,10 +66,10 @@ In order to Inject the partial `cmpt-translate.html` into the `custom-assets` th
   [params.customPartials]
     head = []
     menuDesktop = [
-      'inject/translate-menu-desktop.html',
+      "inject/translate-menu-desktop.html",
     ]
     menuMobile = [
-      'inject/translate-menu-mobile.html',
+      "inject/translate-menu-mobile.html",
     ]
     profile = []
     aside = []
