@@ -29,7 +29,7 @@
               </li>
             {{- end -}}
           {{- end -}}
-        {{- else if .IsTranslated -}}
+        {{- else -}}
           {{- range .AllTranslations -}}
             <li class="menu-item{{ if eq .Lang $.Lang }} active{{ end }}" data-type="artificial">
               <a href="{{ .RelPermalink }}" data-lang="{{ .Language.LanguageCode }}" class="menu-link" title="{{ .Language.LanguageName }}">

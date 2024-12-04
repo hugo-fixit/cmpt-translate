@@ -129,7 +129,11 @@ class AutoTranslate {
     const artificialItems = Array.from(switchMenu.childNodes).filter((node) => node.dataset.type === 'artificial');
     fixit.util.forEach(artificialItems, (item) => {
       item.addEventListener('click', (e) => {
-       translate.language.clearCacheLanguage()
+        if (this.detectLocalLanguage) {
+          translate.changeLanguage(this.lang.local);
+        } else {
+          translate.language.clearCacheLanguage();
+        }
       });
     })
     // Machine language items by translate.js service
@@ -179,7 +183,11 @@ class AutoTranslate {
       const lang = e.target.value;
       if (e.target.options[e.target.selectedIndex].dataset.type === 'artificial') {
         // Artificial language items by Hugo project
-        translate.language.clearCacheLanguage()
+        if (this.detectLocalLanguage) {
+          translate.changeLanguage(this.lang.local);
+        } else {
+          translate.language.clearCacheLanguage();
+        }
         window.location = lang;
       } else {
         // Machine language items by translate.js service
@@ -203,12 +211,24 @@ class AutoTranslate {
         }
       });
       fixit.util.forEach(originSwitchMobile.querySelectorAll('option'), (option) => {
+        if (!option.getAttribute('value')) {
+          return option.parentElement.removeChild(option);
+        }
         option.dataset.type = 'artificial';
         option.innerText = `👤 ${option.innerText}`;
         option.disabled && option.removeAttribute('disabled');
       });
-      selectEl.prepend(...originSwitchMobile.querySelectorAll('option:not([selected])'));
-      selectEl.prepend(originSwitchMobile.querySelector('option[selected]'));
+      if (this.hugoLangCodes.length > 1) {
+        selectEl.prepend(...originSwitchMobile.querySelectorAll('option:not([selected])'));
+        selectEl.prepend(originSwitchMobile.querySelector('option[selected]'));
+      } else {
+        const currentItem = document.createElement('option');
+        currentItem.selected = true;
+        currentItem.dataset.type = 'artificial';
+        currentItem.value = window.location.pathname;
+        currentItem.innerText = `👤 ${this.getLangNameById(this.lang.local)}`;
+        selectEl.prepend(currentItem);
+      }
       const { current, local, query } = this.lang;
       if (current !== local || query) {
         selectEl.value = current;
