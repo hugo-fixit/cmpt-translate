@@ -105,6 +105,12 @@ In addition, you can customize the translated language through the following con
 - `ignoreTag`: Tag names that need to be ignored for translation.
 - `detectLocalLanguage`: Whether to detect the local language.
 
+## Front Matter
+
+- `local`: Used to specify the local language of the current page, e.g. `local: english`.
+  
+    The default local language is the same as the Hugo site configuration. If the actual language of a page is different from the site configuration, you can specify it through the `local` parameter.
+
 ## Acknowledgements
 
 - [translate.js](https://github.com/xnx3/translate)

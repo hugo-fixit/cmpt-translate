@@ -54,7 +54,7 @@ class AutoTranslate {
     this.afterTranslateEvents = new Set();
     this.lang = {
       current: translate.language.getCurrent(),
-      local: translate.language.getLocal(),
+      local: window.pageLang || translate.language.getLocal(),
       query: window.location.search.split('lang=')[1],
     };
   }
@@ -162,6 +162,7 @@ class AutoTranslate {
     translate.ignore.class.push(...this.ignoreClass);
     translate.ignore.tag.push(...this.ignoreTag);
     translate.service.use(this.service);
+    translate.language.setLocal(this.lang.local);
     translate.language.setUrlParamControl('lang');
     translate.listener.start();
     translate.selectLanguageTag.show = this.isMobile;

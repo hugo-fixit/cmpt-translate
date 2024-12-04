@@ -17,5 +17,8 @@
   {{- if not hugo.IsProduction -}}
     {{- $options = dict "sourceMap" "inline" | merge $options -}}
   {{- end -}}
+  {{- with .Params.local -}}
+    {{- (printf "window.pageLang='%v';" .) | dict "Content" | dict "Scratch" $.Scratch "Data" | partial "scratch/script.html" -}}
+  {{- end -}}
   {{- dict "Source" "js/cmpt-translate.js" "Build" $options "Fingerprint" $fingerprint "Defer" true | dict "Scratch" .Scratch "Data" | partial "scratch/script.html" -}}
 {{- end -}}

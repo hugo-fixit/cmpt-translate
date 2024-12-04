@@ -105,6 +105,12 @@ theme = ["FixIt", "cmpt-translate"]
 - `ignoreTag`：需要忽略翻译的标签。
 - `detectLocalLanguage`：是否检测本地语言。
 
+## Front Matter
+
+- `local`: 用于指定当前页面的本地语言，例如 `local: english`。
+
+    默认本地语言同 Hugo 站点配置相同，如果某个页面实际语言与站点配置不同，可以通过 `local` 参数指定。
+
 ## 致谢
 
 - [translate.js](https://github.com/xnx3/translate)
