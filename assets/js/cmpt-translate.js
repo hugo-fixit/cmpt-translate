@@ -88,7 +88,10 @@ class AutoTranslate {
         translate.changeLanguage(lang);
       });
     })
-    switchDesktop.previousElementSibling.classList.add('d-none');
+    const originSwitchDesktop = switchDesktop.previousElementSibling;
+    if (originSwitchDesktop.classList.contains('language-switch')) {
+      originSwitchDesktop.classList.add('d-none');
+    }
     switchDesktop.classList.remove('d-none');
   }
 

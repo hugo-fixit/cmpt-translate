@@ -44,8 +44,14 @@
             </li>
           {{- end -}}
         {{- end -}}
-        <li class="menu-item-divider" aria-hidden="true"></li>
+      {{- else -}}
+        <li class="menu-item" data-type="artificial">
+          <a href="{{ .RelPermalink }}" class="menu-link" title="{{ .Language.LanguageName }}">
+            <i class="fa-solid fa-person fa-fw fa-sm" aria-hidden="true"></i> {{ .Language.LanguageName -}}
+          </a>
+        </li>
       {{- end -}}
+      <li class="menu-item-divider" aria-hidden="true"></li>
 
       {{- range $languages -}}
         <li class="menu-item" data-type="machine">

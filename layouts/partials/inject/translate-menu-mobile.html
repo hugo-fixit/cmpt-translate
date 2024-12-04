@@ -1,3 +1,16 @@
 {{- if .Site.Params.autoTranslate.enable -}}
+  {{- if not hugo.IsMultilingual -}}
+    <span class="menu-system-item language-switch">
+      <span role="button" aria-label="{{ T "header.selectLanguage" }}" title="{{ T "header.selectLanguage" }}">
+        {{- .Language.LanguageName -}}
+        {{- dict "Class" "dropdown-icon fa-solid fa-chevron-down" | partial "plugin/icon.html" -}}
+      </span>
+      <select class="language-select" onchange="location = this.value;">
+        <option value="{{ .RelPermalink }}" selected>
+          {{- .Language.LanguageName -}}
+        </option>
+      </select>
+    </span>
+  {{- end -}}
   <span id="translate" class="menu-system-item language-switch auto d-none"></span>
 {{- end -}}
