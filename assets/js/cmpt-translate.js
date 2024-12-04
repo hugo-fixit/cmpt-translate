@@ -179,6 +179,7 @@ class AutoTranslate {
 
   /**
    * Enable selection translate
+   * https://github.com/hugo-fixit/cmpt-translate/issues/3
    * @experimental
    * @param {String} lang The language code to translate
    * @example fixit.autoTranslate.enableSelection();
@@ -189,6 +190,7 @@ class AutoTranslate {
   selectionTranslate(lang = 'chinese_simplified') {
     translate.language.setDefaultTo(lang);
     translate.selectionTranslate.start();
+    // translate.executeByLocalLanguage();
   }
 
   init() {
