@@ -5,6 +5,7 @@ import {
   ignoreClass,
   ignoreTag,
   detectLocalLanguage,
+  supportLanguages,
 } from '@params';
 
 /**
@@ -56,7 +57,21 @@ class AutoTranslate {
       current: translate.language.getCurrent(),
       local: window.pageLang || translate.language.getLocal(),
       query: window.location.search.split('lang=')[1],
+      browser: translate.util.browserDefaultLanguage(),
     };
+    this.supportLanguages = {
+      'client.edge': translate.service.edge.language.json,
+      'translate.service': supportLanguages,
+    };
+  }
+
+  /**
+   * Get language name by language id from translate.js service
+   * @param {String} id The language id
+   * @returns {String} The language name
+   */
+  getLangNameById(id) {
+    return this.supportLanguages[this.service]?.find((lang) => lang.id === id)?.name;
   }
 
   bindDesktopEvents() {
@@ -65,6 +80,17 @@ class AutoTranslate {
       return;
     }
     const switchMenu = switchDesktop.querySelector('.sub-menu');
+    if (this.detectLocalLanguage) {
+      const langName = this.getLangNameById(this.lang.browser);
+      // add detect local language item
+      if (langName) {
+        const localItem = document.createElement('li');
+        localItem.classList.add('menu-item');
+        localItem.dataset.type = 'machine';
+        localItem.innerHTML = `<a data-lang="${this.lang.browser}" class="menu-link" title="${langName}"><i class="fa-solid fa-robot fa-fw fa-sm" aria-hidden="true"></i> ${langName}</a>`;
+        switchMenu.insertBefore(localItem, switchMenu.querySelector('.menu-item-divider').nextSibling);
+      }
+    }
     // Artificial language items by Hugo project
     const artificialItems = Array.from(switchMenu.childNodes).filter((node) => node.dataset.type === 'artificial');
     fixit.util.forEach(artificialItems, (item) => {
@@ -75,9 +101,16 @@ class AutoTranslate {
     // Machine language items by translate.js service
     const machineItems = Array.from(switchMenu.childNodes).filter((node) => node.dataset.type === 'machine');
     fixit.util.forEach(machineItems, (item) => {
+      const lang = item.children[0].dataset.lang;
+      // hide unsupported languages for 'client.edge' service
+      if (this.service === 'client.edge') {
+        if (!this.getLangNameById(lang)) {
+          item.classList.add('d-none');
+          return;
+        }
+      }
       item.addEventListener('click', (e) => {
         // set query param 'lang' to url
-        const lang = item.children[0].dataset.lang;
         window.history.pushState({}, '', `?lang=${lang}`);
         // toggle active class
         machineItems.forEach((item) => {
@@ -150,6 +183,14 @@ class AutoTranslate {
   setup() {
     if (this.detectLocalLanguage) {
       translate.setAutoDiscriminateLocalLanguage();
+      if (
+        this.languages.length &&
+        !this.languages.includes(this.lang.browser) &&
+        this.getLangNameById(this.lang.browser)
+      ) {
+        // add detect local language
+        this.languages.push(this.lang.browser);
+      }
     }
     // Set active class for current language (only machine translation)
     const { current, local, query } = this.lang;

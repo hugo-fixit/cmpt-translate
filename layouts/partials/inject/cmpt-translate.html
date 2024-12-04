@@ -1,6 +1,7 @@
 {{- /* translate.js */ -}}
 {{- $fingerprint := .Scratch.Get "fingerprint" -}}
 {{- $autoTranslate := .Site.Params.autoTranslate -}}
+{{- $languages := site.Store.Get "languages" -}}
 
 {{- if $autoTranslate.enable -}}
   {{- dict "Source" "lib/translate.js" "Fingerprint" $fingerprint "Defer" true "Minify" hugo.IsProduction | dict "Scratch" .Scratch "Data" | partial "scratch/script.html" -}}
@@ -12,6 +13,7 @@
     "ignoreClass" ($autoTranslate.ignoreClass | default slice)
     "ignoreTag" ($autoTranslate.ignoreTag | default slice)
     "detectLocalLanguage" ($autoTranslate.detectLocalLanguage | default false)
+    "supportLanguages" ($languages | default slice)
   -}}
   {{- $options = dict "params" $params | merge $options -}}
   {{- if not hugo.IsProduction -}}
