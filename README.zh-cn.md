@@ -1,4 +1,4 @@
-# cmpt-translate
+# Auto Translate | FixIt
 
 👉 简体中文说明 | [English README](/README.md)
 
@@ -110,6 +110,14 @@ theme = ["FixIt", "cmpt-translate"]
 - `local`: 用于指定当前页面的本地语言，例如 `local: english`。
 
     默认本地语言同 Hugo 站点配置相同，如果某个页面实际语言与站点配置不同，可以通过 `local` 参数指定。
+
+## 待办事项
+
+如果你能帮忙实现以下功能，欢迎提交 PR。
+
+- [ ] [支持指定 JS 资源 CDN 的功能和配置](https://github.com/hugo-fixit/cmpt-translate/issues/1)
+- [ ] [增加忽略关键词翻译的功能](https://github.com/hugo-fixit/cmpt-translate/issues/2)
+- [ ] [增加划词翻译功能](https://github.com/hugo-fixit/cmpt-translate/issues/3)
 
 ## 致谢
 

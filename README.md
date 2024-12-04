@@ -1,4 +1,4 @@
-# cmpt-translate
+# Auto Translate | FixIt
 
 👉 English README | [简体中文说明](/README.zh-cn.md)
 
@@ -110,6 +110,14 @@ In addition, you can customize the translated language through the following con
 - `local`: Used to specify the local language of the current page, e.g. `local: english`.
   
     The default local language is the same as the Hugo site configuration. If the actual language of a page is different from the site configuration, you can specify it through the `local` parameter.
+
+## To-do
+
+If you can help implement the following features, please submit a PR.
+
+- [ ] [Support the function and configuration of specifying JS resource CDN](https://github.com/hugo-fixit/cmpt-translate/issues/1)
+- [ ] [Add the feature of ignoring keywords in translation](https://github.com/hugo-fixit/cmpt-translate/issues/2)
+- [ ] [Add the feature of translating by marking words](https://github.com/hugo-fixit/cmpt-translate/issues/3)
 
 ## Acknowledgements
 
