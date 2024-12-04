@@ -175,9 +175,20 @@ class AutoTranslate {
     this.afterTranslateEvents.forEach((event) => {
       event();
     });
-    // TODO: selection translate (maybe)
-    // translate.language.setDefaultTo('chinese_simplified');
-    // translate.selectionTranslate.start();
+  }
+
+  /**
+   * Enable selection translate
+   * @experimental
+   * @param {String} lang The language code to translate
+   * @example fixit.autoTranslate.enableSelection();
+   * @todo Refactor the translate.selectionTranslate function
+   * @todo target language should be user selected from the language switch
+   * @todo to support query param 'to' to set the target language
+   */
+  selectionTranslate(lang = 'chinese_simplified') {
+    translate.language.setDefaultTo(lang);
+    translate.selectionTranslate.start();
   }
 
   init() {
