@@ -49,8 +49,13 @@ class AutoTranslate {
     ];
     this.ignoreID = ignoreID;
     this.ignoreTag = ignoreTag;
-    // this.detectLocalLanguage = detectLocalLanguage;
     // 暂时关闭自动检测本地语言功能
+    // this.detectLocalLanguage = detectLocalLanguage;
+    // TODO
+    // 期待结果：
+    // 用户首次访问网站时，根据检测到的本地语言自动切换到对应的翻译，以后再次访问时，不再自动切换。
+    // 1. 网站本身有对应的人工翻译直接跳到对应页面；
+    // 2. 没有对应的人工翻译，使用机器翻译；
     this.detectLocalLanguage = false;
 
     this.isMobile = fixit.util.isMobile();
@@ -93,6 +98,32 @@ class AutoTranslate {
    */
   getLangIdByCode(code) {
     return translate.util.browserLanguage[code];
+  }
+
+  /**
+   * [WIP] Get user local language by browser or IP
+   */
+  getBrowserLanguage() {
+    this.lang.browser = translate.util.browserDefaultLanguage();
+    // if (!this.lang.browser) {
+    //   translate.request.post(translate.request.api.ip, {}, (data) => {
+    //     // console.log(data);
+    //     if(data.result == 0) {
+    //       console.log('Can not get the language by ip', data.info);
+    //       return;
+    //     }
+    //     this.lang.browser = data.language;
+    //   });
+    // }
+    // 上面这个网络请求不确定什么时候会返回，改为等它返回后再执行下面的代码
+
+    if (
+      this.getLangNameById(this.lang.browser) &&
+      this.languages.length &&
+      !this.languages.includes(this.lang.browser)
+    ) {
+      this.languages.push(this.lang.browser);
+    }
   }
   
   /**
@@ -258,15 +289,7 @@ class AutoTranslate {
 
   setup() {
     if (this.detectLocalLanguage) {
-      translate.setAutoDiscriminateLocalLanguage();
-      if (
-        this.getLangNameById(this.lang.browser) &&
-        this.languages.length &&
-        !this.languages.includes(this.lang.browser)
-      ) {
-        // add detect local language
-        this.languages.push(this.lang.browser);
-      }
+      this.getBrowserLanguage();
     }
     // Set active class for current language (only machine translation)
     const { current, local, query } = this.lang;
