@@ -40,7 +40,7 @@
         {{- end -}}
       {{- else -}}
         <li class="menu-item active" data-type="artificial">
-          <a href="{{ .RelPermalink }}" class="menu-link" title="{{ .Language.LanguageName }}">
+          <a href="{{ .RelPermalink }}" data-lang="{{ .Language.LanguageCode }}" class="menu-link" title="{{ .Language.LanguageName }}">
             <i class="fa-solid fa-person fa-fw fa-sm" aria-hidden="true"></i> {{ .Language.LanguageName -}}
           </a>
         </li>

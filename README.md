@@ -86,6 +86,11 @@ In order to Inject the partial `cmpt-translate.html` into the `custom-assets` th
 In addition, you can customize the translated language through the following configuration:
 
 ```toml
+[languages]
+  [languages.en]
+    languageCode = "en"
+    languageName = "English"
+
 [params]
   [params.autoTranslate]
     enable = true
@@ -104,6 +109,16 @@ In addition, you can customize the translated language through the following con
 - `ignoreClass`: Class names that need to be ignored for translation.
 - `ignoreTag`: Tag names that need to be ignored for translation.
 - `detectLocalLanguage`: Whether to detect the local language.
+
+> [!NOTE]
+> To avoid translation language acquisition failure, even if your site itself is single-language, you need to configure `languageCode` and `languageName`, for example:
+>
+> ```toml
+> [languages]
+>   [languages.zh-cn]
+>     languageCode = "en"
+>     languageName = "English"
+> ```
 
 ## Front Matter
 

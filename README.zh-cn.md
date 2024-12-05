@@ -86,6 +86,11 @@ theme = ["FixIt", "cmpt-translate"]
 另外，你还可以通过以下配置来自定义翻译的语言：
 
 ```toml
+[languages]
+  [languages.zh-cn]
+    languageCode = "zh-CN"
+    languageName = "简体中文"
+
 [params]
   [params.autoTranslate]
     enable = true
@@ -104,6 +109,16 @@ theme = ["FixIt", "cmpt-translate"]
 - `ignoreClass`：需要忽略翻译的类名。
 - `ignoreTag`：需要忽略翻译的标签。
 - `detectLocalLanguage`：是否检测本地语言。
+
+> [!NOTE]
+> 为了避免翻译语言获取失败，即使你的站点本身是单语言的，也需要配置 `languageCode` 和 `languageName`，例如：
+>
+> ```toml
+> [languages]
+>   [languages.zh-cn]
+>     languageCode = "zh-CN"
+>     languageName = "简体中文"
+> ```
 
 ## Front Matter
 

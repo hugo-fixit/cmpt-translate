@@ -49,7 +49,9 @@ class AutoTranslate {
     ];
     this.ignoreID = ignoreID;
     this.ignoreTag = ignoreTag;
-    this.detectLocalLanguage = detectLocalLanguage;
+    // this.detectLocalLanguage = detectLocalLanguage;
+    // 暂时关闭自动检测本地语言功能
+    this.detectLocalLanguage = false;
 
     this.isMobile = fixit.util.isMobile();
     this.afterTranslateEvents = new Set();
@@ -57,7 +59,7 @@ class AutoTranslate {
       current: translate.language.getCurrent(),
       local: window.ATConfig.local || translate.language.getLocal(),
       query: window.location.search.split('lang=')[1],
-      browser: translate.util.browserDefaultLanguage(),
+      browser: '',
     };
     this.supportLanguages = {
       'client.edge': translate.service.edge.language.json,
@@ -117,7 +119,6 @@ class AutoTranslate {
         !this.hugoLangCodes.includes(langCode) &&
         !switchMenu.querySelector(`[data-lang="${this.lang.browser}"]`)
       ) {
-        // add detect local language item
         const localItem = document.createElement('li');
         localItem.classList.add('menu-item');
         localItem.dataset.type = 'machine';
@@ -128,6 +129,11 @@ class AutoTranslate {
     // Artificial language items by Hugo project
     const artificialItems = Array.from(switchMenu.childNodes).filter((node) => node.dataset.type === 'artificial');
     fixit.util.forEach(artificialItems, (item) => {
+      if (item.classList.contains('active') && !item.children[0].getAttribute('title')) {
+        const langName = this.getLangNameById(this.lang.local);
+        item.children[0].setAttribute('title', langName);
+        item.children[0].insertAdjacentText('beforeend', langName);
+      }
       item.addEventListener('click', (e) => {
         if (this.detectLocalLanguage) {
           translate.changeLanguage(this.lang.local);
@@ -149,7 +155,7 @@ class AutoTranslate {
           return;
         }
       }
-      if (this.hugoLangCodes.includes(langCode)) {
+      if (this.hugoLangCodes.includes(langCode) || langId == this.lang.local) {
         this.toggleVisibility(item, false);
         return;
       }
@@ -195,8 +201,6 @@ class AutoTranslate {
         translate.changeLanguage(lang);
       }
     };
-    const originSwitchMobile = switchMobile.previousElementSibling;
-    switchMobile.prepend(originSwitchMobile.querySelector('span').cloneNode(true));
     this.afterTranslateEvents.add(() => {
       const selectEl = switchMobile.querySelector('select');
       selectEl.classList.add('language-select');
@@ -204,36 +208,43 @@ class AutoTranslate {
         option.dataset.type = 'machine';
         option.innerText = `🤖 ${option.innerText}`;
         const langCode = this.getLangCodeById(option.value);
-        if (this.hugoLangCodes.includes(langCode)) {
+        if (this.hugoLangCodes.includes(langCode) || option.value == this.lang.local) {
           // Safari can not use "display: none;" for option. (Safari sucks!!!)
           // this.toggleVisibility(option, false);
           option.parentElement.removeChild(option);
         }
       });
-      fixit.util.forEach(originSwitchMobile.querySelectorAll('option'), (option) => {
-        if (!option.getAttribute('value')) {
-          return option.parentElement.removeChild(option);
-        }
-        option.dataset.type = 'artificial';
-        option.innerText = `👤 ${option.innerText}`;
-        option.disabled && option.removeAttribute('disabled');
-      });
-      if (this.hugoLangCodes.length > 1) {
-        selectEl.prepend(...originSwitchMobile.querySelectorAll('option:not([selected])'));
-        selectEl.prepend(originSwitchMobile.querySelector('option[selected]'));
-      } else {
-        const currentItem = document.createElement('option');
-        currentItem.selected = true;
-        currentItem.dataset.type = 'artificial';
-        currentItem.value = window.location.pathname;
-        currentItem.innerText = `👤 ${this.getLangNameById(this.lang.local)}`;
-        selectEl.prepend(currentItem);
-      }
       const { current, local, query } = this.lang;
       if (current !== local || query) {
         selectEl.value = current;
       }
-      this.toggleVisibility(originSwitchMobile, false);
+      if (this.hugoLangCodes.length > 1) {
+        const originSwitchMobile = switchMobile.previousElementSibling;
+        fixit.util.forEach(originSwitchMobile.querySelectorAll('option'), (option) => {
+          if (!option.getAttribute('value')) {
+            return option.parentElement.removeChild(option);
+          }
+          option.dataset.type = 'artificial';
+          option.innerText = `👤 ${option.innerText}`;
+          option.disabled && option.removeAttribute('disabled');
+        });
+        selectEl.prepend(...originSwitchMobile.querySelectorAll('option:not([selected])'));
+        selectEl.prepend(originSwitchMobile.querySelector('option[selected]'));
+        this.toggleVisibility(originSwitchMobile, false);
+      } else {
+        const selectBtn = switchMobile.querySelector('[role="button"]');
+        const langName = this.getLangNameById(this.lang.local);
+        if (!selectBtn.dataset.current) {
+          selectBtn.dataset.current = langName;
+          selectBtn.insertAdjacentText('afterbegin', langName);
+        }
+        const currentItem = document.createElement('option');
+        currentItem.selected = true;
+        currentItem.dataset.type = 'artificial';
+        currentItem.value = window.location.pathname;
+        currentItem.innerText = `👤 ${langName}`;
+        selectEl.prepend(currentItem);
+      }
       this.toggleVisibility(switchMobile, true);
     });
   }
