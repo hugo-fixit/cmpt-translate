@@ -319,6 +319,7 @@ class AutoTranslate {
     currentItem.value = window.location.pathname;
     currentItem.innerText = `👤 ${langName}`;
     this.dom.selectEl.prepend(currentItem);
+    this.toggleVisibility(originSwitchMobile, false);
   }
 
   handle() {
