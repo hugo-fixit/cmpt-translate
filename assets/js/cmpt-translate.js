@@ -138,29 +138,52 @@ class AutoTranslate {
     el.setAttribute('aria-hidden', !visibility);
   }
 
+  /**
+   * Handle desktop language switch
+   */
   handleDesktop() {
     this.dom.switchDesktop = document.querySelector('#header-desktop .language-switch.auto');
     if (!this.dom.switchDesktop) {
       return;
     }
-    const switchMenu = this.dom.switchDesktop.querySelector('.sub-menu');
+    this.dom.switchMenu = this.dom.switchDesktop.querySelector('.sub-menu');
+    this.#handleLocalLanguage();
+    this.#handleArtificialItems();
+    this.#handleMachineItems();
+    // show the language switch and hide the origin switch
+    const originSwitchDesktop = this.dom.switchDesktop.previousElementSibling;
+    if (originSwitchDesktop.classList.contains('language-switch')) {
+      this.toggleVisibility(originSwitchDesktop, false);
+    }
+    this.toggleVisibility(this.dom.switchDesktop, true);
+  }
+
+  /**
+   * [WIP] Detect local language handling for desktop
+   */
+  #handleLocalLanguage() {
     if (this.detectLocalLanguage) {
       const langName = this.getLangNameById(this.lang.browser);
       const langCode = this.getLangCodeById(this.lang.browser);
       if (
         langName &&
         !this.hugoLangCodes.includes(langCode) &&
-        !switchMenu.querySelector(`[data-lang="${this.lang.browser}"]`)
+        !this.dom.switchMenu.querySelector(`[data-lang="${this.lang.browser}"]`)
       ) {
         const localItem = document.createElement('li');
         localItem.classList.add('menu-item');
         localItem.dataset.type = 'machine';
         localItem.innerHTML = `<a data-lang="${this.lang.browser}" class="menu-link" title="${langName}"><i class="fa-solid fa-robot fa-fw fa-sm" aria-hidden="true"></i> ${langName}</a>`;
-        switchMenu.insertBefore(localItem, switchMenu.querySelector('.menu-item-divider').nextSibling);
+        this.dom.switchMenu.insertBefore(localItem, switchMenu.querySelector('.menu-item-divider').nextSibling);
       }
     }
-    // Artificial language items by Hugo project
-    const artificialItems = Array.from(switchMenu.childNodes).filter((node) => node.dataset.type === 'artificial');
+  }
+
+  /**
+   * Handle Hugo project artificial language items for desktop
+   */
+  #handleArtificialItems() {
+    const artificialItems = Array.from(this.dom.switchMenu.childNodes).filter((node) => node.dataset.type === 'artificial');
     fixit.util.forEach(artificialItems, (item) => {
       if (item.classList.contains('active') && !item.children[0].getAttribute('title')) {
         const langName = this.getLangNameById(this.lang.local);
@@ -174,9 +197,14 @@ class AutoTranslate {
           translate.language.clearCacheLanguage();
         }
       });
-    })
-    // Machine language items by translate.js service
-    const machineItems = Array.from(switchMenu.childNodes).filter((node) => node.dataset.type === 'machine');
+    });
+  }
+
+  /**
+   * Handle translate.js machine language items for desktop
+   */
+  #handleMachineItems() {
+    const machineItems = Array.from(this.dom.switchMenu.childNodes).filter((node) => node.dataset.type === 'machine');
     fixit.util.forEach(machineItems, (item) => {
       const langId = item.children[0].dataset.lang;
       const langName = this.getLangNameById(langId);
@@ -203,14 +231,12 @@ class AutoTranslate {
         // translate to selected language
         translate.changeLanguage(langId);
       });
-    })
-    const originSwitchDesktop = this.dom.switchDesktop.previousElementSibling;
-    if (originSwitchDesktop.classList.contains('language-switch')) {
-      this.toggleVisibility(originSwitchDesktop, false);
-    }
-    this.toggleVisibility(this.dom.switchDesktop, true);
+    });
   }
 
+  /**
+   * Handle mobile language switch
+   */
   handleMobile() {
     this.dom.switchMobile = document.querySelector('#header-mobile .language-switch.auto');
     if (!this.dom.switchMobile) {
@@ -222,6 +248,7 @@ class AutoTranslate {
       this.dom.selectEl.classList.add('language-select');
       this.#handleMachineOptions();
       this.#handleArtificialOptions();
+      // Set default translate-to language
       const { current, local, query } = this.lang;
       if (current !== local || query) {
         this.dom.selectEl.value = current;
@@ -349,6 +376,13 @@ class AutoTranslate {
     // translate.executeByLocalLanguage();
   }
 
+  /**
+   * Init the AutoTranslate component
+   * Workflow:
+   * 1. Setup the translate.js service
+   * 2. Handle the language switch
+   * 3. Execute automatic translation
+   */
   init() {
     this.setup()
       .handle()
