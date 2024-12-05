@@ -165,10 +165,8 @@ class AutoTranslate {
         // toggle active class
         machineItems.forEach((item) => {
           item.classList.remove('active');
-          item.children[0].classList.remove('text-secondary')
         });
         item.classList.add('active');
-        item.children[0].classList.add('text-secondary')
         // translate to selected language
         translate.changeLanguage(langId);
       });
@@ -275,7 +273,6 @@ class AutoTranslate {
     if (current !== local || query) {
       fixit.util.forEach(document.querySelectorAll(`.menu-link[data-lang="${current}"]`), (link) => {
         link.parentElement.classList.add('active');
-        link.classList.add('text-secondary')
       });
     }
     translate.ignore.id.push(...this.ignoreID);
