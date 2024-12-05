@@ -1,5 +1,7 @@
 # Auto Translate | FixIt
 
+![auto-translate](https://github.com/user-attachments/assets/10ab49bb-973f-4630-9a79-9639783bab06)
+
 👉 简体中文说明 | [English README](/README.md)
 
 一个基于 [translate.js](https://github.com/xnx3/translate) 实现网站自动翻译的组件。
