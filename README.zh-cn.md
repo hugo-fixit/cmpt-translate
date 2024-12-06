@@ -13,6 +13,20 @@
 - 多语言 Hugo 站点：[fixit.lruihao.cn](https://fixit.lruihao.cn)
 - 单语言 Hugo 站点：[lruihao.cn](https://lruihao.cn)
 
+## 特性
+
+> 无语言配置文件、无 API Key、对 SEO 友好！
+
+- 整页自动翻译
+- 指定翻译语言
+- 可选翻译服务
+- 忽略翻译元素
+
+- [ ] 检测本地语言
+- [ ] 划词翻译
+- [ ] 忽略关键词翻译
+- [ ] 支持 CDN
+
 ## 要求
 
 - FixIt v0.3.16 或更高版本。
@@ -127,14 +141,6 @@ theme = ["FixIt", "cmpt-translate"]
 - `local`: 用于指定当前页面的本地语言，例如 `local: english`。
 
     默认本地语言同 Hugo 站点配置相同，如果某个页面实际语言与站点配置不同，可以通过 `local` 参数指定。
-
-## 待办事项
-
-如果你能帮忙实现以下功能，欢迎提交 PR。
-
-- [ ] [支持指定 JS 资源 CDN 的功能和配置](https://github.com/hugo-fixit/cmpt-translate/issues/1)
-- [ ] [增加忽略关键词翻译的功能](https://github.com/hugo-fixit/cmpt-translate/issues/2)
-- [ ] [增加划词翻译功能](https://github.com/hugo-fixit/cmpt-translate/issues/3)
 
 ## 致谢
 

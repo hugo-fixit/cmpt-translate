@@ -6,6 +6,20 @@
 
 A component for website automatic translation base on [translate.js](https://github.com/xnx3/translate).
 
+## Features
+
+> No language configuration file, no API Key, SEO friendly!
+
+- Full page automatic translation
+- Specify translation language
+- Optional translation service
+- Ignore translation elements
+
+- [ ] Detect local language
+- [ ] Word selection translation
+- [ ] Ignore keyword translation
+- [ ] Support CDN
+
 ## Demo
 
 Whether the original site is multilingual or single-language, you can add automatic translation feature through this component.
