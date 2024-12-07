@@ -8,10 +8,12 @@
 
   {{- /* Config script */ -}}
   {{- $hugoLangCodes := slice -}}
+  {{- $hugoLangMap := dict -}}
   {{- range .AllTranslations }}
     {{- $hugoLangCodes = $hugoLangCodes | append .Language.LanguageCode -}}
+    {{- $hugoLangMap = $hugoLangMap | merge (dict .Language.LanguageCode .RelPermalink) -}}
   {{- end -}}
-  {{- $config := dict "hugoLangCodes" $hugoLangCodes -}}
+  {{- $config := dict "hugoLangCodes" $hugoLangCodes "hugoLangMap" $hugoLangMap -}}
   {{- with .Params.local -}}
     {{- $config = dict "local" . | merge $config -}}
   {{- end -}}

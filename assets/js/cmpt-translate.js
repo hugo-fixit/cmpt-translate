@@ -52,11 +52,6 @@ class AutoTranslate {
     this.ignoreTag = ignoreTag;
     // 暂时关闭自动检测本地语言功能
     // this.detectLocalLanguage = detectLocalLanguage;
-    // TODO
-    // 期待结果：
-    // 用户首次访问网站时，根据检测到的本地语言自动切换到对应的翻译，以后再次访问时，不再自动切换。
-    // 1. 网站本身有对应的人工翻译直接跳到对应页面；
-    // 2. 没有对应的人工翻译，使用机器翻译；
     this.detectLocalLanguage = false;
 
     this.isMobile = fixit.util.isMobile();
@@ -72,6 +67,7 @@ class AutoTranslate {
       'translate.service': supportLanguages,
     };
     this.hugoLangCodes = window.ATConfig.hugoLangCodes;
+    this.hugoLangMap = window.ATConfig.hugoLangMap;
     this.dom = {};
   }
 
@@ -121,7 +117,12 @@ class AutoTranslate {
       return;
     }
     this.dom.switchMenu = this.dom.switchDesktop.querySelector('.sub-menu');
-    // this.#handleLocalLanguage();
+    if (this.dom.localItem) {
+      this.dom.switchMenu.insertBefore(
+        this.dom.localItem,
+        this.dom.switchMenu.querySelector('.menu-item-divider').nextSibling
+      );
+    }
     this.#handleArtificialItems();
     this.#handleMachineItems();
     // show the language switch and hide the origin switch
@@ -130,27 +131,6 @@ class AutoTranslate {
       this.toggleVisibility(originSwitchDesktop, false);
     }
     this.toggleVisibility(this.dom.switchDesktop, true);
-  }
-
-  /**
-   * [WIP] Detect local language handling for desktop
-   */
-  #handleLocalLanguage() {
-    if (this.detectLocalLanguage) {
-      const langName = this.getLangNameById(this.lang.browser);
-      const langCode = this.getLangCodeById(this.lang.browser);
-      if (
-        langName &&
-        !this.hugoLangCodes.includes(langCode) &&
-        !this.dom.switchMenu.querySelector(`[data-lang="${this.lang.browser}"]`)
-      ) {
-        const localItem = document.createElement('li');
-        localItem.classList.add('menu-item');
-        localItem.dataset.type = 'machine';
-        localItem.innerHTML = `<a data-lang="${this.lang.browser}" class="menu-link" title="${langName}"><i class="fa-solid fa-robot fa-fw fa-sm" aria-hidden="true"></i> ${langName}</a>`;
-        this.dom.switchMenu.insertBefore(localItem, this.dom.switchMenu.querySelector('.menu-item-divider').nextSibling);
-      }
-    }
   }
 
   /**
@@ -223,9 +203,10 @@ class AutoTranslate {
       this.#handleMachineOptions();
       this.#handleArtificialOptions();
       // Set default translate-to language
-      const { current, local, query } = this.lang;
-      if (current !== local || query) {
-        this.dom.selectEl.value = current;
+      const { current, query } = this.lang;
+      const to = localStorage.getItem('to');
+      if (to && current !== to || query) {
+        this.dom.selectEl.value = to;
       }
       this.toggleVisibility(this.dom.switchMobile, true);
     });
@@ -236,12 +217,8 @@ class AutoTranslate {
       const lang = e.target.value;
       if (e.target.options[e.target.selectedIndex].dataset.type === 'artificial') {
         // Artificial language items by Hugo project
-        if (this.detectLocalLanguage) {
-          translate.changeLanguage(this.lang.local);
-        } else {
-          translate.language.clearCacheLanguage();
-        }
-        window.location = lang;
+        translate.language.clearCacheLanguage();
+        window.location = lang
       } else {
         // Machine language items by translate.js service
         window.history.pushState({}, '', `?lang=${lang}`);
@@ -355,21 +332,48 @@ class AutoTranslate {
     return new Promise((resolve) => {
       const timer = setInterval(() => {
         if (!loading) {
-          if (this.detectLocalLanguage) {
-            // add local language to the language list
-            if (
-              this.getLangNameById(this.lang.browser) &&
-              this.languages.length &&
-              !this.languages.includes(this.lang.browser)
-            ) {
-              this.languages.push(this.lang.browser);
-            }
-          }
           clearInterval(timer);
           resolve(this.lang.browser);
         }
       }, 100);
     });
+  }
+
+  /**
+   * Auto discriminate local language
+   */
+  autoSelectLocalLanguage() {
+    if (!this.detectLocalLanguage) {
+      return;
+    }
+    const langName = this.getLangNameById(this.lang.browser);
+    const langCode = this.getLangCodeById(this.lang.browser);
+    const AutoDetected = localStorage.getItem('AutoTranslate_detected');
+    if (
+      langName &&
+      !this.hugoLangCodes.includes(langCode) &&
+      this.languages.length &&
+      !this.languages.includes(this.lang.browser)
+    ) {
+      this.languages.push(this.lang.browser);
+      this.dom.localItem = document.createElement('li');
+      this.dom.localItem.classList.add('menu-item');
+      this.dom.localItem.dataset.type = 'machine';
+      this.dom.localItem.innerHTML = `<a data-lang="${this.lang.browser}" class="menu-link" title="${langName}"><i class="fa-solid fa-robot fa-fw fa-sm" aria-hidden="true"></i> ${langName}</a>`;
+      if (AutoDetected !== 'true') {
+        translate.language.setDefaultTo(this.lang.browser);
+        localStorage.setItem('AutoTranslate_detected', true);
+      }
+    }
+    // Redirect to the corresponding page
+    if (
+      AutoDetected !== 'true' &&
+      this.hugoLangCodes.includes(langCode) &&
+      !window.location.pathname.includes(this.hugoLangMap[langCode])
+    ) {
+      localStorage.setItem('AutoTranslate_detected', true)
+      window.location = this.hugoLangMap[langCode];
+    }
   }
 
   /**
@@ -388,6 +392,11 @@ class AutoTranslate {
     // translate.executeByLocalLanguage();
   }
 
+  clearCache() {
+    localStorage.removeItem('AutoTranslate_detected');
+    translate.language.clearCacheLanguage();
+  }
+
   /**
    * Init the AutoTranslate component
    * workflow:
@@ -398,6 +407,7 @@ class AutoTranslate {
   init() {
     this.getBrowserLanguage().then((lang) => {
       // console.log(lang, this.languages);
+      this.autoSelectLocalLanguage();
       this.setup();
       this.handle();
       this.execute();
