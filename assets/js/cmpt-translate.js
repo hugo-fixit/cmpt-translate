@@ -50,18 +50,11 @@ class AutoTranslate {
     ];
     this.ignoreID = ignoreID;
     this.ignoreTag = ignoreTag;
-    // 暂时关闭自动检测本地语言功能
-    // this.detectLocalLanguage = detectLocalLanguage;
-    this.detectLocalLanguage = false;
+    this.detectLocalLanguage = detectLocalLanguage;
 
     this.isMobile = fixit.util.isMobile();
     this.afterTranslateEvents = new Set();
-    this.lang = {
-      current: translate.language.getCurrent(),
-      local: window.ATConfig.local || translate.language.getLocal(),
-      query: window.location.search.split('lang=')[1],
-      browser: '',
-    };
+    this.lang = { ...this.getTypesLang() };
     this.supportLanguages = {
       'client.edge': translate.service.edge.language.json,
       'translate.service': supportLanguages,
@@ -97,6 +90,15 @@ class AutoTranslate {
   getLangIdByCode(code) {
     return translate.util.browserLanguage[code];
   }
+
+  getTypesLang() {
+    return {
+      current: translate.language.getCurrent(),
+      local: window.ATConfig.local || translate.language.getLocal(),
+      query: window.location.search.split('lang=')[1],
+      browser: '',
+    };
+  }
   
   /**
    * Toggle element visibility
@@ -106,6 +108,21 @@ class AutoTranslate {
   toggleVisibility(el, visibility) {
     el.classList.toggle('d-none', !visibility);
     el.setAttribute('aria-hidden', !visibility);
+  }
+
+  /**
+   * Toggle active class for language switch menu
+   * @param {Element} el
+   */
+  toggleMenuActive(el) {
+    // remove active class from all items
+    Array.from(this.dom.switchMenu.childNodes)
+      .filter((node) => node.classList.contains('active'))
+      .forEach((item) => {
+        item.classList.remove('active');
+      });
+    // add active class to the selected item
+    el.classList.add('active');
   }
 
   /**
@@ -131,6 +148,15 @@ class AutoTranslate {
       this.toggleVisibility(originSwitchDesktop, false);
     }
     this.toggleVisibility(this.dom.switchDesktop, true);
+    this.afterTranslateEvents.add(() => {
+      this.lang = { ...this.getTypesLang() };
+      // Set default translate-to language (only machine translation)
+      const { current, local, query } = this.getTypesLang();
+      this.lang = { ...this.lang, current, query };
+      if (current !== local || query) {
+        this.toggleMenuActive(document.querySelector(`.menu-link[data-lang="${current}"]`).parentElement);
+      }
+    });
   }
 
   /**
@@ -145,11 +171,7 @@ class AutoTranslate {
         item.children[0].insertAdjacentText('beforeend', langName);
       }
       item.addEventListener('click', (e) => {
-        if (this.detectLocalLanguage) {
-          translate.changeLanguage(this.lang.local);
-        } else {
-          translate.language.clearCacheLanguage();
-        }
+        translate.language.clearCacheLanguage();
       });
     });
   }
@@ -177,11 +199,7 @@ class AutoTranslate {
       item.addEventListener('click', (e) => {
         // set query param 'lang' to url
         window.history.pushState({}, '', `?lang=${langId}`);
-        // toggle active class
-        machineItems.forEach((item) => {
-          item.classList.remove('active');
-        });
-        item.classList.add('active');
+        this.toggleMenuActive(item);
         // translate to selected language
         translate.changeLanguage(langId);
       });
@@ -203,10 +221,10 @@ class AutoTranslate {
       this.#handleMachineOptions();
       this.#handleArtificialOptions();
       // Set default translate-to language
-      const { current, query } = this.lang;
-      const to = localStorage.getItem('to');
-      if (to && current !== to || query) {
-        this.dom.selectEl.value = to;
+      const { current, local, query } = this.getTypesLang();
+      this.lang = { ...this.lang, current, query };
+      if (current !== local || query) {
+        this.dom.selectEl.value = current;
       }
       this.toggleVisibility(this.dom.switchMobile, true);
     });
@@ -283,13 +301,6 @@ class AutoTranslate {
   }
 
   setup() {
-    // Set active class for current language (only machine translation)
-    const { current, local, query } = this.lang;
-    if (current !== local || query) {
-      fixit.util.forEach(document.querySelectorAll(`.menu-link[data-lang="${current}"]`), (link) => {
-        link.parentElement.classList.add('active');
-      });
-    }
     translate.ignore.id.push(...this.ignoreID);
     translate.ignore.class.push(...this.ignoreClass);
     translate.ignore.tag.push(...this.ignoreTag);
@@ -299,7 +310,7 @@ class AutoTranslate {
     translate.listener.start();
     translate.selectLanguageTag.show = this.isMobile;
     translate.selectLanguageTag.languages = this.languages.join(',');
-    return Promise.resolve();
+    return this;
   }
 
   execute() {
@@ -364,6 +375,7 @@ class AutoTranslate {
         translate.language.setDefaultTo(this.lang.browser);
         localStorage.setItem('AutoTranslate_detected', true);
       }
+      return;
     }
     // Redirect to the corresponding page
     if (
@@ -371,9 +383,12 @@ class AutoTranslate {
       this.hugoLangCodes.includes(langCode) &&
       !window.location.pathname.includes(this.hugoLangMap[langCode])
     ) {
-      localStorage.setItem('AutoTranslate_detected', true)
       window.location = this.hugoLangMap[langCode];
     }
+    if (AutoDetected !== 'true') {
+      localStorage.setItem('AutoTranslate_detected', true);
+    }
+    return;
   }
 
   /**
