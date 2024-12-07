@@ -101,32 +101,6 @@ class AutoTranslate {
   getLangIdByCode(code) {
     return translate.util.browserLanguage[code];
   }
-
-  /**
-   * [WIP] Get user local language by browser or IP
-   */
-  getBrowserLanguage() {
-    this.lang.browser = translate.util.browserDefaultLanguage();
-    // if (!this.lang.browser) {
-    //   translate.request.post(translate.request.api.ip, {}, (data) => {
-    //     // console.log(data);
-    //     if(data.result == 0) {
-    //       console.log('Can not get the language by ip', data.info);
-    //       return;
-    //     }
-    //     this.lang.browser = data.language;
-    //   });
-    // }
-    // 上面这个网络请求不确定什么时候会返回，改为等它返回后再执行下面的代码
-
-    if (
-      this.getLangNameById(this.lang.browser) &&
-      this.languages.length &&
-      !this.languages.includes(this.lang.browser)
-    ) {
-      this.languages.push(this.lang.browser);
-    }
-  }
   
   /**
    * Toggle element visibility
@@ -147,7 +121,7 @@ class AutoTranslate {
       return;
     }
     this.dom.switchMenu = this.dom.switchDesktop.querySelector('.sub-menu');
-    this.#handleLocalLanguage();
+    // this.#handleLocalLanguage();
     this.#handleArtificialItems();
     this.#handleMachineItems();
     // show the language switch and hide the origin switch
@@ -174,7 +148,7 @@ class AutoTranslate {
         localItem.classList.add('menu-item');
         localItem.dataset.type = 'machine';
         localItem.innerHTML = `<a data-lang="${this.lang.browser}" class="menu-link" title="${langName}"><i class="fa-solid fa-robot fa-fw fa-sm" aria-hidden="true"></i> ${langName}</a>`;
-        this.dom.switchMenu.insertBefore(localItem, switchMenu.querySelector('.menu-item-divider').nextSibling);
+        this.dom.switchMenu.insertBefore(localItem, this.dom.switchMenu.querySelector('.menu-item-divider').nextSibling);
       }
     }
   }
@@ -290,9 +264,9 @@ class AutoTranslate {
   }
 
   #handleArtificialOptions() {
+    const originSwitchMobile = this.dom.switchMobile.previousElementSibling;
     // multilingual handling
     if (this.hugoLangCodes.length > 1) {
-      const originSwitchMobile = this.dom.switchMobile.previousElementSibling;
       fixit.util.forEach(originSwitchMobile.querySelectorAll('option'), (option) => {
         if (!option.getAttribute('value')) {
           return option.parentElement.removeChild(option);
@@ -332,9 +306,6 @@ class AutoTranslate {
   }
 
   setup() {
-    if (this.detectLocalLanguage) {
-      this.getBrowserLanguage();
-    }
     // Set active class for current language (only machine translation)
     const { current, local, query } = this.lang;
     if (current !== local || query) {
@@ -351,13 +322,53 @@ class AutoTranslate {
     translate.listener.start();
     translate.selectLanguageTag.show = this.isMobile;
     translate.selectLanguageTag.languages = this.languages.join(',');
-    return this;
+    return Promise.resolve();
   }
 
   execute() {
     translate.execute();
     this.afterTranslateEvents.forEach((event) => {
       event();
+    });
+  }
+
+  /**
+   * Get user local language by browser or IP
+   * @returns {Promise<void>}
+   */
+  async getBrowserLanguage() {
+    this.lang.browser = translate.util.browserDefaultLanguage();
+    let loading = true;
+    if (!this.lang.browser) {
+      translate.request.post(translate.request.api.ip, {}, (data) => {
+        // console.log(data);
+        if(data.result !== 0) {
+          this.lang.browser = data.language;
+          loading = false;
+          return;
+        }
+        console.log('Can not get the language by ip', data.info);
+      });
+    } else {
+      loading = false;
+    }
+    return new Promise((resolve) => {
+      const timer = setInterval(() => {
+        if (!loading) {
+          if (this.detectLocalLanguage) {
+            // add local language to the language list
+            if (
+              this.getLangNameById(this.lang.browser) &&
+              this.languages.length &&
+              !this.languages.includes(this.lang.browser)
+            ) {
+              this.languages.push(this.lang.browser);
+            }
+          }
+          clearInterval(timer);
+          resolve(this.lang.browser);
+        }
+      }, 100);
     });
   }
 
@@ -379,15 +390,18 @@ class AutoTranslate {
 
   /**
    * Init the AutoTranslate component
-   * Workflow:
+   * workflow:
    * 1. Setup the translate.js service
    * 2. Handle the language switch
    * 3. Execute automatic translation
    */
   init() {
-    this.setup()
-      .handle()
-      .execute();
+    this.getBrowserLanguage().then((lang) => {
+      // console.log(lang, this.languages);
+      this.setup();
+      this.handle();
+      this.execute();
+    });
   }
 }
 
