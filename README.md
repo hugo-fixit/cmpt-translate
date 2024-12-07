@@ -14,7 +14,7 @@ A component for website automatic translation base on [translate.js](https://git
 - [x] Specify translation language
 - [x] Optional translation service
 - [x] Ignore translation elements
-- [ ] Ignore keyword translation
+- [x] Ignore keywords translation
 - [x] Detect local language
 - [ ] Word selection translation
 - [ ] Support CDN
@@ -120,10 +120,11 @@ In addition, you can customize the translated language through the following con
 - `enable`: Whether to enable automatic translation.
 - `service`: The translation service provider, optional values are `client.edge` and `translate.service`, see: [Translation Service Provider](https://translate.zvo.cn/43086.html).
 - `languages`: List of language ID to translate to, e.g. `["english", "chinese_simplified", "chinese_traditional", ...]`, see the full language list: [Full Language List](https://api.translate.zvo.cn/language.json).
-- `ignoreID`: Element IDs that needs to be ignored for translation.
-- `ignoreClass`: Class names that need to be ignored for translation.
-- `ignoreTag`: Tag names that need to be ignored for translation.
-- `detectLocalLanguage`: Whether to detect the local language.
+- `ignoreID`: Element IDs that needs to be ignored for translation, e.g. `["comment", ...]`
+- `ignoreClass`: Class names that need to be ignored for translation, e.g. `["post-category", ...]`
+- `ignoreTag`: Tag names that need to be ignored for translation, e.g. `["title", ...]`
+- `ignoreText`: Texts that needs to be ignored for translation, e.g. `["FixIt", "Lruihao", ...]`
+- `detectLocalLanguage`: Whether to detect the local language
 
 > [!NOTE]
 > To avoid translation language acquisition failure, even if your site itself is single-language, you need to configure `languageCode` and `languageName`, for example:

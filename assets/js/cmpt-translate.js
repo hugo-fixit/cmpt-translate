@@ -4,6 +4,7 @@ import {
   ignoreID,
   ignoreClass,
   ignoreTag,
+  ignoreText,
   detectLocalLanguage,
   supportLanguages,
 } from '@params';
@@ -34,6 +35,18 @@ const IGNORE_CMPTS = [
 ];
 
 /**
+ * Ignore text list for Fixit theme
+ * @type {Array<string>}
+ */
+const IGNORE_TEXT = [
+  'Hugo',
+  'FixIt',
+  'Lruihao',
+  'CC BY-NC-SA',
+  'RSS',
+];
+
+/**
  * AutoTranslate Class
  * @description Auto translate website content by translate.js service.
  * @author [Lruihao](https://lruihao.cn)
@@ -50,6 +63,10 @@ class AutoTranslate {
     ];
     this.ignoreID = ignoreID;
     this.ignoreTag = ignoreTag;
+    this.ignoreText = [
+      ...IGNORE_TEXT,
+      ...ignoreText,
+    ];
     this.detectLocalLanguage = detectLocalLanguage;
 
     this.isMobile = fixit.util.isMobile();
@@ -304,6 +321,7 @@ class AutoTranslate {
     translate.ignore.id.push(...this.ignoreID);
     translate.ignore.class.push(...this.ignoreClass);
     translate.ignore.tag.push(...this.ignoreTag);
+    translate.ignore.text.push(...this.ignoreText);
     translate.service.use(this.service);
     translate.language.setLocal(this.lang.local);
     translate.language.setUrlParamControl('lang');

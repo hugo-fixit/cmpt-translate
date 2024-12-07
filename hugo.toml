@@ -9,12 +9,14 @@
     # List of language ID to translate to, e.g. ["english", "chinese_simplified", "chinese_traditional", ...]
     # See the full language list: https://api.translate.zvo.cn/language.json
     languages = []
-    # Element IDs that needs to be ignored for translation
+    # Element IDs that needs to be ignored for translation, e.g. ["comment", ...]
     ignoreID = []
-    # Class names that need to be ignored for translation
+    # Class names that need to be ignored for translation, e.g. ["post-category", ...]
     ignoreClass = []
-    # Tag names that need to be ignored for translation
+    # Tag names that need to be ignored for translation, e.g. ["title", ...]
     ignoreTag = []
+    # Texts that need to be ignored for translation, e.g. ["FixIt", "Lruihao", ...]
+    ignoreText = []
     # Whether to detect the local language
     detectLocalLanguage = false
 

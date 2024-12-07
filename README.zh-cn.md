@@ -21,7 +21,7 @@
 - [x] 指定翻译语言
 - [x] 可选翻译服务
 - [x] 忽略翻译元素
-- [ ] 忽略关键词翻译
+- [x] 忽略关键词翻译
 - [x] 检测本地语言
 - [ ] 划词翻译
 - [ ] 支持 CDN
@@ -120,9 +120,10 @@ theme = ["FixIt", "cmpt-translate"]
 - `enable`：是否启用自动翻译。
 - `service`：翻译服务提供商，可选值为 `client.edge` 和 `translate.service`，详见：[翻译服务提供商](https://translate.zvo.cn/43086.html)。
 - `languages`：要翻译到的语言 ID 列表，例如 `["english", "chinese_simplified", "chinese_traditional", ...]`，详见：[完整语言列表](https://api.translate.zvo.cn/language.json)。
-- `ignoreID`：需要忽略翻译的元素 ID。
-- `ignoreClass`：需要忽略翻译的类名。
-- `ignoreTag`：需要忽略翻译的标签。
+- `ignoreID`：需要忽略翻译的元素 ID，例如 `["comment", ...]`。
+- `ignoreClass`：需要忽略翻译的类名，例如 `["post-category", ...]`。
+- `ignoreTag`：需要忽略翻译的标签，例如 `["title", ...]`。
+- `ignoreText`：需要忽略翻译的文本，例如 `["FixIt", "Lruihao", ...]`。
 - `detectLocalLanguage`：是否检测本地语言。
 
 > [!NOTE]
