@@ -24,7 +24,7 @@
   {{- $configJS | dict "Content" | dict "Scratch" .Scratch "Data" | partial "scratch/script.html" -}}
 
   {{- /* cmpt-translate.js */ -}}
-  {{- $options := dict "targetPath" "js/cmpt-translate.min.js" "minify" hugo.IsProduction -}}
+  {{- $options := dict "targetPath" "js/translate.fixit.min.js" "minify" hugo.IsProduction -}}
   {{- $params := dict
     "service" ($autoTranslate.service | default "client.edge")
     "languages" ($autoTranslate.languages | default slice)
@@ -39,5 +39,5 @@
   {{- if not hugo.IsProduction -}}
     {{- $options = dict "sourceMap" "inline" | merge $options -}}
   {{- end -}}
-  {{- dict "Source" "js/cmpt-translate.js" "Build" $options "Fingerprint" $fingerprint "Defer" true | dict "Scratch" .Scratch "Data" | partial "scratch/script.html" -}}
+  {{- dict "Source" "js/translate.fixit.js" "Build" $options "Fingerprint" $fingerprint "Defer" true | dict "Scratch" .Scratch "Data" | partial "scratch/script.html" -}}
 {{- end -}}
