@@ -16,7 +16,6 @@ A component for website automatic translation base on [translate.js](https://git
 - [x] Ignore translation elements
 - [x] Ignore keywords translation
 - [x] Detect local language
-- [ ] Word selection translation
 - [ ] Support CDN
 
 ## Demo

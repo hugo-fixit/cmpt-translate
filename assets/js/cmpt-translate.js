@@ -70,7 +70,7 @@ class AutoTranslate {
     this.detectLocalLanguage = detectLocalLanguage;
 
     this.isMobile = fixit.util.isMobile();
-    this.afterTranslateEvents = new Set();
+    this.afterExecuteEvents = new Set();
     this.lang = { ...this.getTypesLang() };
     this.supportLanguages = {
       'client.edge': translate.service.edge.language.json,
@@ -165,7 +165,7 @@ class AutoTranslate {
       this.toggleVisibility(originSwitchDesktop, false);
     }
     this.toggleVisibility(this.dom.switchDesktop, true);
-    this.afterTranslateEvents.add(() => {
+    this.afterExecuteEvents.add(() => {
       this.lang = { ...this.getTypesLang() };
       // Set default translate-to language (only machine translation)
       const { current, local, query } = this.getTypesLang();
@@ -232,7 +232,7 @@ class AutoTranslate {
       return;
     }
     this.#selectOnChangeMobile();
-    this.afterTranslateEvents.add(() => {
+    this.afterExecuteEvents.add(() => {
       this.dom.selectEl = this.dom.switchMobile.querySelector('select');
       this.dom.selectEl.classList.add('language-select');
       this.#handleMachineOptions();
@@ -333,7 +333,7 @@ class AutoTranslate {
 
   execute() {
     translate.execute();
-    this.afterTranslateEvents.forEach((event) => {
+    this.afterExecuteEvents.forEach((event) => {
       event();
     });
   }
@@ -407,22 +407,6 @@ class AutoTranslate {
       localStorage.setItem('AutoTranslate_detected', true);
     }
     return;
-  }
-
-  /**
-   * Enable selection translate
-   * https://github.com/hugo-fixit/cmpt-translate/issues/3
-   * @experimental
-   * @param {String} lang The language code to translate
-   * @example fixit.autoTranslate.enableSelection();
-   * @todo Refactor the translate.selectionTranslate function
-   * @todo target language should be user selected from the language switch
-   * @todo to support query param 'to' to set the target language
-   */
-  selectionTranslate(lang = 'chinese_simplified') {
-    translate.language.setDefaultTo(lang);
-    translate.selectionTranslate.start();
-    // translate.executeByLocalLanguage();
   }
 
   clearCache() {
