@@ -16,7 +16,7 @@ A component for website automatic translation base on [translate.js](https://git
 - [x] Ignore translation elements
 - [x] Ignore keywords translation
 - [x] Detect local language
-- [ ] Support CDN
+- [x] Support CDN
 
 ## Demo
 
@@ -27,6 +27,7 @@ Whether the original site is multilingual or single-language, you can add automa
 
 ## Requirements
 
+- Hugo v0.139.0 or later.
 - FixIt v0.3.16 or later.
 
 ## Install Component
@@ -114,6 +115,7 @@ In addition, you can customize the translated language through the following con
     ignoreClass = []
     ignoreTag = []
     detectLocalLanguage = false
+    cdn = ""
 ```
 
 - `enable`: Whether to enable automatic translation.
@@ -124,6 +126,7 @@ In addition, you can customize the translated language through the following con
 - `ignoreTag`: Tag names that need to be ignored for translation, e.g. `["title", ...]`
 - `ignoreText`: Texts that needs to be ignored for translation, e.g. `["FixIt", "Lruihao", ...]`
 - `detectLocalLanguage`: Whether to detect the local language
+- `cdn`: translate.js CDN
 
 > [!NOTE]
 > To avoid translation language acquisition failure, even if your site itself is single-language, you need to configure `languageCode` and `languageName`, for example:

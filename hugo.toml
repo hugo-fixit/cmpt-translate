@@ -19,6 +19,8 @@
     ignoreText = []
     # Whether to detect the local language
     detectLocalLanguage = false
+    # translate.js CDN
+    cdn = ""
 
 [module]
   [module.hugoVersion]

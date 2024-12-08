@@ -23,10 +23,11 @@
 - [x] 忽略翻译元素
 - [x] 忽略关键词翻译
 - [x] 检测本地语言
-- [ ] 支持 CDN
+- [x] 支持 CDN
 
 ## 要求
 
+- Hugo v0.139.0 或更高版本。
 - FixIt v0.3.16 或更高版本。
 
 ## 安装组件
@@ -114,6 +115,7 @@ theme = ["FixIt", "cmpt-translate"]
     ignoreClass = []
     ignoreTag = []
     detectLocalLanguage = false
+    cdn = ""
 ```
 
 - `enable`：是否启用自动翻译。
@@ -124,6 +126,7 @@ theme = ["FixIt", "cmpt-translate"]
 - `ignoreTag`：需要忽略翻译的标签，例如 `["title", ...]`。
 - `ignoreText`：需要忽略翻译的文本，例如 `["FixIt", "Lruihao", ...]`。
 - `detectLocalLanguage`：是否检测本地语言。
+- - `cdn`: translate.js CDN。
 
 > [!NOTE]
 > 为了避免翻译语言获取失败，即使你的站点本身是单语言的，也需要配置 `languageCode` 和 `languageName`，例如：

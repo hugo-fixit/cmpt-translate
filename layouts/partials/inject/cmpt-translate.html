@@ -4,7 +4,12 @@
 
 {{- if $autoTranslate.enable -}}
   {{- /* translate.js */ -}}
-  {{- dict "Source" "lib/translate.js" "Fingerprint" $fingerprint "Defer" true "Minify" hugo.IsProduction | dict "Scratch" .Scratch "Data" | partial "scratch/script.html" -}}
+  {{- $cdn := "" -}}
+  {{- if hugo.IsProduction -}}
+    {{- $cdn = $autoTranslate.cdn -}}
+  {{- end -}}
+  {{- $source := $cdn | default "lib/translate.js" -}}
+  {{- dict "Source" $source "Fingerprint" $fingerprint "Defer" true "Minify" hugo.IsProduction | dict "Scratch" .Scratch "Data" | partial "scratch/script.html" -}}
 
   {{- /* Config script */ -}}
   {{- $hugoLangCodes := slice -}}
