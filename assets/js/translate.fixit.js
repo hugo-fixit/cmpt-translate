@@ -108,12 +108,16 @@ class AutoTranslate {
     return translate.util.browserLanguage[code];
   }
 
+  /**
+   * Get language types
+   * @returns {Object} The language types
+   */
   getTypesLang() {
     return {
       current: translate.language.getCurrent(),
       local: window.ATConfig.local || translate.language.getLocal(),
       query: window.location.search.split('lang=')[1],
-      browser: '',
+      browser: this.lang?.browser || '',
     };
   }
   
@@ -340,17 +344,17 @@ class AutoTranslate {
 
   /**
    * Get user local language by browser or IP
-   * @returns {Promise<void>}
+   * @returns {Promise<string>} The user local language
    */
   async getBrowserLanguage() {
-    this.lang.browser = translate.util.browserDefaultLanguage();
+    let lang = translate.util.browserDefaultLanguage();
     let loading = true;
-    if (!this.lang.browser) {
+    if (!lang) {
       translate.request.post(translate.request.api.ip, {}, (data) => {
         // console.log(data);
+        loading = false;
         if(data.result !== 0) {
-          this.lang.browser = data.language;
-          loading = false;
+          lang = data.language;
           return;
         }
         console.log('Can not get the language by ip', data.info);
@@ -362,7 +366,7 @@ class AutoTranslate {
       const timer = setInterval(() => {
         if (!loading) {
           clearInterval(timer);
-          resolve(this.lang.browser);
+          resolve(lang);
         }
       }, 100);
     });
@@ -423,7 +427,11 @@ class AutoTranslate {
    */
   init() {
     this.getBrowserLanguage().then((lang) => {
-      // console.log(lang, this.languages);
+      // console.log(lang);
+      if (!lang) {
+        this.detectLocalLanguage = false;
+      }
+      this.lang.browser = lang;
       this.autoSelectLocalLanguage();
       this.setup();
       this.handle();
