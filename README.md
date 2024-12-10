@@ -1,10 +1,20 @@
+<!-- markdownlint-disable-file MD033 MD041 -->
 # Auto Translate | FixIt
 
 ![auto-translate](https://github.com/user-attachments/assets/10ab49bb-973f-4630-9a79-9639783bab06)
 
-👉 简体中文说明 | [English README](/README.en.md)
-
-一个基于 [translate.js](https://github.com/xnx3/translate) 实现网站自动翻译的组件。
+<div align="center">
+  简体中文 |
+  <a href="/README.en.md">English</a> |
+  <a href="https://fixit.lruihao.cn/zh-cn/ecosystem/hugo-fixit/cmpt-translate/?lang=chinese_traditional" target="_blank">繁體中文</a> |
+  <a href="https://fixit.lruihao.cn/ecosystem/hugo-fixit/cmpt-translate/?lang=french" target="_blank">Français</a> |
+  <a href="https://fixit.lruihao.cn/ecosystem/hugo-fixit/cmpt-translate/?lang=russian" target="_blank">Русский язык</a> |
+  <a href="https://fixit.lruihao.cn/ecosystem/hugo-fixit/cmpt-translate/?lang=spanish" target="_blank">Español</a> |
+  <a href="https://fixit.lruihao.cn/ecosystem/hugo-fixit/cmpt-translate/?lang=hindi" target="_blank">हिन्दी</a> |
+  <a href="https://fixit.lruihao.cn/ecosystem/hugo-fixit/cmpt-translate/?lang=german" target="_blank">deutsch</a> |
+  <a href="https://fixit.lruihao.cn/ecosystem/hugo-fixit/cmpt-translate/?lang=korean" target="_blank">한국어</a> |
+  <a href="https://fixit.lruihao.cn/ecosystem/hugo-fixit/cmpt-translate/?lang=japanese" target="_blank">しろうと</a>
+</div>
 
 ## Demo
 
