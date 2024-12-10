@@ -12,9 +12,11 @@ import {
 
 /**
  * Ignore class list for the Fixit theme
+ * 'fi-at-ignore' is a common class for hugo-fixit theme components
  * @type {Array<string>}
  */
-const IGNORE_FIXIT = [
+const IGNORE_FIXIT = [  
+  'fi-at-ignore',
   'header-title',
   'language-switch',
   'post-author',
