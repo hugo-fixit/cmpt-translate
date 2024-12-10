@@ -21,6 +21,10 @@
     detectLocalLanguage = false
     # translate.js CDN
     cdn = ""
+    # Whether to enable Enterprise-level translation channel
+    # If set to true, automatically switch to the best translation service
+    # See: https://github.com/hugo-fixit/cmpt-translate#enterprise
+    enterprise = false
 
 [module]
   [module.hugoVersion]

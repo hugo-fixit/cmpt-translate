@@ -39,6 +39,7 @@
     "ignoreText" ($autoTranslate.ignoreText | default slice)
     "detectLocalLanguage" ($autoTranslate.detectLocalLanguage | default false)
     "supportLanguages" ($languages | default slice)
+    "enterprise" ($autoTranslate.enterprise | default false)
   -}}
   {{- $options = dict "params" $params | merge $options -}}
   {{- if not hugo.IsProduction -}}

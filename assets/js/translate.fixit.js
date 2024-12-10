@@ -7,6 +7,7 @@ import {
   ignoreText,
   detectLocalLanguage,
   supportLanguages,
+  enterprise,
 } from '@params';
 
 /**
@@ -68,6 +69,7 @@ class AutoTranslate {
       ...ignoreText,
     ];
     this.detectLocalLanguage = detectLocalLanguage;
+    this.enterprise = enterprise;
 
     this.isMobile = fixit.util.isMobile();
     this.afterExecuteEvents = new Set();
@@ -322,11 +324,19 @@ class AutoTranslate {
   }
 
   setup() {
+    /**
+     * Use the enterprise-level translation channel
+     * automatically switch to the best translation service
+     */
+    if (this.enterprise) {
+      translate.enterprise.use();
+    } else {
+      translate.service.use(this.service);
+    }
     translate.ignore.id.push(...this.ignoreID);
     translate.ignore.class.push(...this.ignoreClass);
     translate.ignore.tag.push(...this.ignoreTag);
     translate.ignore.text.push(...this.ignoreText);
-    translate.service.use(this.service);
     translate.language.setLocal(this.lang.local);
     translate.language.setUrlParamControl('lang');
     translate.listener.start();
