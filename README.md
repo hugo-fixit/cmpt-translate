@@ -24,7 +24,7 @@
 - [x] 忽略关键词翻译
 - [x] 检测本地语言
 - [x] 支持 CDN
-- [x] 支持[企业级翻译通道](#enterprise)
+- [x] 支持[企业级翻译通道](#enterprise) *
 
 ## 要求
 
@@ -147,9 +147,10 @@ theme = ["FixIt", "cmpt-translate"]
 
     默认本地语言同 Hugo 站点配置相同，如果某个页面实际语言与站点配置不同，可以通过 `local` 参数指定。
 
-## 企业级翻译通道 {#enterprise}
+<!-- markdownlint-disable-next-line MD033 -->
+## 企业级翻译通道 <a id="enterprise"></a>
 
-> 企业级稳定翻译通道，仅针对付费用户开放。
+> 企业级稳定翻译通道，仅针对**付费用户**开放。\
 > **体验额度**：每天有 5 万字符的体验额度，超出部分将不再翻译！
 
 在配置里设置 `enterprise = true` 即可启用企业级翻译通道，[企业级翻译通道](https://translate.zvo.cn/4087.html)相对于普通翻译通道有以下优势：

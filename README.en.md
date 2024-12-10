@@ -17,7 +17,7 @@ A component for website automatic translation base on [translate.js](https://git
 - [x] Ignore keywords translation
 - [x] Detect local language
 - [x] Support CDN
-- [x] Support [Enterprise Translation Channel](#enterprise)
+- [x] Support [Enterprise Translation Channel](#enterprise) *
 
 ## Demo
 
@@ -146,9 +146,10 @@ In addition, you can customize the translated language through the following con
   
     The default local language is the same as the Hugo site configuration. If the actual language of a page is different from the site configuration, you can specify it through the `local` parameter.
 
-## Enterprise Translation Channel {#enterprise}
+<!-- markdownlint-disable-next-line MD033 -->
+## Enterprise Translation Channel <a id="enterprise"></a>
 
-> Enterprise-level stable translation channel, open only to paying users.
+> Enterprise-level stable translation channel, open only to **paying users**.\
 > **Experience quota**: There is a daily experience quota of 50,000 characters, and the excess will no longer be translated!
 
 Set `enterprise = true` in the configuration to enable the enterprise translation channel. The [enterprise translation channel](https://translate.zvo.cn/4087.html) has the following advantages over the ordinary translation channel:
