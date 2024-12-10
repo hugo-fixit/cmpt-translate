@@ -44,6 +44,7 @@ const IGNORE_CMPTS = [
 const IGNORE_TEXT = [
   'Hugo',
   'FixIt',
+  'hugo-fixit',
   'Lruihao',
   'CC BY-NC-SA',
   'RSS',
