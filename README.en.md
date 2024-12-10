@@ -6,6 +6,15 @@
 
 A component for website automatic translation base on [translate.js](https://github.com/xnx3/translate).
 
+## Demo
+
+Whether the original site is multilingual or single-language, you can add automatic translation feature through this component.
+
+- Multilingual Hugo site: [fixit.lruihao.cn](https://fixit.lruihao.cn)
+- Single-language Hugo site: [lruihao.cn](https://lruihao.cn)
+
+Switch the configured translation language in the upper right corner of the website, or add the `?lang=korean` parameter to the URL to specify any [supported translation language](https://api.translate.zvo.cn/language.json).
+
 ## Features
 
 > No language configuration file, no API Key, SEO friendly!
@@ -17,14 +26,7 @@ A component for website automatic translation base on [translate.js](https://git
 - [x] Ignore keywords translation
 - [x] Detect local language
 - [x] Support CDN
-- [x] Support [Enterprise Translation Channel](#enterprise)
-
-## Demo
-
-Whether the original site is multilingual or single-language, you can add automatic translation feature through this component.
-
-- Multilingual Hugo site: [fixit.lruihao.cn](https://fixit.lruihao.cn)
-- Single-language Hugo site: [lruihao.cn](https://lruihao.cn)
+- [x] Support [Enterprise Translation Channel](#enterprise) *
 
 ## Requirements
 
@@ -146,9 +148,10 @@ In addition, you can customize the translated language through the following con
   
     The default local language is the same as the Hugo site configuration. If the actual language of a page is different from the site configuration, you can specify it through the `local` parameter.
 
-## Enterprise Translation Channel {#enterprise}
+<!-- markdownlint-disable-next-line MD033 -->
+## Enterprise Translation Channel <a id="enterprise"></a>
 
-> Enterprise-level stable translation channel, open only to paying users.
+> Enterprise-level stable translation channel, open only to **paying users**.\
 > **Experience quota**: There is a daily experience quota of 50,000 characters, and the excess will no longer be translated!
 
 Set `enterprise = true` in the configuration to enable the enterprise translation channel. The [enterprise translation channel](https://translate.zvo.cn/4087.html) has the following advantages over the ordinary translation channel:
@@ -165,18 +168,15 @@ Set `enterprise = true` in the configuration to enable the enterprise translatio
 
 ### Sponsorship fee
 
-> Fee: **¥100** / domain name (one-time charge)\
-> **The discount is only for individual users who use FixIt theme and this component!**
+> Subsidy price for FixIt project: ~~¥50~~ **¥10** / domain name / month\
+> Automatically disabled upon expiration, requiring re-sponsorship renewal.
 
-Sponsored by **translate.js**, considering that most of the FixIt audience is individuals, an enterprise-level translation channel is opened for **FixIt individual users**, but a certain fee is still required.
+Considering that most of the FixIt ecosystem audiences are individual users, I ([@Lruihao](https://github.com)) will use sponsorship income as a subsidy in my **personal name**, and provide **6 months of service/year** to each member of the [Hugo FixIt Planet](https://wx.zsxq.com/group/88888281181442?group_id=88888281181442&coupon_code=ks2qf5zd&inviter_id=15442515242512&inviter_sid=e15da0zzz4&keyword=BQcpe&type=group).
 
-The following types can be purchased for free. Contact me([@Lruihao](https://github.com)) to open the enterprise version channel, free of charge.
+In addition, those who meet the following requirements can contact me for free to open an enterprise translation channel:
 
-- Government website
-- Nationally recognized public welfare website
 - [translate.js](https://github.com/xnx3/translate) and related ecological product developers
 - [FixIt](https://github.com/hugo-fixit/FixIt) and related ecological product developers
-- [Hugo FixIt Knowledge Planet](https://wx.zsxq.com/group/88888281181442?group_id=88888281181442&coupon_code=ks2qf5zd&inviter_id=15442515242512&inviter_sid=e15da0zzz4&keyword=BQcpe&type=group) valid members
 
 ### Sponsorship method
 

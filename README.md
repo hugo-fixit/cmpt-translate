@@ -13,6 +13,8 @@
 - 多语言 Hugo 站点：[fixit.lruihao.cn](https://fixit.lruihao.cn)
 - 单语言 Hugo 站点：[lruihao.cn](https://lruihao.cn)
 
+在网站右上角切换配置的翻译语言，或者在 URL 中添加 `?lang=korean` 参数指定任意[支持的翻译语言](https://api.translate.zvo.cn/language.json)。
+
 ## 特性
 
 > 无语言配置文件、无 API Key、对 SEO 友好！
@@ -24,7 +26,7 @@
 - [x] 忽略关键词翻译
 - [x] 检测本地语言
 - [x] 支持 CDN
-- [x] 支持[企业级翻译通道](#enterprise)
+- [x] 支持[企业级翻译通道](#enterprise) *
 
 ## 要求
 
@@ -147,12 +149,13 @@ theme = ["FixIt", "cmpt-translate"]
 
     默认本地语言同 Hugo 站点配置相同，如果某个页面实际语言与站点配置不同，可以通过 `local` 参数指定。
 
-## 企业级翻译通道 {#enterprise}
+<!-- markdownlint-disable-next-line MD033 -->
+## 企业级翻译通道 <a id="enterprise"></a>
 
-> 企业级稳定翻译通道，仅针对付费用户开放。
+> 企业级稳定翻译通道，仅针对**付费用户**开放。\
 > **体验额度**：每天有 5 万字符的体验额度，超出部分将不再翻译！
 
-在配置里设置 `enterprise = true` 即可启用企业级翻译通道，[企业级翻译通道](https://translate.zvo.cn/4087.html)相对于普通翻译通道有以下优势：
+在 FixIt 里启用企业级翻译通道，设置 `params.autoTranslate.enterprise` 为 `true` 即可，[企业级翻译通道](https://translate.zvo.cn/4087.html)相对于普通翻译通道有以下优势：
 
 | 服务           | 开源翻译通道      | 企业级翻译通道           |
 | :------------- | :---------------- | :----------------------- |
@@ -166,18 +169,15 @@ theme = ["FixIt", "cmpt-translate"]
 
 ### 赞助费用
 
-> 费用：**¥100** / 域名（一次性收费）\
-> **优惠仅限使用 FixIt 主题及本组件的个人用户！**
+> FixIt 项目补贴价：~~¥50~~ **¥10** / 域名 / 月\
+> 到期自动禁用，需要重新赞助续费。
 
-由 **translate.js 赞助提供**，考虑到 FixIt 受众群体大多为个人，因此针对 **FixIt 个人用户**开放了企业级翻译通道，但仍需支付一定费用。
+考虑到 FixIt 生态受众群体大多为个人用户，因此我（[@Lruihao](https://github.com)）以**个人名义**使用赞助收入进行补贴，对于 [Hugo FixIt 星球](https://wx.zsxq.com/group/88888281181442?group_id=88888281181442&coupon_code=ks2qf5zd&inviter_id=15442515242512&inviter_sid=e15da0zzz4&keyword=BQcpe&type=group) 成员每人补贴赠送 **6 个月服务 / 年**。
 
-以下性质的可以买免费联系我（[@Lruihao](https://github.com)）开通企业版通道，不收费用。
+另外，符合以下性质的可以免费联系我开通企业级翻译通道：
 
-- 政务网站
-- 国家认可的公益网站
 - [translate.js](https://github.com/xnx3/translate) 及相关生态产品的开发者
 - [FixIt](https://github.com/hugo-fixit/FixIt) 及相关生态产品的开发者
-- [Hugo FixIt 知识星球](https://wx.zsxq.com/group/88888281181442?group_id=88888281181442&coupon_code=ks2qf5zd&inviter_id=15442515242512&inviter_sid=e15da0zzz4&keyword=BQcpe&type=group) 有效成员
 
 ### 赞助方式
 
