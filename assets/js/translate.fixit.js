@@ -55,6 +55,8 @@ class AutoTranslate {
     };
     this.hugoLangCodes = window.ATConfig.hugoLangCodes;
     this.hugoLangMap = window.ATConfig.hugoLangMap;
+    this.fromLanguages = window.ATConfig.fromLanguages || [];
+    this.onlyLocalLang = window.ATConfig.onlyLocalLang;
     this.dom = {};
   }
 
@@ -299,11 +301,9 @@ class AutoTranslate {
   }
 
   setup() {
-    /**
-     * Use the enterprise-level translation channel
-     * automatically switch to the best translation service
-     */
     if (this.enterprise) {
+      // Use the enterprise-level translation channel
+      // automatically switch to the best translation service
       translate.enterprise.use();
     } else {
       translate.service.use(this.service);
@@ -311,6 +311,10 @@ class AutoTranslate {
     document.querySelectorAll(this.ignoreSelector.join(',')).forEach((el) => {
       el.classList.add('fi-at-ignore');
     });
+    if (this.onlyLocalLang) {
+      this.fromLanguages = [this.lang.local];
+    }
+    translate.language.translateLanguagesRange = this.fromLanguages;
     translate.ignore.id.push(...this.ignoreID);
     translate.ignore.class.push(...this.ignoreClass);
     translate.ignore.tag.push(...this.ignoreTag);

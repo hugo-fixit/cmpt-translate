@@ -1,5 +1,6 @@
 {{- $fingerprint := .Scratch.Get "fingerprint" -}}
 {{- $autoTranslate := .Site.Params.autoTranslate -}}
+{{- $frontMatter := .Params.autoTranslate -}}
 {{- $languages := site.Store.Get "languages" -}}
 
 {{- if $autoTranslate.enable -}}
@@ -19,8 +20,14 @@
     {{- $hugoLangMap = $hugoLangMap | merge (dict .Language.LanguageCode .RelPermalink) -}}
   {{- end -}}
   {{- $config := dict "hugoLangCodes" $hugoLangCodes "hugoLangMap" $hugoLangMap -}}
-  {{- with .Params.local -}}
+  {{- with $frontMatter.local -}}
     {{- $config = dict "local" . | merge $config -}}
+  {{- end -}}
+  {{- with $frontMatter.fromLanguages -}}
+    {{- $config = dict "fromLanguages" . | merge $config -}}
+  {{- end -}}
+  {{- if $frontMatter.onlyLocalLang -}}
+    {{- $config = dict "onlyLocalLang" true | merge $config -}}
   {{- end -}}
   {{- $configJS := $config | jsonify | printf "window.ATConfig=%s;" -}}
   {{- if hugo.IsServer -}}

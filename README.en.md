@@ -4,6 +4,7 @@
 ![auto-translate](https://github.com/user-attachments/assets/10ab49bb-973f-4630-9a79-9639783bab06)
 
 <div align="center">
+  <p>A component for website automatic translation base on <a href="https://github.com/xnx3/translate">translate.js</a>.</p>
   <a href="/README.md">简体中文</a> |
   <a href="https://fixit.lruihao.cn/zh-cn/ecosystem/hugo-fixit/cmpt-translate/?lang=chinese_traditional" target="_blank">繁體中文</a> |
   English |
@@ -16,8 +17,6 @@
   <a href="https://fixit.lruihao.cn/ecosystem/hugo-fixit/cmpt-translate/?lang=japanese">しろうと</a>
 </div>
 
-A component for website automatic translation base on [translate.js](https://github.com/xnx3/translate).
-
 ## Demo
 
 Whether the original site is multilingual or single-language, you can add automatic translation feature through this component.
@@ -25,7 +24,7 @@ Whether the original site is multilingual or single-language, you can add automa
 - Multilingual Hugo site: [fixit.lruihao.cn](https://fixit.lruihao.cn)
 - Single-language Hugo site: [lruihao.cn](https://lruihao.cn)
 
-Switch the configured translation language in the upper right corner of the website, or add the `?lang=korean` parameter to the URL to specify any [supported translation language](https://api.translate.zvo.cn/language.json).
+Switch the configured translation language in the upper right corner of the website, or add the `?lang=` parameter to the URL to specify any [supported translation language](https://api.translate.zvo.cn/language.json). e.g. `?lang=korean`.
 
 ## Features
 
@@ -158,9 +157,30 @@ In addition, you can customize the translated language through the following con
 
 ## Front Matter
 
-- `local`: Used to specify the local language of the current page, e.g. `local: english`.
+```yaml
+autoTranslate:
+  local: ''
+  fromLanguages: []
+  onlyLocalLang: false
+```
+
+- `local`: `String` Used to specify the local language of the current page, e.g. `local: english`.
   
     The default local language is the same as the Hugo site configuration. If the actual language of a page is different from the site configuration, you can specify it through the `local` parameter.
+
+- `fromLanguages`: `Array` type, used to specify whether the languages ​​in the current page content need to be translated.
+
+    For example: the webpage itself is in Chinese, but there are other languages ​​in the content. You can specify the language to be translated, for example:
+
+    ```yaml
+    fromLanguages:
+    - chinese_simplified
+    - chinese_traditional
+    ```
+
+- `onlyLocalLang`: `Boolean` type, used to specify whether to translate only the local language of the current page, the default is `false`.
+
+    For example: the webpage itself is in Chinese, but there are summary references in other languages ​​in the content. Set `onlyLocalLang: true` to translate only Chinese.
 
 <!-- markdownlint-disable-next-line MD033 -->
 ## Enterprise Translation Channel <a id="enterprise"></a>

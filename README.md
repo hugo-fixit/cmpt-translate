@@ -4,6 +4,7 @@
 ![auto-translate](https://github.com/user-attachments/assets/10ab49bb-973f-4630-9a79-9639783bab06)
 
 <div align="center">
+  <p>一个基于 <a href="https://github.com/xnx3/translate">translate.js</a> 实现网站自动翻译的组件。</p>
   简体中文 |
   <a href="https://fixit.lruihao.cn/zh-cn/ecosystem/hugo-fixit/cmpt-translate/?lang=chinese_traditional" target="_blank">繁體中文</a> |
   <a href="/README.en.md">English</a> |
@@ -16,8 +17,6 @@
   <a href="https://fixit.lruihao.cn/ecosystem/hugo-fixit/cmpt-translate/?lang=japanese">しろうと</a>
 </div>
 
-一个基于 [translate.js](https://github.com/xnx3/translate) 实现网站自动翻译的组件。
-
 ## Demo
 
 无论原站点是多语言还是单语言，都可以通过此组件额外增加自动翻译功能。
@@ -25,11 +24,11 @@
 - 多语言 Hugo 站点：[fixit.lruihao.cn](https://fixit.lruihao.cn)
 - 单语言 Hugo 站点：[lruihao.cn](https://lruihao.cn)
 
-在网站右上角切换配置的翻译语言，或者在 URL 中添加 `?lang=korean` 参数指定任意[支持的翻译语言](https://api.translate.zvo.cn/language.json)。
+在网站右上角切换配置的翻译语言，或者在 URL 中添加 `?lang=` 参数指定任意[支持的翻译语言](https://api.translate.zvo.cn/language.json)。例如：`?lang=korean`。
 
 ## 特性
 
-> 每日翻译字符 **200 万**！
+> 每日翻译字符 **200 万**！\
 > _无语言配置文件、无 API Key、对 SEO 友好！_
 
 - [x] 支持整页自动翻译
@@ -159,9 +158,30 @@ theme = ["FixIt", "cmpt-translate"]
 
 ## Front Matter
 
-- `local`: 用于指定当前页面的本地语言，例如 `local: english`。
+```yaml
+autoTranslate:
+  local: ''
+  fromLanguages: []
+  onlyLocalLang: false
+```
+
+- `local`: `String` 用于指定当前页面的本地语言，例如 `local: english`。
 
     默认本地语言同 Hugo 站点配置相同，如果某个页面实际语言与站点配置不同，可以通过 `local` 参数指定。
+
+- `fromLanguages`: `Array` 类型，用于指定当前页面内容中出现的语种是否需要翻译。
+
+    例如：网页本身是中文，但是内容中还有其他语言，你可以指定需要翻译的语种，例如：
+
+    ```yaml
+    fromLanguages:
+      - chinese_simplified
+      - chinese_traditional
+    ```
+
+- `onlyLocalLang`: `Boolean` 类型，用于指定是否只翻译当前页面本地语言，默认为 `false`。
+
+    例如：网页本身是中文，但是内容中其他语言的摘要引用，设置 `onlyLocalLang: true` 可以只翻译中文。
 
 <!-- markdownlint-disable-next-line MD033 -->
 ## 企业级翻译通道 <a id="enterprise"></a>
