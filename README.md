@@ -16,6 +16,8 @@
   <a href="https://fixit.lruihao.cn/ecosystem/hugo-fixit/cmpt-translate/?lang=japanese">しろうと</a>
 </div>
 
+一个基于 [translate.js](https://github.com/xnx3/translate) 实现网站自动翻译的组件。
+
 ## Demo
 
 无论原站点是多语言还是单语言，都可以通过此组件额外增加自动翻译功能。
@@ -27,14 +29,16 @@
 
 ## 特性
 
-> 无语言配置文件、无 API Key、对 SEO 友好！
+> 每日翻译字符 **200 万**！
+> _无语言配置文件、无 API Key、对 SEO 友好！_
 
-- [x] 整页自动翻译
-- [x] 指定翻译语言
-- [x] 可选翻译服务
-- [x] 忽略翻译元素
-- [x] 忽略关键词翻译
-- [x] 检测本地语言
+- [x] 支持整页自动翻译
+- [x] 支持指定翻译语言
+- [x] 支持可选翻译服务
+- [x] 支持忽略翻译元素
+- [x] 支持忽略选择器
+- [x] 支持忽略关键词翻译
+- [x] 支持检测本地语言
 - [x] 支持 CDN
 - [x] 支持[企业级翻译通道](#enterprise) *
 

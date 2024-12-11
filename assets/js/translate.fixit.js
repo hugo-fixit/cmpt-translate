@@ -4,6 +4,7 @@ import {
   ignoreID,
   ignoreClass,
   ignoreTag,
+  ignoreSelector,
   ignoreText,
   detectLocalLanguage,
   supportLanguages,
@@ -12,7 +13,7 @@ import {
 
 /**
  * Ignore class list for the Fixit theme
- * 'fi-at-ignore' is a common class for hugo-fixit theme components
+ * 'fi-at-ignore' is a common class for hugo-fixit theme and components
  * @type {Array<string>}
  */
 const IGNORE_FIXIT = [  
@@ -32,9 +33,19 @@ const IGNORE_FIXIT = [
  * @type {Array<string>}
  */
 const IGNORE_CMPTS = [
+  // hugo-fixit/shortcode-mmt-netease
   'repo-url',
   'netease-music',
   'comment-163',
+];
+
+/**
+ * Ignore selector list for hugo-fixit theme and components
+ * @type {Array<string>}
+ */
+const IGNORE_SELECTOR = [
+  // hugo-fixit/component-projects
+  '[data-adapters="projects"] .single-subtitle',
 ];
 
 /**
@@ -67,6 +78,10 @@ class AutoTranslate {
     ];
     this.ignoreID = ignoreID;
     this.ignoreTag = ignoreTag;
+    this.ignoreSelector = [
+      ...IGNORE_SELECTOR,
+      ...ignoreSelector,
+    ];
     this.ignoreText = [
       ...IGNORE_TEXT,
       ...ignoreText,
@@ -336,6 +351,9 @@ class AutoTranslate {
     } else {
       translate.service.use(this.service);
     }
+    document.querySelectorAll(this.ignoreSelector.join(',')).forEach((el) => {
+      el.classList.add('fi-at-ignore');
+    });
     translate.ignore.id.push(...this.ignoreID);
     translate.ignore.class.push(...this.ignoreClass);
     translate.ignore.tag.push(...this.ignoreTag);

@@ -15,6 +15,8 @@
     ignoreClass = []
     # Tag names that need to be ignored for translation, e.g. ["title", ...]
     ignoreTag = []
+    # Selectors that need to be ignored for translation, e.g. ["[data-adapters='projects'] .single-subtitle", ...]
+    ignoreSelector = []
     # Texts that need to be ignored for translation, e.g. ["FixIt", "Lruihao", ...]
     ignoreText = []
     # Whether to detect the local language

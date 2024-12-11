@@ -29,14 +29,16 @@ Switch the configured translation language in the upper right corner of the webs
 
 ## Features
 
-> No language configuration file, no API Key, SEO friendly!
+> Daily translation characters **2 million**!\
+> _No language configuration file, no API Key, SEO friendly!_
 
-- [x] Full page automatic translation
-- [x] Specify translation language
-- [x] Optional translation service
-- [x] Ignore translation elements
-- [x] Ignore keywords translation
-- [x] Detect local language
+- [x] Support automatic translation of the entire page
+- [x] Support specifying the translation language
+- [x] Support optional translation services
+- [x] Support ignoring translation elements
+- [x] Support ignoring selectors
+- [x] Support ignoring keyword translation
+- [x] Support detecting local languages
 - [x] Support CDN
 - [x] Support [Enterprise Translation Channel](#enterprise) *
 
