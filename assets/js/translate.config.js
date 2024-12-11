@@ -47,6 +47,7 @@ export const IGNORE_TEXT = [
   'FixIt',
   'hugo-fixit',
   'Lruihao',
+  'shortcode',
   'CC BY-NC-SA',
   'RSS',
 ];
