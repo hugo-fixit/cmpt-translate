@@ -20,8 +20,11 @@ export const IGNORE_FIXIT = [
  * @type {Array<string>}
  */
 export const IGNORE_CMPTS = [
-  // hugo-fixit/shortcode-mmt-netease
+  // hugo-fixit/component-projects
   'repo-url',
+  'repo-visibility',
+  'repo-lang',
+  // hugo-fixit/shortcode-mmt-netease
   'netease-music',
   'comment-163',
 ];
