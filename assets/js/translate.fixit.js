@@ -16,7 +16,7 @@ import {
   IGNORE_CMPTS,
   IGNORE_SELECTOR,
   IGNORE_TEXT,
-} from './config';
+} from './translate.config';
 
 /**
  * AutoTranslate Class
