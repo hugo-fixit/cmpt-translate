@@ -38,6 +38,7 @@ Switch the configured translation language in the upper right corner of the webs
 - [x] Support ignoring selectors
 - [x] Support ignoring keyword translation
 - [x] Support detecting local languages
+- [x] Support custom translation terms
 - [x] Support CDN
 - [x] Support [Enterprise Translation Channel](#enterprise) *
 
@@ -181,6 +182,23 @@ autoTranslate:
 - `onlyLocalLang`: `Boolean` type, used to specify whether to translate only the local language of the current page, the default is `false`.
 
     For example: the webpage itself is in Chinese, but there are summary references in other languages ​​in the content. Set `onlyLocalLang: true` to translate only Chinese.
+
+## Custom Translation Terms
+
+Create a `nomenclature.yml` file in the `data` folder of your project directory, and then add custom translation terms, for example:
+
+```yaml
+- from: english
+  to: chinese_simplified
+  properties:
+    Hello: 你好
+    World: 世界
+- from: english
+  to: french
+  properties:
+    Hello: Bonjour
+    World: Monde
+```
 
 <!-- markdownlint-disable-next-line MD033 -->
 ## Enterprise Translation Channel <a id="enterprise"></a>

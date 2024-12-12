@@ -18,6 +18,14 @@ import {
   IGNORE_TEXT,
 } from './translate.config';
 
+const {
+  hugoLangCodes,
+  hugoLangMap,
+  fromLanguages,
+  onlyLocalLang,
+  nomenclature,
+} = window.ATConfig;
+
 /**
  * AutoTranslate Class
  * @description Auto translate website content by translate.js service.
@@ -53,10 +61,11 @@ class AutoTranslate {
       'client.edge': translate.service.edge.language.json,
       'translate.service': supportLanguages,
     };
-    this.hugoLangCodes = window.ATConfig.hugoLangCodes;
-    this.hugoLangMap = window.ATConfig.hugoLangMap;
-    this.fromLanguages = window.ATConfig.fromLanguages || [];
-    this.onlyLocalLang = window.ATConfig.onlyLocalLang;
+    this.hugoLangCodes = hugoLangCodes;
+    this.hugoLangMap = hugoLangMap;
+    this.fromLanguages = fromLanguages || [];
+    this.onlyLocalLang = onlyLocalLang;
+    this.nomenclature = nomenclature;
     this.dom = {};
   }
 
@@ -315,6 +324,14 @@ class AutoTranslate {
     document.querySelectorAll(this.ignoreSelector.join(',')).forEach((el) => {
       el.classList.add('fi-at-ignore');
     });
+    // add custom nomenclature for translation
+    this.nomenclature?.forEach((item) => {
+      translate.nomenclature.append(
+        item.from,
+        item.to,
+        Object.keys(item.properties).map((key) => `${key}=${item.properties[key]}`).join('\n'),
+      );
+    });
     if (this.onlyLocalLang) {
       this.fromLanguages = [this.lang.local];
     }
@@ -395,6 +412,7 @@ class AutoTranslate {
    * Auto discriminate local language
    */
   autoSelectLocalLanguage() {
+    this.addLangItem(this.lang.query || this.lang.current);
     if (!this.detectLocalLanguage) {
       return;
     }
@@ -440,7 +458,6 @@ class AutoTranslate {
       }
       this.lang.browser = lang;
       this.autoSelectLocalLanguage();
-      this.addLangItem(this.lang.query);
       this.setup();
       this.handle();
       this.execute();

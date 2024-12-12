@@ -38,6 +38,7 @@
 - [x] 支持忽略选择器
 - [x] 支持忽略关键词翻译
 - [x] 支持检测本地语言
+- [x] 支持自定义翻译术语
 - [x] 支持 CDN
 - [x] 支持[企业级翻译通道](#enterprise) *
 
@@ -182,6 +183,23 @@ autoTranslate:
 - `onlyLocalLang`: `Boolean` 类型，用于指定是否只翻译当前页面本地语言，默认为 `false`。
 
     例如：网页本身是中文，但是内容中其他语言的摘要引用，设置 `onlyLocalLang: true` 可以只翻译中文。
+
+## 自定义翻译术语
+
+在你的项目目录 `data` 文件夹下创建 `nomenclature.yml` 文件，然后添加自定义翻译术语，例如：
+
+```yaml
+- from: english
+  to: chinese_simplified
+  properties:
+    Hello: 你好
+    World: 世界
+- from: english
+  to: french
+  properties:
+    Hello: Bonjour
+    World: Monde
+```
 
 <!-- markdownlint-disable-next-line MD033 -->
 ## 企业级翻译通道 <a id="enterprise"></a>

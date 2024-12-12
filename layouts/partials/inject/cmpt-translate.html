@@ -29,6 +29,9 @@
   {{- if $frontMatter.onlyLocalLang -}}
     {{- $config = dict "onlyLocalLang" true | merge $config -}}
   {{- end -}}
+  {{- with .Site.Data.nomenclature -}}
+    {{- $config = dict "nomenclature" . | merge $config -}}
+  {{- end -}}
   {{- $configJS := $config | jsonify | printf "window.ATConfig=%s;" -}}
   {{- if hugo.IsServer -}}
     {{- $configJS = add $configJS "console.log('Auto Translate config:', window.ATConfig);" -}}
