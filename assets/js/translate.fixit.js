@@ -134,12 +134,7 @@ class AutoTranslate {
       return;
     }
     this.dom.switchMenu = this.dom.switchDesktop.querySelector('.sub-menu');
-    if (this.dom.localItem) {
-      this.dom.switchMenu.insertBefore(
-        this.dom.localItem,
-        this.dom.switchMenu.querySelector('.menu-item-divider').nextSibling
-      );
-    }
+    this.dom.localItems && this.dom.switchMenu.append(...this.dom.localItems);
     this.#handleArtificialItems();
     this.#handleMachineItems();
     // show the language switch and hide the origin switch
@@ -216,17 +211,26 @@ class AutoTranslate {
     }
     this.#selectOnChangeMobile();
     this.afterExecuteEvents.add(() => {
-      this.dom.selectEl = this.dom.switchMobile.querySelector('select');
-      this.dom.selectEl.classList.add('language-select');
-      this.#handleMachineOptions();
-      this.#handleArtificialOptions();
-      // Set default translate-to language
-      const { current, local, query } = this.getTypesLang();
-      this.lang = { ...this.lang, current, query };
-      if (current !== local || query) {
-        this.dom.selectEl.value = current;
-      }
-      this.toggleVisibility(this.dom.switchMobile, true);
+      new Promise((resolve) => {
+        const timer = setInterval(() => {
+          this.dom.selectEl = this.dom.switchMobile.querySelector('select');
+          if (this.dom.selectEl) {
+            clearInterval(timer);
+            resolve();
+          }
+        }, 100);
+      }).then(() => {
+        this.dom.selectEl.classList.add('language-select');
+        this.#handleMachineOptions();
+        this.#handleArtificialOptions();
+        // Set default translate-to language
+        const { current, local, query } = this.getTypesLang();
+        this.lang = { ...this.lang, current, query };
+        if (current !== local || query) {
+          this.dom.selectEl.value = current;
+        }
+        this.toggleVisibility(this.dom.switchMobile, true);
+      });
     });
   }
 
@@ -364,6 +368,29 @@ class AutoTranslate {
     });
   }
 
+  addLangItem(langId) {
+    if (!langId) {
+      return false;
+    }
+    const langName = this.getLangNameById(langId);
+    const langCode = this.getLangCodeById(langId);
+    if (
+      langName &&
+      !this.hugoLangCodes.includes(langCode) &&
+      this.languages.length &&
+      !this.languages.includes(langId)
+    ) {
+      this.languages.push(langId);
+      const langItem = document.createElement('li');
+      langItem.classList.add('menu-item');
+      langItem.dataset.type = 'machine';
+      langItem.innerHTML = `<a data-lang="${langId}" class="menu-link" title="${langName}"><i class="fa-solid fa-robot fa-fw fa-sm" aria-hidden="true"></i> ${langName}</a>`;
+      this.dom.localItems = this.dom.localItems ? [...this.dom.localItems, langItem] : [langItem];
+      return true;
+    }
+    return false;
+  }
+
   /**
    * Auto discriminate local language
    */
@@ -371,35 +398,23 @@ class AutoTranslate {
     if (!this.detectLocalLanguage) {
       return;
     }
-    const langName = this.getLangNameById(this.lang.browser);
-    const langCode = this.getLangCodeById(this.lang.browser);
     const AutoDetected = localStorage.getItem('AutoTranslate_detected');
-    if (
-      langName &&
-      !this.hugoLangCodes.includes(langCode) &&
-      this.languages.length &&
-      !this.languages.includes(this.lang.browser)
-    ) {
-      this.languages.push(this.lang.browser);
-      this.dom.localItem = document.createElement('li');
-      this.dom.localItem.classList.add('menu-item');
-      this.dom.localItem.dataset.type = 'machine';
-      this.dom.localItem.innerHTML = `<a data-lang="${this.lang.browser}" class="menu-link" title="${langName}"><i class="fa-solid fa-robot fa-fw fa-sm" aria-hidden="true"></i> ${langName}</a>`;
-      if (AutoDetected !== 'true') {
+    if (this.addLangItem(this.lang.browser)) {
+      if (AutoDetected !== 'true' && !this.lang.query) {
         translate.language.setDefaultTo(this.lang.browser);
         localStorage.setItem('AutoTranslate_detected', true);
       }
       return;
     }
     // Redirect to the corresponding page
-    if (
-      AutoDetected !== 'true' &&
-      this.hugoLangCodes.includes(langCode) &&
-      !window.location.pathname.includes(this.hugoLangMap[langCode])
-    ) {
-      window.location = this.hugoLangMap[langCode];
-    }
-    if (AutoDetected !== 'true') {
+    if (AutoDetected !== 'true' && !this.lang.query) {
+      const langCode = this.getLangCodeById(this.lang.browser);
+      if (
+        this.hugoLangCodes.includes(langCode) &&
+        !window.location.pathname.includes(this.hugoLangMap[langCode])
+      ) {
+        window.location = this.hugoLangMap[langCode];
+      } 
       localStorage.setItem('AutoTranslate_detected', true);
     }
     return;
@@ -425,6 +440,7 @@ class AutoTranslate {
       }
       this.lang.browser = lang;
       this.autoSelectLocalLanguage();
+      this.addLangItem(this.lang.query);
       this.setup();
       this.handle();
       this.execute();
