@@ -1,0 +1,29 @@
+{
+  "author": "Lruihao (https://github.com/Lruihao)",
+  "bugs": {
+    "url": "https://github.com/hugo-fixit/cmpt-translate/issues"
+  },
+  "description": "A component for website automatic translation base on translate.js.",
+  "devDependencies": {
+    "i18n-jsautotranslate": "^3.11.11"
+  },
+  "homepage": "https://github.com/hugo-fixit/cmpt-translate#readme",
+  "keywords": [
+    "i18n",
+    "translate.js",
+    "hugo",
+    "hugo-theme-fixit",
+    "theme-component"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "name": "cmpt-translate",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hugo-fixit/cmpt-translate.git"
+  },
+  "scripts": {
+    "cp": "cp node_modules/i18n-jsautotranslate/translate.js assets/lib/translate.js"
+  },
+  "version": "1.3.0"
+}

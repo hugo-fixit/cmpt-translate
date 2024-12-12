@@ -1,0 +1,22 @@
+lockfileVersion: '9.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+importers:
+
+  .:
+    devDependencies:
+      i18n-jsautotranslate:
+        specifier: ^3.11.11
+        version: 3.11.11
+
+packages:
+
+  i18n-jsautotranslate@3.11.11:
+    resolution: {integrity: sha512-zVl6Zd3XgtZ/LhSpRPOjVMd+sg9K+7guZcXRBpmeQTVhHFdTbOSX57O82gUJOrVuI0H17wzMOrhLDmzfsNSvTA==}
+
+snapshots:
+
+  i18n-jsautotranslate@3.11.11: {}

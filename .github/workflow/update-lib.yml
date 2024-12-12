@@ -1,0 +1,32 @@
+name: Copy translate.js from node_modules to assets/lib
+
+on:
+  pull_request:
+    types:
+      - closed
+    paths:
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+
+jobs:
+  update:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - name: Install dependencies
+        run: pnpm install
+      - name: Copy translate.js
+        run: pnpm cp
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          branch: main
+          commit_user_name: Cell[bot]
+          commit_user_email: lrhx@users.noreply.github.com
+          commit_author: Cell[bot] <lrhx@users.noreply.github.com>
+          commit_message: ':arrow_up: Chore(deps): update components version'
