@@ -23,7 +23,7 @@
     "url": "git+https://github.com/hugo-fixit/cmpt-translate.git"
   },
   "scripts": {
-    "cp": "cp node_modules/i18n-jsautotranslate/translate.js assets/lib/translate.js"
+    "cp": "cp node_modules/i18n-jsautotranslate/index.js assets/lib/translate.js"
   },
   "version": "1.3.0"
 }
