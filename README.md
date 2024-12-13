@@ -1,12 +1,12 @@
 <!-- markdownlint-disable-file MD033 MD041 -->
-# Auto Translate | FixIt
+<h1 align="center">Auto Translate | FixIt</h1>
 
 ![auto-translate](https://github.com/user-attachments/assets/10ab49bb-973f-4630-9a79-9639783bab06)
 
-<div align="center">
+<div align="center" class="ignore">
   <p>一个基于 <a href="https://github.com/xnx3/translate">translate.js</a> 实现网站自动翻译的组件。</p>
   简体中文 |
-  <a href="https://fixit.lruihao.cn/zh-cn/ecosystem/hugo-fixit/cmpt-translate/?lang=chinese_traditional" target="_blank">繁體中文</a> |
+  <a href="https://fixit.lruihao.cn/zh-cn/ecosystem/hugo-fixit/cmpt-translate/?lang=chinese_traditional">繁體中文</a> |
   <a href="/README.en.md">English</a> |
   <a href="https://fixit.lruihao.cn/ecosystem/hugo-fixit/cmpt-translate/?lang=french">Français</a> |
   <a href="https://fixit.lruihao.cn/ecosystem/hugo-fixit/cmpt-translate/?lang=russian">Русский язык</a> |
@@ -144,8 +144,8 @@ theme = ["FixIt", "cmpt-translate"]
 - `ignoreTag`：需要忽略翻译的标签，例如 `["title", ...]`。
 - `ignoreText`：需要忽略翻译的文本，例如 `["FixIt", "Lruihao", ...]`。
 - `detectLocalLanguage`：是否检测本地语言。
-- `cdn`: translate.js CDN。
-- `enterprise`: 是否启用[企业级翻译通道](#enterprise)。
+- `cdn`：translate.js 的 CDN，例如 `https://cdn.jsdelivr.net/npm/i18n-jsautotranslate@latest`。
+- `enterprise`：是否启用[企业级翻译通道](#enterprise)。
 
 > [!NOTE]
 > 为了避免翻译语言获取失败，即使你的站点本身是单语言的，也需要配置 `languageCode` 和 `languageName`，例如：
@@ -221,15 +221,18 @@ autoTranslate:
 
 ### 赞助费用
 
-> FixIt 项目补贴价：~~¥50~~ **¥10** / 域名 / 月\
-> 到期自动禁用，需要重新赞助续费。
+考虑到 FixIt 生态受众群体大多为个人用户，因此我（[@Lruihao](https://github.com)）以**个人名义**拿出赞助收入进行补贴。
 
-考虑到 FixIt 生态受众群体大多为个人用户，因此我（[@Lruihao](https://github.com)）以**个人名义**使用赞助收入进行补贴，对于 [Hugo FixIt 星球](https://wx.zsxq.com/group/88888281181442?group_id=88888281181442&coupon_code=ks2qf5zd&inviter_id=15442515242512&inviter_sid=e15da0zzz4&keyword=BQcpe&type=group) 成员每人补贴赠送 **6 个月服务 / 年**。
+> [!TIP]
+> **FixIt 项目补贴价**：**¥10** ~~_¥50_~~ / 域名 / 月\
+> _到期自动禁用，需要重新赞助续费！_
 
-另外，符合以下性质的可以免费联系我开通企业级翻译通道：
+符合以下性质的可以免费联系我开通企业级翻译通道：
 
 - [translate.js](https://github.com/xnx3/translate) 及相关生态产品的开发者
 - [FixIt](https://github.com/hugo-fixit/FixIt) 及相关生态产品的开发者
+
+另外，[Hugo FixIt 星球](https://wx.zsxq.com/group/88888281181442?group_id=88888281181442&coupon_code=ks2qf5zd&inviter_id=15442515242512&inviter_sid=e15da0zzz4&keyword=BQcpe&type=group) 成员每人补贴赠送 **6 个月服务 / 年**。
 
 ### 赞助方式
 

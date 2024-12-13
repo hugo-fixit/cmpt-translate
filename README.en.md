@@ -1,12 +1,12 @@
 <!-- markdownlint-disable-file MD033 MD041 -->
-# Auto Translate | FixIt
+<h1 align="center">Auto Translate | FixIt</h1>
 
 ![auto-translate](https://github.com/user-attachments/assets/10ab49bb-973f-4630-9a79-9639783bab06)
 
-<div align="center">
+<div align="center" class="ignore">
   <p>A component for website automatic translation base on <a href="https://github.com/xnx3/translate">translate.js</a>.</p>
   <a href="/README.md">简体中文</a> |
-  <a href="https://fixit.lruihao.cn/zh-cn/ecosystem/hugo-fixit/cmpt-translate/?lang=chinese_traditional" target="_blank">繁體中文</a> |
+  <a href="https://fixit.lruihao.cn/zh-cn/ecosystem/hugo-fixit/cmpt-translate/?lang=chinese_traditional">繁體中文</a> |
   English |
   <a href="https://fixit.lruihao.cn/ecosystem/hugo-fixit/cmpt-translate/?lang=french">Français</a> |
   <a href="https://fixit.lruihao.cn/ecosystem/hugo-fixit/cmpt-translate/?lang=russian">Русский язык</a> |
@@ -143,7 +143,7 @@ In addition, you can customize the translated language through the following con
 - `ignoreTag`: Tag names that need to be ignored for translation, e.g. `["title", ...]`
 - `ignoreText`: Texts that needs to be ignored for translation, e.g. `["FixIt", "Lruihao", ...]`
 - `detectLocalLanguage`: Whether to detect the local language
-- `cdn`: translate.js CDN
+- `cdn`: CDN of translate.js, e.g. `https://cdn.jsdelivr.net/npm/i18n-jsautotranslate@latest`
 - `enterprise`: Whether to use the [enterprise translation channel](#enterprise)
 
 > [!NOTE]
@@ -220,15 +220,18 @@ Set `enterprise = true` in the configuration to enable the enterprise translatio
 
 ### Sponsorship fee
 
-> Subsidy price for FixIt project: ~~¥50~~ **¥10** / domain name / month\
-> Automatically disabled upon expiration, requiring re-sponsorship renewal.
+Considering that most of the FixIt ecosystem audiences are individual users, I ([@Lruihao](https://github.com)) will use sponsorship income as a subsidy in my **personal name**.
 
-Considering that most of the FixIt ecosystem audiences are individual users, I ([@Lruihao](https://github.com)) will use sponsorship income as a subsidy in my **personal name**, and provide **6 months of service/year** to each member of the [Hugo FixIt Planet](https://wx.zsxq.com/group/88888281181442?group_id=88888281181442&coupon_code=ks2qf5zd&inviter_id=15442515242512&inviter_sid=e15da0zzz4&keyword=BQcpe&type=group).
+> [!TIP]
+> **Subsidy price for FixIt project**: **¥10** ~~_¥50_~~ / domain / month\
+> _Automatically disabled upon expiration, requiring re-sponsorship renewal!_
 
-In addition, those who meet the following requirements can contact me for free to open an enterprise translation channel:
+Those who meet the following requirements can contact me for free to open an enterprise translation channel:
 
 - [translate.js](https://github.com/xnx3/translate) and related ecological product developers
 - [FixIt](https://github.com/hugo-fixit/FixIt) and related ecological product developers
+
+In addition, each member of the [Hugo FixIt Planet](https://wx.zsxq.com/group/88888281181442?group_id=88888281181442&coupon_code=ks2qf5zd&inviter_id=15442515242512&inviter_sid=e15da0zzz4&keyword=BQcpe&type=group) will be given a subsidy of **6 months of service / year**.
 
 ### Sponsorship method
 
