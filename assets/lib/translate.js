@@ -8,11 +8,11 @@
 var translate = {
 	/**
 	 * 当前的版本
-   * 由 npm 脚本自动更新，无需手动修改
-   * 格式：major.minor.patch.date
+	 * 由 npm 脚本自动更新，无需手动修改
+	 * 格式：major.minor.patch.date
 	 */
-  // AUTO_VERSION_START
-  version: '3.11.11.20241209',
+	// AUTO_VERSION_START
+  version: '3.12.0.20241210',
   // AUTO_VERSION_END
 	/*
 		当前使用的版本，默认使用v2. 可使用 setUseVersion2(); 
@@ -564,6 +564,7 @@ var translate = {
 			return translate.nomenclature.data;
 		},
 		//对传入的str字符进行替换，将其中的自定义术语提前进行替换，然后将替换后的结果返回
+		//v3.11 后此方法已废弃，不再使用
 		dispose:function(str){
 			if(str == null || str.length == 0){
 				return str;
@@ -2854,6 +2855,14 @@ var translate = {
 
 		//当前本地语种，本地语言，默认是简体中文。设置请使用 translate.language.setLocal(...)。不可直接使用，使用需用 getLocal()
 		local:'',
+
+		/*
+		 * v3.12增加, 是否会翻译本地语种，默认是false，不会翻译。
+		 * 比如当前设置的本地语种是简体中文， 但是网页中也有一段英文， 如果设置了translate.to 为中文，也就是要以中文显示 默认是false的情况下，整个页面是不会被任何翻译的，也就是有的那段英文也不会进行任何翻译，依旧是显示英文。
+		 * 如果这里设置为 true， 则英文也会被翻译，只要不是中文的，都会被翻译为要显示的语种，也就是都会被翻译为中文。
+		 */
+		translateLocal:false,
+
 		/*
 			翻译语种范围
 			比如传入 ['chinese_simplified','chinese_traditional','english'] 则表示仅对网页中的简体中文、繁体中文、英文 进行翻译，而网页中出现的其他的像是法语、韩语则不会进行翻译
@@ -4294,11 +4303,16 @@ var translate = {
 
 		*/
 		name:'translate.service',  
+
 		/*
 			其实就是设置 translate.service.name
-
+	
 		*/
 		use: function(serviceName){
+			if(translate.enterprise.isUse == true){
+				console.log('您已启用了企业级翻译通道 translate.enterprise.use(); (文档：https://translate.zvo.cn/4087.html) , 所以您设置的 translate.service.use(\''+serviceName+'\'); (文档：https://translate.zvo.cn/4081.html) 将失效不起作用，有企业级翻译通道全部接管。');
+				return;
+			}
 			if(typeof(serviceName) == 'string' && serviceName == 'client.edge'){
 				translate.service.name = serviceName;
 
@@ -4884,16 +4898,63 @@ var translate = {
 				//打印翻译结果
 				console.log(data);
 			});
-		*/
-		translateText:function(texts, func){
-			if(typeof(texts) == 'string'){
-				texts = [texts];
+
+			使用案例三：
+			var obj = {
+				from:'chinese_simplified',
+				to:'english',
+				texts: ['我是翻译的第一句','我是翻译的第二句','我是翻译的第三句']
 			}
+			translate.request.translateText(obj, function(data){
+				//打印翻译结果
+				console.log(data);
+			});
+		*/
+		translateText:function(obj, func){
+			var texts = new Array();
+			var from = translate.language.getLocal();
+			var to = translate.language.getCurrent();
+
+			if(typeof(obj) == 'string'){
+				//案例一的场景，传入单个字符串
+				texts[0] = [obj];
+			}else{
+				//不是字符串了，而是对象了，判断是案例二还是案例三
+
+				var type = Object.prototype.toString.call(obj);
+				//console.log(type);
+				if(type == '[object Array]'){
+					//案例二
+					texts = obj;
+				}else if(type == '[object Object]'){
+					//案例三
+					if(typeof(obj.texts) == 'undefined'){
+						console.log('translate.request.translateText 传入的值类型异常，因为你没有传入 obj.texts 要翻译的具体文本！ 请查阅文档： https://translate.zvo.cn/4077.html');	
+					}
+					if(typeof(obj.texts) == 'string'){
+						//单个字符串
+						texts = [obj.texts];
+					}else{
+						//多个字符串，数组形态
+						texts = obj.texts;
+					}
+					if(typeof(obj.from) == 'string' && obj.from.length > 0){
+						from = obj.from;
+					}
+					if(typeof(obj.to) == 'string' && obj.to.length > 0){
+						to = obj.to;
+					}
+				}else{
+					console.log('translate.request.translateText 传入的值类型错误，请查阅文档： https://translate.zvo.cn/4077.html');
+					return;
+				}
+			}
+			
 
 			var url = translate.request.api.translate;
 			var data = {
-				from:translate.language.getLocal(),
-				to: translate.language.getCurrent(),
+				from:from,
+				to: to,
 				text:encodeURIComponent(JSON.stringify(texts))
 			};
 			//console.log(data);
@@ -5294,6 +5355,12 @@ var translate = {
 			//主节点额外权重降低，更追求响应速度
 			translate.request.speedDetectionControl.hostMasterNodeCutTime = 300; 
 			translate.request.api.host=['https://america-enterprise-api-translate.zvo.cn/','https://beijing.enterprise.api.translate.zvo.cn/','https://deutsch.enterprise.api.translate.zvo.cn/', 'https://america.api.translate.zvo.cn:666/', 'https://api.translate.zvo.cn:666/', 'https://api.translate.zvo.cn:888/'];
+			
+			if(translate.service.name == 'client.edge'){
+				translate.service.name = 'translate.service';
+				console.log('您已启用了企业级翻译通道 translate.enterprise.use(); (文档：https://translate.zvo.cn/4087.html) , 所以您设置的 translate.service.use(\'client.edge\'); (文档：https://translate.zvo.cn/4081.html) 将失效不起作用，有企业级翻译通道全部接管。');
+				return;
+			}
 		},
 		/*
 			自动适配翻译服务通道，如果当前所有网络节点均不可用，会自动切换到 edge.client 进行使用
