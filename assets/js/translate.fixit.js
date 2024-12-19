@@ -355,28 +355,55 @@ class AutoTranslate {
     });
   }
 
-  // 监控 .tianliGPT-explanation 的变化
-  // 1. 如果有变化，就重新翻译
-  // 2. 如果没有变化，就不用管
-  // 3. 如果没有 .tianliGPT-explanation，就不用管
+  /**
+   * Translate the AI summary from Chinese to current language
+   * because the AI summary of PostChat is only available in Chinese
+   */
   translateAISummary() {
-    const summary = document.querySelector('.tianliGPT-explanation');
-    if (!summary) {
+    const { current } = this.getTypesLang();
+    if (typeof tianliGPT_postSelector === 'undefined' || current === 'chinese_simplified') {
       return;
     }
     const observer = new MutationObserver((mutationsList) => {
-      for (let mutation of mutationsList) {
+      for (const mutation of mutationsList) {
         if (mutation.type === 'childList') {
-          // 判断是否有 .blinking-cursor 子元素
-          const cursor = summary.querySelector('.blinking-cursor');
-          if (cursor) {
-            console.log('The cursor is blinking');
+          const summary = document.querySelector('.tianliGPT-explanation');
+          let cursor;
+          if (summary) {
+            cursor = summary.querySelector('.blinking-cursor');
+            cursor && summary.classList.add('fi-at-ignore');
+          }
+          if (!summary || summary.dataset.translated || cursor) {
             return;
           }
+          this.originalSummary = this.originalSummary || summary.innerText;
+          translate.request.translateText({
+            from: 'chinese_simplified',
+            to: current,
+            texts: [this.originalSummary],
+          }, (data) => {
+            // success
+            if (data.result === 1) {
+              let result = data.text[0];
+              result = result.charAt(0).toUpperCase() + result.slice(1);
+              summary.innerText = result;
+              observer.disconnect();
+              return;
+            }
+            // error
+            summary.innerText = this.originalSummary;
+            console.error('Translate summary error:', data.info);
+          });
+          summary.classList.remove('fi-at-ignore');
+          summary.innerText = 'Translating...';
+          summary.dataset.translated = true;
         }
       }
     });
-    observer.observe(summary, { childList: true });
+    observer.observe(document.getElementById('content'), {
+      childList: true,
+      subtree: true,
+    });
   }
 
   /**
