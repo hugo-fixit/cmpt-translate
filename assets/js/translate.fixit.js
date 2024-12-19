@@ -355,6 +355,30 @@ class AutoTranslate {
     });
   }
 
+  // 监控 .tianliGPT-explanation 的变化
+  // 1. 如果有变化，就重新翻译
+  // 2. 如果没有变化，就不用管
+  // 3. 如果没有 .tianliGPT-explanation，就不用管
+  translateAISummary() {
+    const summary = document.querySelector('.tianliGPT-explanation');
+    if (!summary) {
+      return;
+    }
+    const observer = new MutationObserver((mutationsList) => {
+      for (let mutation of mutationsList) {
+        if (mutation.type === 'childList') {
+          // 判断是否有 .blinking-cursor 子元素
+          const cursor = summary.querySelector('.blinking-cursor');
+          if (cursor) {
+            console.log('The cursor is blinking');
+            return;
+          }
+        }
+      }
+    });
+    observer.observe(summary, { childList: true });
+  }
+
   /**
    * Get user local language by browser or IP
    * @returns {Promise<string>} The user local language
@@ -461,6 +485,7 @@ class AutoTranslate {
       this.setup();
       this.handle();
       this.execute();
+      this.translateAISummary();
     });
   }
 }
