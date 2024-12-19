@@ -5,7 +5,7 @@
   },
   "description": "A component for website automatic translation base on translate.js.",
   "devDependencies": {
-    "i18n-jsautotranslate": "^3.11.11"
+    "i18n-jsautotranslate": "^3.12.0"
   },
   "homepage": "https://github.com/hugo-fixit/cmpt-translate#readme",
   "keywords": [
