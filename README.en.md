@@ -220,7 +220,7 @@ Set `enterprise = true` in the configuration to enable the enterprise translatio
 
 ### Sponsorship fee
 
-Considering that most of the FixIt ecosystem audiences are individual users, I ([@Lruihao](https://github.com)) will use sponsorship income as a subsidy in my **personal name**.
+Considering that most of the FixIt ecosystem audiences are individual users, I ([@Lruihao](https://github.com/Lruihao)) will use sponsorship income as a subsidy in my **personal name**.
 
 > [!TIP]
 > **Subsidy price for FixIt project**: **¥10** ~~_¥50_~~ / domain / month\

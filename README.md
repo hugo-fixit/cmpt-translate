@@ -221,7 +221,7 @@ autoTranslate:
 
 ### 赞助费用
 
-考虑到 FixIt 生态受众群体大多为个人用户，因此我（[@Lruihao](https://github.com)）以**个人名义**拿出赞助收入进行补贴。
+考虑到 FixIt 生态受众群体大多为个人用户，因此我（[@Lruihao](https://github.com/Lruihao)）以**个人名义**拿出赞助收入进行补贴。
 
 > [!TIP]
 > **FixIt 项目补贴价**：**¥10** ~~_¥50_~~ / 域名 / 月\

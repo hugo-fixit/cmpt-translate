@@ -356,12 +356,11 @@ class AutoTranslate {
   }
 
   /**
-   * Translate the AI summary from Chinese to current language
-   * because the AI summary of PostChat is only available in Chinese
+   * Translate the AI summary from local to current language
    */
   translateAISummary() {
-    const { current } = this.getTypesLang();
-    if (typeof tianliGPT_postSelector === 'undefined' || current === 'chinese_simplified') {
+    const { current, local } = this.getTypesLang();
+    if (typeof tianliGPT_postSelector === 'undefined' || current === local) {
       return;
     }
     const observer = new MutationObserver((mutationsList) => {
@@ -373,36 +372,43 @@ class AutoTranslate {
             cursor = summary.querySelector('.blinking-cursor');
             cursor && summary.classList.add('fi-at-ignore');
           }
-          if (!summary || summary.dataset.translated || cursor) {
+          if (!summary || cursor) {
             return;
           }
-          this.originalSummary = this.originalSummary || summary.innerText;
-          translate.request.translateText({
-            from: 'chinese_simplified',
-            to: current,
-            texts: [this.originalSummary],
-          }, (data) => {
-            // success
-            if (data.result === 1) {
-              let result = data.text[0];
-              result = result.charAt(0).toUpperCase() + result.slice(1);
-              summary.innerText = result;
-              observer.disconnect();
-              return;
-            }
-            // error
-            summary.innerText = this.originalSummary;
-            console.error('Translate summary error:', data.info);
-          });
           summary.classList.remove('fi-at-ignore');
-          summary.innerText = 'Translating...';
-          summary.dataset.translated = true;
         }
       }
     });
     observer.observe(document.getElementById('content'), {
       childList: true,
       subtree: true,
+    });
+  }
+
+  /**
+   * Translate text by translate.js service
+   * @param {Object} param
+   * @param {Array<string>} param.texts The texts to be translated
+   * @param {string} param.from The original language code
+   * @param {string} param.to The target language code
+   * @returns 
+   */
+  translateText({ texts, from, to }) {
+    return new Promise((resolve) => {
+      translate.request.translateText({
+        from,
+        to,
+        texts,
+      }, (data) => {
+        // success
+        if (data.result === 1) {
+          resolve(data.text[0]);
+          return;
+        }
+        // error
+        console.error('Translate text error:', data.info);
+        resolve(data.info);
+      });
     });
   }
 
