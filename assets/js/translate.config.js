@@ -13,6 +13,7 @@ export const IGNORE_FIXIT = [
   'typeit',
   'katex',
   'katex-display',
+  'message-content',
 ];
 
 /**
