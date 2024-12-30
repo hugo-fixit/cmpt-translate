@@ -1,9 +1,14 @@
 {{- $autoTranslate := .Site.Params.autoTranslate -}}
 {{- $languages := site.Store.Get "languages" -}}
 {{- if not $languages -}}
+  {{- /* [Deactivate] Get languages from remote API */ -}}
+  {{- /*
   {{- $languageURL := "https://api.translate.zvo.cn/language.json" -}}
   {{- $cacheKey := print $languageURL (now.Format "2006-01-02") -}}
   {{- $languages = partial "function/get-remote-json" (dict "URL" $languageURL "OPTIONS" (dict "key" $cacheKey)) -}}
+  */ -}}
+  {{- /* Get languages from local file */ -}}
+  {{- $languages = resources.Get "data/language.json" | transform.Unmarshal -}}
   {{- $languages = $languages.list | default slice -}}
   {{- site.Store.Set "languages" $languages -}}
 {{- end -}}
