@@ -59,10 +59,12 @@ Then add this theme component to your `hugo.toml` configuration file:
 
 ```toml
 [module]
-  [[module.imports]]
-    path = "github.com/hugo-fixit/FixIt"
-  [[module.imports]]
-    path = "github.com/hugo-fixit/cmpt-translate"
+
+[[module.imports]]
+path = "github.com/hugo-fixit/FixIt"
+
+[[module.imports]]
+path = "github.com/hugo-fixit/cmpt-translate"
 ```
 
 On the first start of Hugo it will download the required files.
@@ -86,7 +88,10 @@ git submodule add https://github.com/hugo-fixit/cmpt-translate.git themes/cmpt-t
 Next edit `hugo.toml` of your project and add this theme component to your themes:
 
 ```toml
-theme = ["FixIt", "cmpt-translate"]
+theme = [
+  "FixIt",
+  "cmpt-translate"
+]
 ```
 
 ## Configuration
@@ -95,44 +100,41 @@ In order to Inject the partial `cmpt-translate.html` into the `custom-assets` th
 
 ```toml
 [params]
-  [params.customPartials]
-    head = []
-    menuDesktop = [
-      "inject/translate-menu-desktop.html",
-    ]
-    menuMobile = [
-      "inject/translate-menu-mobile.html",
-    ]
-    profile = []
-    aside = []
-    comment = []
-    footer = []
-    widgets = []
-    assets = [
-      "inject/cmpt-translate.html",
-    ]
-    postFooterBefore = []
-    postFooterAfter = []
+
+[params.customPartials]
+head = []
+menuDesktop = [ "inject/translate-menu-desktop.html", ]
+menuMobile = [ "inject/translate-menu-mobile.html", ]
+profile = []
+aside = []
+comment = []
+footer = []
+widgets = []
+assets = [ "inject/cmpt-translate.html", ]
+postFooterBefore = []
+postFooterAfter = []
 ```
 
 In addition, you can customize the translated language through the following configuration:
 
 ```toml
 [languages]
-  [languages.en]
-    languageCode = "en"
-    languageName = "English"
+
+[languages.en]
+languageCode = "en"
+languageName = "English"
 
 [params]
-  [params.autoTranslate]
-    enable = true
-    service = 'client.edge'
-    languages = []
-    ignoreID = []
-    ignoreClass = []
-    ignoreTag = []
-    detectLocalLanguage = false
-    cdn = ""
+
+[params.autoTranslate]
+enable = true
+service = 'client.edge'
+languages = []
+ignoreID = []
+ignoreClass = []
+ignoreTag = []
+detectLocalLanguage = false
+cdn = ""
 ```
 
 - `enable`: Whether to enable automatic translation.
@@ -151,9 +153,10 @@ In addition, you can customize the translated language through the following con
 >
 > ```toml
 > [languages]
->   [languages.zh-cn]
->     languageCode = "en"
->     languageName = "English"
+>
+> [languages.zh-cn]
+> languageCode = "en"
+> languageName = "English"
 > ```
 
 ## Front Matter
@@ -166,17 +169,17 @@ autoTranslate:
 ```
 
 - `local`: `String` Used to specify the local language of the current page, e.g. `local: english`.
-  
+
     The default local language is the same as the Hugo site configuration. If the actual language of a page is different from the site configuration, you can specify it through the `local` parameter.
 
-- `fromLanguages`: `Array` type, used to specify whether the languages ​​in the current page content need to be translated.
+- `fromLanguages`: `Array` type, used to specify whether the languages in the current page content need to be translated.
 
-    For example: the webpage itself is in Chinese, but there are other languages ​​in the content. You can specify the language to be translated, for example:
+    For example: the webpage itself is in Chinese, but there are other languages in the content. You can specify the language to be translated, for example:
 
     ```yaml
     fromLanguages:
-    - chinese_simplified
-    - chinese_traditional
+      - chinese_simplified
+      - chinese_traditional
     ```
 
 - `onlyLocalLang`: `Boolean` type, used to specify whether to translate only the local language of the current page, the default is `false`.

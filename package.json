@@ -25,7 +25,7 @@
   "scripts": {
     "cp": "cp node_modules/i18n-jsautotranslate/index.js assets/lib/translate.js",
     "lint": "eslint assets/js",
-    "lint:fix": "eslint  assets/js --fix"
+    "lint:fix": "eslint assets/js --fix"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^3.14.0",
