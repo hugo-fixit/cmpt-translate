@@ -59,10 +59,12 @@
 
 ```toml
 [module]
-  [[module.imports]]
-    path = "github.com/hugo-fixit/FixIt"
-  [[module.imports]]
-    path = "github.com/hugo-fixit/cmpt-translate"
+
+[[module.imports]]
+path = "github.com/hugo-fixit/FixIt"
+
+[[module.imports]]
+path = "github.com/hugo-fixit/cmpt-translate"
 ```
 
 在 Hugo 的第一次启动时，它将下载所需的文件。
@@ -86,7 +88,10 @@ git submodule add https://github.com/hugo-fixit/cmpt-translate.git themes/cmpt-t
 接下来编辑项目的 `hugo.toml` 并将此主题组件添加到你的主题中：
 
 ```toml
-theme = ["FixIt", "cmpt-translate"]
+theme = [
+  "FixIt",
+  "cmpt-translate"
+]
 ```
 
 ## 配置
@@ -95,45 +100,42 @@ theme = ["FixIt", "cmpt-translate"]
 
 ```toml
 [params]
-  [params.customPartials]
-    head = []
-    menuDesktop = [
-      "inject/translate-menu-desktop.html",
-    ]
-    menuMobile = [
-      "inject/translate-menu-mobile.html",
-    ]
-    profile = []
-    aside = []
-    comment = []
-    footer = []
-    widgets = []
-    assets = [
-      "inject/cmpt-translate.html",
-    ]
-    postFooterBefore = []
-    postFooterAfter = []
+
+[params.customPartials]
+head = []
+menuDesktop = [ "inject/translate-menu-desktop.html", ]
+menuMobile = [ "inject/translate-menu-mobile.html", ]
+profile = []
+aside = []
+comment = []
+footer = []
+widgets = []
+assets = [ "inject/cmpt-translate.html", ]
+postFooterBefore = []
+postFooterAfter = []
 ```
 
 另外，你还可以通过以下配置来自定义翻译的语言：
 
 ```toml
 [languages]
-  [languages.zh-cn]
-    languageCode = "zh-CN"
-    languageName = "简体中文"
+
+[languages.zh-cn]
+languageCode = "zh-CN"
+languageName = "简体中文"
 
 [params]
-  [params.autoTranslate]
-    enable = true
-    service = 'client.edge'
-    languages = []
-    ignoreID = []
-    ignoreClass = []
-    ignoreTag = []
-    detectLocalLanguage = false
-    cdn = ""
-    enterprise = false
+
+[params.autoTranslate]
+enable = true
+service = 'client.edge'
+languages = []
+ignoreID = []
+ignoreClass = []
+ignoreTag = []
+detectLocalLanguage = false
+cdn = ""
+enterprise = false
 ```
 
 - `enable`：是否启用自动翻译。
@@ -152,9 +154,10 @@ theme = ["FixIt", "cmpt-translate"]
 >
 > ```toml
 > [languages]
->   [languages.zh-cn]
->     languageCode = "zh-CN"
->     languageName = "简体中文"
+>
+> [languages.zh-cn]
+> languageCode = "zh-CN"
+> languageName = "简体中文"
 > ```
 
 ## Front Matter

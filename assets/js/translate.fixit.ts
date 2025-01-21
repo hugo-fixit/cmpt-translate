@@ -1,3 +1,25 @@
+declare global {
+  interface Window {
+    ATConfig: any;
+    fixit: any;
+    translate: any;
+  }
+}
+
+interface Language {
+  current: string;
+  local: string;
+  query: string | null;
+  browser: string;
+}
+
+interface TranslateTextParams {
+  texts: string[];
+  from: string;
+  to: string;
+}
+declare const tianliGPT_postSelector: any;
+
 import {
   service,
   languages,
@@ -9,6 +31,7 @@ import {
   detectLocalLanguage,
   supportLanguages,
   enterprise,
+  // @ts-ignore
 } from '@params';
 
 import {
@@ -26,12 +49,35 @@ const {
   nomenclature,
 } = window.ATConfig;
 
+const fixit = window.fixit;
+const translate = window.translate;
+
 /**
  * AutoTranslate Class
  * @description Auto translate website content by translate.js service.
  * @author [Lruihao](https://lruihao.cn)
  */
 class AutoTranslate {
+  service: string;
+  languages: string[];
+  ignoreClass: string[];
+  ignoreID: string[];
+  ignoreTag: string[];
+  ignoreSelector: string[];
+  ignoreText: string[];
+  detectLocalLanguage: boolean;
+  enterprise: boolean;
+  isMobile: boolean;
+  afterExecuteEvents: Set<Function>;
+  lang: Language;
+  supportLanguages: { [key: string]: any };
+  hugoLangCodes: string[];
+  hugoLangMap: { [key: string]: string };
+  fromLanguages: string[];
+  onlyLocalLang: boolean;
+  nomenclature: any[];
+  dom: { [key: string]: any };
+
   constructor() {
     // Get params from Hugo project config
     this.service = service;
@@ -74,8 +120,8 @@ class AutoTranslate {
    * @param {String} id The language id, e.g. 'chinese_simplified'
    * @returns {String} The language name, e.g. '简体中文'
    */
-  getLangNameById(id) {
-    return this.supportLanguages[this.service]?.find((lang) => lang.id === id)?.name;
+  getLangNameById(id: string): string | undefined {
+    return this.supportLanguages[this.service]?.find((lang: any) => lang.id === id)?.name;
   }
 
   /**
@@ -83,8 +129,8 @@ class AutoTranslate {
    * @param {String} id The language id, e.g. 'chinese_simplified'
    * @returns {String} The language code, e.g. 'zh-CN'
    */
-  getLangCodeById(id) {
-    return Object.keys(translate.util.browserLanguage).find((code) => translate.util.browserLanguage[code] === id);
+  getLangCodeById(id: string): string {
+    return Object.keys( translate.util.browserLanguage).find((code) => translate.util.browserLanguage[code] === id) || '';
   }
 
   /**
@@ -92,7 +138,7 @@ class AutoTranslate {
    * @param {String} code The language code, e.g. 'zh-CN'
    * @returns {String} The language id, e.g. 'chinese_simplified'
    */
-  getLangIdByCode(code) {
+  getLangIdByCode(code: string): string | undefined {
     return translate.util.browserLanguage[code];
   }
 
@@ -100,7 +146,7 @@ class AutoTranslate {
    * Get language types
    * @returns {Object} The language types
    */
-  getTypesLang() {
+  getTypesLang(): Language {
     return {
       current: translate.language.getCurrent(),
       local: window.ATConfig.local || translate.language.getLocal(),
@@ -108,24 +154,24 @@ class AutoTranslate {
       browser: this.lang?.browser || '',
     };
   }
-  
+
   /**
    * Toggle element visibility
-   * @param {Element} el
+   * @param {HTMLElement} el
    * @param {Boolean} visibility
    */
-  toggleVisibility(el, visibility) {
+  toggleVisibility(el: HTMLElement, visibility: boolean): void {
     el.classList.toggle('d-none', !visibility);
-    el.setAttribute('aria-hidden', !visibility);
+    el.setAttribute('aria-hidden', !visibility + '');
   }
 
   /**
    * Toggle active class for language switch menu
-   * @param {Element} el
+   * @param {HTMLElement} el
    */
-  toggleMenuActive(el) {
+  toggleMenuActive(el: HTMLElement): void {
     // remove active class from all items
-    Array.from(this.dom.switchMenu.childNodes)
+    Array.from(this.dom.switchMenu.childNodes as NodeListOf<HTMLElement>)
       .filter((node) => node.classList.contains('active'))
       .forEach((item) => {
         item.classList.remove('active');
@@ -137,7 +183,7 @@ class AutoTranslate {
   /**
    * Handle desktop language switch
    */
-  handleDesktop() {
+  handleDesktop(): void {
     this.dom.switchDesktop = document.querySelector('#header-desktop .language-switch.auto');
     if (!this.dom.switchDesktop) {
       return;
@@ -158,7 +204,10 @@ class AutoTranslate {
       const { current, local, query } = this.getTypesLang();
       this.lang = { ...this.lang, current, query };
       if (current !== local || query) {
-        this.toggleMenuActive(document.querySelector(`.menu-link[data-lang="${current}"]`).parentElement);
+        const menuLink = document.querySelector(`.menu-link[data-lang="${current}"]`);
+        if (menuLink && menuLink.parentElement) {
+          this.toggleMenuActive(menuLink.parentElement);
+        }
       }
     });
   }
@@ -166,8 +215,8 @@ class AutoTranslate {
   /**
    * Handle Hugo project artificial language items for desktop
    */
-  #handleArtificialItems() {
-    const artificialItems = Array.from(this.dom.switchMenu.childNodes).filter((node) => node.dataset.type === 'artificial');
+  #handleArtificialItems(): void {
+    const artificialItems = Array.from(this.dom.switchMenu.childNodes as NodeListOf<HTMLElement>).filter((node) => node.dataset.type === 'artificial');
     fixit.util.forEach(artificialItems, (item) => {
       if (item.classList.contains('active') && !item.children[0].getAttribute('title')) {
         const langName = this.getLangNameById(this.lang.local);
@@ -183,8 +232,8 @@ class AutoTranslate {
   /**
    * Handle translate.js machine language items for desktop
    */
-  #handleMachineItems() {
-    const machineItems = Array.from(this.dom.switchMenu.childNodes).filter((node) => node.dataset.type === 'machine');
+  #handleMachineItems(): void {
+    const machineItems = Array.from(this.dom.switchMenu.childNodes as NodeListOf<HTMLElement>).filter((node) => node.dataset.type === 'machine');
     fixit.util.forEach(machineItems, (item) => {
       const langId = item.children[0].dataset.lang;
       const langName = this.getLangNameById(langId);
@@ -213,14 +262,14 @@ class AutoTranslate {
   /**
    * Handle mobile language switch
    */
-  handleMobile() {
+  handleMobile(): void {
     this.dom.switchMobile = document.querySelector('#header-mobile .language-switch.auto');
     if (!this.dom.switchMobile) {
       return;
     }
     this.#selectOnChangeMobile();
     this.afterExecuteEvents.add(() => {
-      new Promise((resolve) => {
+      new Promise<void>((resolve) => {
         const timer = setInterval(() => {
           this.dom.selectEl = this.dom.switchMobile.querySelector('select');
           if (this.dom.selectEl) {
@@ -243,13 +292,13 @@ class AutoTranslate {
     });
   }
 
-  #selectOnChangeMobile() {
+  #selectOnChangeMobile(): void {
     translate.selectLanguageTag.selectOnChange = (e) => {
       const lang = e.target.value;
       if (e.target.options[e.target.selectedIndex].dataset.type === 'artificial') {
         // Artificial language items by Hugo project
         translate.language.clearCacheLanguage();
-        window.location = lang
+        window.location = lang;
       } else {
         // Machine language items by translate.js service
         window.history.pushState({}, '', `?lang=${lang}`);
@@ -258,7 +307,7 @@ class AutoTranslate {
     };
   }
 
-  #handleMachineOptions() {
+  #handleMachineOptions(): void {
     fixit.util.forEach(this.dom.selectEl.querySelectorAll('option'), (option) => {
       option.dataset.type = 'machine';
       option.innerText = `🤖 ${option.innerText}`;
@@ -271,7 +320,7 @@ class AutoTranslate {
     });
   }
 
-  #handleArtificialOptions() {
+  #handleArtificialOptions(): void {
     const originSwitchMobile = this.dom.switchMobile.previousElementSibling;
     // multilingual handling
     if (this.hugoLangCodes.length > 1) {
@@ -304,7 +353,7 @@ class AutoTranslate {
     this.toggleVisibility(originSwitchMobile, false);
   }
 
-  handle() {
+  handle(): this {
     if (this.isMobile) {
       this.handleMobile();
     } else {
@@ -313,7 +362,7 @@ class AutoTranslate {
     return this;
   }
 
-  setup() {
+  setup(): this {
     if (this.enterprise) {
       // Use the enterprise-level translation channel
       // automatically switch to the best translation service
@@ -348,7 +397,7 @@ class AutoTranslate {
     return this;
   }
 
-  execute() {
+  execute(): void {
     translate.execute();
     this.afterExecuteEvents.forEach((event) => {
       event();
@@ -358,7 +407,7 @@ class AutoTranslate {
   /**
    * Translate the AI summary from local to current language
    */
-  translateAISummary() {
+  translateAISummary(): void {
     const { current, local } = this.getTypesLang();
     if (typeof tianliGPT_postSelector === 'undefined' || current === local) {
       return;
@@ -379,7 +428,7 @@ class AutoTranslate {
         }
       }
     });
-    observer.observe(document.getElementById('content'), {
+    observer.observe(document.getElementById('content') as HTMLElement, {
       childList: true,
       subtree: true,
     });
@@ -393,13 +442,13 @@ class AutoTranslate {
    * @param {string} param.to The target language code
    * @returns 
    */
-  translateText({ texts, from, to }) {
+  translateText({ texts, from, to }: TranslateTextParams): Promise<string> {
     return new Promise((resolve) => {
       translate.request.translateText({
         from,
         to,
         texts,
-      }, (data) => {
+      }, (data: any) => {
         // success
         if (data.result === 1) {
           resolve(data.text[0]);
@@ -416,11 +465,11 @@ class AutoTranslate {
    * Get user local language by browser or IP
    * @returns {Promise<string>} The user local language
    */
-  async getBrowserLanguage() {
+  async getBrowserLanguage(): Promise<string> {
     let lang = translate.util.browserDefaultLanguage();
     let loading = true;
     if (!lang) {
-      translate.request.post(translate.request.api.ip, {}, (data) => {
+      translate.request.post(translate.request.api.ip, {}, (data: any) => {
         // console.log(data);
         loading = false;
         if(data.result !== 0) {
@@ -442,7 +491,7 @@ class AutoTranslate {
     });
   }
 
-  addLangItem(langId) {
+  addLangItem(langId: string): boolean {
     if (!langId) {
       return false;
     }
@@ -468,7 +517,7 @@ class AutoTranslate {
   /**
    * Auto discriminate local language
    */
-  autoSelectLocalLanguage() {
+  autoSelectLocalLanguage(): void {
     this.addLangItem(this.lang.query || this.lang.current);
     if (!this.detectLocalLanguage) {
       return;
@@ -477,7 +526,7 @@ class AutoTranslate {
     if (this.addLangItem(this.lang.browser)) {
       if (AutoDetected !== 'true' && !this.lang.query) {
         translate.language.setDefaultTo(this.lang.browser);
-        localStorage.setItem('AutoTranslate_detected', true);
+        localStorage.setItem('AutoTranslate_detected', 'true');
       }
       return;
     }
@@ -488,14 +537,14 @@ class AutoTranslate {
         this.hugoLangCodes.includes(langCode) &&
         !window.location.pathname.includes(this.hugoLangMap[langCode])
       ) {
-        window.location = this.hugoLangMap[langCode];
+        window.location.assign(this.hugoLangMap[langCode]);
       } 
-      localStorage.setItem('AutoTranslate_detected', true);
+      localStorage.setItem('AutoTranslate_detected', 'true');
     }
     return;
   }
 
-  clearCache() {
+  clearCache(): void {
     localStorage.removeItem('AutoTranslate_detected');
     translate.language.clearCacheLanguage();
   }
@@ -507,7 +556,7 @@ class AutoTranslate {
    * 2. Handle the language switch
    * 3. Execute automatic translation
    */
-  init() {
+  init(): void {
     this.getBrowserLanguage().then((lang) => {
       // console.log(lang);
       if (!lang) {

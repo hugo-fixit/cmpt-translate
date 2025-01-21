@@ -3,7 +3,7 @@
  * 'fi-at-ignore' is a common class for hugo-fixit theme and components
  * @type {Array<string>}
  */
-export const IGNORE_FIXIT = [  
+export const IGNORE_FIXIT = [
   'fi-at-ignore',
   'header-title',
   'language-switch',
@@ -14,7 +14,7 @@ export const IGNORE_FIXIT = [
   'katex',
   'katex-display',
   'message-content',
-];
+]
 
 /**
  * Ignore class list for the hugo-fixit components
@@ -28,7 +28,7 @@ export const IGNORE_CMPTS = [
   // hugo-fixit/shortcode-mmt-netease
   'netease-music',
   'comment-163',
-];
+]
 
 /**
  * Ignore selector list for hugo-fixit theme and components
@@ -37,7 +37,7 @@ export const IGNORE_CMPTS = [
 export const IGNORE_SELECTOR = [
   // hugo-fixit/component-projects
   '[data-adapters="projects"] .single-subtitle',
-];
+]
 
 /**
  * Ignore text list for Fixit theme
@@ -51,7 +51,7 @@ export const IGNORE_TEXT = [
   'shortcode',
   'CC BY-NC-SA',
   'RSS',
-];
+]
 
 /**
  * Add translation for the specified tag attributes
@@ -64,4 +64,4 @@ export default {
   IGNORE_CMPTS,
   IGNORE_SELECTOR,
   IGNORE_TEXT,
-};
+}

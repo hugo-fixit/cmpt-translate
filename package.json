@@ -3,15 +3,17 @@
   "version": "1.3.0",
   "private": true,
   "packageManager": "pnpm@9.15.0",
+  "description": "A component for website automatic translation base on translate.js.",
   "author": "Lruihao (https://github.com/Lruihao)",
+  "license": "MIT",
+  "homepage": "https://github.com/hugo-fixit/cmpt-translate#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hugo-fixit/cmpt-translate.git"
+  },
   "bugs": {
     "url": "https://github.com/hugo-fixit/cmpt-translate/issues"
   },
-  "description": "A component for website automatic translation base on translate.js.",
-  "devDependencies": {
-    "i18n-jsautotranslate": "^3.12.0"
-  },
-  "homepage": "https://github.com/hugo-fixit/cmpt-translate#readme",
   "keywords": [
     "i18n",
     "translate.js",
@@ -19,13 +21,15 @@
     "hugo-theme-fixit",
     "theme-component"
   ],
-  "license": "MIT",
   "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/hugo-fixit/cmpt-translate.git"
-  },
   "scripts": {
-    "cp": "cp node_modules/i18n-jsautotranslate/index.js assets/lib/translate.js"
+    "cp": "cp node_modules/i18n-jsautotranslate/index.js assets/lib/translate.js",
+    "lint": "eslint assets/js",
+    "lint:fix": "eslint  assets/js --fix"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^3.14.0",
+    "eslint": "^9.18.0",
+    "i18n-jsautotranslate": "^3.12.0"
   }
 }
