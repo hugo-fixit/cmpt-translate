@@ -28,7 +28,7 @@
     "lint:fix": "eslint assets/js --fix"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^3.14.0",
+    "@antfu/eslint-config": "^4.1.0",
     "eslint": "^9.18.0",
     "i18n-jsautotranslate": "^3.12.0"
   }
