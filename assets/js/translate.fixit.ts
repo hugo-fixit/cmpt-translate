@@ -58,61 +58,42 @@ const translate = window.translate;
  * @author [Lruihao](https://lruihao.cn)
  */
 class AutoTranslate {
-  service: string;
-  languages: string[];
-  ignoreClass: string[];
-  ignoreID: string[];
-  ignoreTag: string[];
-  ignoreSelector: string[];
-  ignoreText: string[];
-  detectLocalLanguage: boolean;
-  enterprise: boolean;
-  isMobile: boolean;
-  afterExecuteEvents: Set<Function>;
-  lang: Language;
-  supportLanguages: { [key: string]: any };
-  hugoLangCodes: string[];
-  hugoLangMap: { [key: string]: string };
-  fromLanguages: string[];
-  onlyLocalLang: boolean;
-  nomenclature: any[];
-  dom: { [key: string]: any };
+  // Get params from Hugo project config
+  service: string = service;
+  languages: string[] = languages;
+  ignoreClass: string[] = [
+    ...IGNORE_FIXIT,
+    ...IGNORE_CMPTS,
+    ...ignoreClass,
+  ];
+  ignoreID: string[] = ignoreID;
+  ignoreTag: string[] = ignoreTag;
+  ignoreSelector: string[] = [
+    ...IGNORE_SELECTOR,
+    ...ignoreSelector,
+  ];
+  ignoreText: string[] = [
+    ...IGNORE_TEXT,
+    ...ignoreText,
+  ];
+  detectLocalLanguage: boolean = detectLocalLanguage;
+  enterprise: boolean = enterprise;
+  isMobile: boolean = fixit.util.isMobile();
+  afterExecuteEvents: Set<Function> = new Set();
+  lang: Language = { ...this.getTypesLang() };
+  supportLanguages: { [key: string]: any } = {
+    'client.edge': translate.service.edge.language.json,
+    'translate.service': supportLanguages,
+  };
+  hugoLangCodes: string[] = hugoLangCodes;
+  hugoLangMap: { [key: string]: string } = hugoLangMap;
+  fromLanguages: string[] = fromLanguages || [];
+  onlyLocalLang: boolean = onlyLocalLang;
+  nomenclature: any[] = nomenclature;
+  dom: { [key: string]: any } = {};
 
   constructor() {
-    // Get params from Hugo project config
-    this.service = service;
-    this.languages = languages;
-    this.ignoreClass = [
-      ...IGNORE_FIXIT,
-      ...IGNORE_CMPTS,
-      ...ignoreClass,
-    ];
-    this.ignoreID = ignoreID;
-    this.ignoreTag = ignoreTag;
-    this.ignoreSelector = [
-      ...IGNORE_SELECTOR,
-      ...ignoreSelector,
-    ];
-    this.ignoreText = [
-      ...IGNORE_TEXT,
-      ...ignoreText,
-    ];
-    this.detectLocalLanguage = detectLocalLanguage;
-    this.enterprise = enterprise;
-
-    this.isMobile = fixit.util.isMobile();
-    this.afterExecuteEvents = new Set();
-    this.lang = { ...this.getTypesLang() };
-    this.supportLanguages = {
-      'client.edge': translate.service.edge.language.json,
-      'translate.service': supportLanguages,
-    };
-    this.hugoLangCodes = hugoLangCodes;
-    this.hugoLangMap = hugoLangMap;
-    this.fromLanguages = fromLanguages || [];
-    this.onlyLocalLang = onlyLocalLang;
-    this.nomenclature = nomenclature;
-    this.dom = {};
+    //
   }
 
   /**
@@ -120,7 +101,7 @@ class AutoTranslate {
    * @param {String} id The language id, e.g. 'chinese_simplified'
    * @returns {String} The language name, e.g. '简体中文'
    */
-  getLangNameById(id: string): string | undefined {
+  public getLangNameById(id: string): string | undefined {
     return this.supportLanguages[this.service]?.find((lang: any) => lang.id === id)?.name;
   }
 
@@ -129,7 +110,7 @@ class AutoTranslate {
    * @param {String} id The language id, e.g. 'chinese_simplified'
    * @returns {String} The language code, e.g. 'zh-CN'
    */
-  getLangCodeById(id: string): string {
+  public getLangCodeById(id: string): string {
     return Object.keys( translate.util.browserLanguage).find((code) => translate.util.browserLanguage[code] === id) || '';
   }
 
@@ -138,7 +119,7 @@ class AutoTranslate {
    * @param {String} code The language code, e.g. 'zh-CN'
    * @returns {String} The language id, e.g. 'chinese_simplified'
    */
-  getLangIdByCode(code: string): string | undefined {
+  public getLangIdByCode(code: string): string | undefined {
     return translate.util.browserLanguage[code];
   }
 
@@ -146,7 +127,7 @@ class AutoTranslate {
    * Get language types
    * @returns {Object} The language types
    */
-  getTypesLang(): Language {
+  public getTypesLang(): Language {
     return {
       current: translate.language.getCurrent(),
       local: window.ATConfig.local || translate.language.getLocal(),
@@ -160,7 +141,7 @@ class AutoTranslate {
    * @param {HTMLElement} el
    * @param {Boolean} visibility
    */
-  toggleVisibility(el: HTMLElement, visibility: boolean): void {
+  public toggleVisibility(el: HTMLElement, visibility: boolean): void {
     el.classList.toggle('d-none', !visibility);
     el.setAttribute('aria-hidden', !visibility + '');
   }
@@ -169,7 +150,7 @@ class AutoTranslate {
    * Toggle active class for language switch menu
    * @param {HTMLElement} el
    */
-  toggleMenuActive(el: HTMLElement): void {
+  public toggleMenuActive(el: HTMLElement): void {
     // remove active class from all items
     Array.from(this.dom.switchMenu.childNodes as NodeListOf<HTMLElement>)
       .filter((node) => node.classList.contains('active'))
@@ -183,15 +164,15 @@ class AutoTranslate {
   /**
    * Handle desktop language switch
    */
-  handleDesktop(): void {
+  public handleDesktop(): void {
     this.dom.switchDesktop = document.querySelector('#header-desktop .language-switch.auto');
     if (!this.dom.switchDesktop) {
       return;
     }
     this.dom.switchMenu = this.dom.switchDesktop.querySelector('.sub-menu');
     this.dom.localItems && this.dom.switchMenu.append(...this.dom.localItems);
-    this.#handleArtificialItems();
-    this.#handleMachineItems();
+    this.handleArtificialItems();
+    this.handleMachineItems();
     // show the language switch and hide the origin switch
     const originSwitchDesktop = this.dom.switchDesktop.previousElementSibling;
     if (originSwitchDesktop.classList.contains('language-switch')) {
@@ -215,7 +196,7 @@ class AutoTranslate {
   /**
    * Handle Hugo project artificial language items for desktop
    */
-  #handleArtificialItems(): void {
+  private handleArtificialItems(): void {
     const artificialItems = Array.from(this.dom.switchMenu.childNodes as NodeListOf<HTMLElement>).filter((node) => node.dataset.type === 'artificial');
     fixit.util.forEach(artificialItems, (item) => {
       if (item.classList.contains('active') && !item.children[0].getAttribute('title')) {
@@ -232,7 +213,7 @@ class AutoTranslate {
   /**
    * Handle translate.js machine language items for desktop
    */
-  #handleMachineItems(): void {
+  private handleMachineItems(): void {
     const machineItems = Array.from(this.dom.switchMenu.childNodes as NodeListOf<HTMLElement>).filter((node) => node.dataset.type === 'machine');
     fixit.util.forEach(machineItems, (item) => {
       const langId = item.children[0].dataset.lang;
@@ -262,12 +243,12 @@ class AutoTranslate {
   /**
    * Handle mobile language switch
    */
-  handleMobile(): void {
+  public handleMobile(): void {
     this.dom.switchMobile = document.querySelector('#header-mobile .language-switch.auto');
     if (!this.dom.switchMobile) {
       return;
     }
-    this.#selectOnChangeMobile();
+    this.selectOnChangeMobile();
     this.afterExecuteEvents.add(() => {
       new Promise<void>((resolve) => {
         const timer = setInterval(() => {
@@ -279,8 +260,8 @@ class AutoTranslate {
         }, 100);
       }).then(() => {
         this.dom.selectEl.classList.add('language-select');
-        this.#handleMachineOptions();
-        this.#handleArtificialOptions();
+        this.handleMachineOptions();
+        this.handleArtificialOptions();
         // Set default translate-to language
         const { current, local, query } = this.getTypesLang();
         this.lang = { ...this.lang, current, query };
@@ -292,7 +273,7 @@ class AutoTranslate {
     });
   }
 
-  #selectOnChangeMobile(): void {
+  private selectOnChangeMobile(): void {
     translate.selectLanguageTag.selectOnChange = (e) => {
       const lang = e.target.value;
       if (e.target.options[e.target.selectedIndex].dataset.type === 'artificial') {
@@ -307,7 +288,7 @@ class AutoTranslate {
     };
   }
 
-  #handleMachineOptions(): void {
+  private handleMachineOptions(): void {
     fixit.util.forEach(this.dom.selectEl.querySelectorAll('option'), (option) => {
       option.dataset.type = 'machine';
       option.innerText = `🤖 ${option.innerText}`;
@@ -320,7 +301,7 @@ class AutoTranslate {
     });
   }
 
-  #handleArtificialOptions(): void {
+  private handleArtificialOptions(): void {
     const originSwitchMobile = this.dom.switchMobile.previousElementSibling;
     // multilingual handling
     if (this.hugoLangCodes.length > 1) {
@@ -353,7 +334,7 @@ class AutoTranslate {
     this.toggleVisibility(originSwitchMobile, false);
   }
 
-  handle(): this {
+  public handle(): this {
     if (this.isMobile) {
       this.handleMobile();
     } else {
@@ -362,7 +343,7 @@ class AutoTranslate {
     return this;
   }
 
-  setup(): this {
+  public setup(): this {
     if (this.enterprise) {
       // Use the enterprise-level translation channel
       // automatically switch to the best translation service
@@ -397,7 +378,7 @@ class AutoTranslate {
     return this;
   }
 
-  execute(): void {
+  public execute(): void {
     translate.execute();
     this.afterExecuteEvents.forEach((event) => {
       event();
@@ -407,7 +388,7 @@ class AutoTranslate {
   /**
    * Translate the AI summary from local to current language
    */
-  translateAISummary(): void {
+  public translateAISummary(): void {
     const { current, local } = this.getTypesLang();
     if (typeof tianliGPT_postSelector === 'undefined' || current === local) {
       return;
@@ -442,7 +423,7 @@ class AutoTranslate {
    * @param {string} param.to The target language code
    * @returns 
    */
-  translateText({ texts, from, to }: TranslateTextParams): Promise<string> {
+  public translateText({ texts, from, to }: TranslateTextParams): Promise<string> {
     return new Promise((resolve) => {
       translate.request.translateText({
         from,
@@ -465,7 +446,7 @@ class AutoTranslate {
    * Get user local language by browser or IP
    * @returns {Promise<string>} The user local language
    */
-  async getBrowserLanguage(): Promise<string> {
+  public async getBrowserLanguage(): Promise<string> {
     let lang = translate.util.browserDefaultLanguage();
     let loading = true;
     if (!lang) {
@@ -491,7 +472,7 @@ class AutoTranslate {
     });
   }
 
-  addLangItem(langId: string): boolean {
+  public addLangItem(langId: string): boolean {
     if (!langId) {
       return false;
     }
@@ -517,7 +498,7 @@ class AutoTranslate {
   /**
    * Auto discriminate local language
    */
-  autoSelectLocalLanguage(): void {
+  public autoSelectLocalLanguage(): void {
     this.addLangItem(this.lang.query || this.lang.current);
     if (!this.detectLocalLanguage) {
       return;
@@ -544,7 +525,7 @@ class AutoTranslate {
     return;
   }
 
-  clearCache(): void {
+  public clearCache(): void {
     localStorage.removeItem('AutoTranslate_detected');
     translate.language.clearCacheLanguage();
   }
@@ -556,7 +537,7 @@ class AutoTranslate {
    * 2. Handle the language switch
    * 3. Execute automatic translation
    */
-  init(): void {
+  public init(): void {
     this.getBrowserLanguage().then((lang) => {
       // console.log(lang);
       if (!lang) {
