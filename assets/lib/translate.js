@@ -12,7 +12,7 @@ var translate = {
 	 * 格式：major.minor.patch.date
 	 */
 	// AUTO_VERSION_START
-	version: '3.13.0.20250124',
+	version: '3.13.1.20250207',
 	// AUTO_VERSION_END
 	/*
 		当前使用的版本，默认使用v2. 可使用 setUseVersion2(); 
@@ -1925,6 +1925,11 @@ var translate = {
 					return;
 				}
 				
+				if(typeof(translate.nodeQueue[uuid]) == 'undefined'){
+					console.log('提示：你很可能多次引入了 translate.js 所以造成了翻译本身的数据错乱，这只是个提示，它还是会给你正常翻译的，但是你最好不要重复引入太多次 translate.js ，正常情况下只需要引入一次 translate.js 就可以了。太多的话很可能会导致你页面卡顿');
+					return;
+				}
+
 				//console.log('-----待翻译3：----');
 				//console.log(translate.nodeQueue);
 				
@@ -4234,14 +4239,18 @@ var translate = {
 		},
 		/**
 		 * 将一个 JSONArray 数组，按照文字长度进行拆分。
-		 *  比如传入的 array 数组的文字长度是6200，传入的 size 是2000，那么就是将 array 数组拆分为多个长度不超出2000的数组返回。
+		 *  比如传入的 array 数组的文字长度是6200，传入的 stringLength 是2000，那么就是将 array 数组拆分为多个长度不超出2000的数组返回。
+		 * 		如果传入了 maxSize = 5 那么会对拆分后的数组的长度进行判断，如果数组内元素超过5，那么还要进行缩短，拆分后的数组不允许超过这个数
+		 * 		也就是拆分后的数组有两重限制，一是限制转化为文本形式的长度、再就是拆分后本身数组的大小。
+		 * 		
 		 *  注意，这个长度是指 array.toString() 后的长度，也就是包含了 [""] 这种符号的长度
 		 * @param array 要被拆分的数组，其内都是String类型，传入格式如 ["你好","世界"]
-		 * @param size 要被拆分的长度
+		 * @param stringLength 要被拆分的数组转化为字符串之后的长度
+		 * @param maxSize 被拆分的数组最大包含多少个，数组大小最大允许多大，要小于等于这个数。 如果设置为0则是不启用这个，不对拆分后的数组进行判断。
 		 * @return 被拆分后的数组列表
 		 * @author 刘晓腾
 		 */
-		 split:function(array, size) {
+		 split:function(array, size, maxSize) {
 		    let list = [];
 		    // 数组长度小于size，直接进行返回
 		    if(JSON.stringify(array).length <= size) {
@@ -4358,6 +4367,7 @@ var translate = {
 			'nl':'dutch',
 			'yo':'yoruba',
 			'en':'english',
+			'en-US':'english',
 			'kok':'gongen',
 			'la':'latin',
 			'ne':'nepali',
@@ -4543,10 +4553,8 @@ var translate = {
 			 */
 			translate:function(path, data, func, abnormalFunc){
 				var textArray = JSON.parse(decodeURIComponent(data.text));
-				let translateTextArray = translate.util.split(textArray, 48000);
-				//console.log(translateTextArray);
+				let translateTextArray = translate.util.split(textArray, 38000, 0);
 				
-
 				translate.request.send(translate.service.edge.api.auth, {}, function(auth){
 					var from = translate.service.edge.language.getMap()[data.from];
 					var to = translate.service.edge.language.getMap()[data.to];
