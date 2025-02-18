@@ -1,6 +1,6 @@
 {
   "name": "cmpt-translate",
-  "version": "1.3.0",
+  "version": "1.5.4",
   "private": true,
   "packageManager": "pnpm@9.15.0",
   "description": "A component for website automatic translation base on translate.js.",
@@ -22,13 +22,18 @@
     "theme-component"
   ],
   "main": "index.js",
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "cp": "cp node_modules/i18n-jsautotranslate/index.js assets/lib/translate.js",
     "lint": "eslint assets/js",
-    "lint:fix": "eslint assets/js --fix"
+    "lint:fix": "eslint assets/js --fix",
+    "release": "fixit-releaser changelog"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^4.2.1",
+    "@hugo-fixit/fixit-releaser": "^1.1.2",
     "eslint": "^9.20.1",
     "i18n-jsautotranslate": "^3.13.6"
   }
