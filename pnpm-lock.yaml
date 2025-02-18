@@ -15,8 +15,8 @@ importers:
         specifier: ^9.20.1
         version: 9.20.1
       i18n-jsautotranslate:
-        specifier: ^3.13.1
-        version: 3.13.1
+        specifier: ^3.13.6
+        version: 3.13.6
 
 packages:
 
@@ -762,8 +762,8 @@ packages:
   hosted-git-info@2.8.9:
     resolution: {integrity: sha512-mxIDAb9Lsm6DoOJ7xH+5+X4y1LU/4Hi50L9C5sIswK3JzULS4bwk1FvjdBgvYR4bzT4tuUQiC15FE2f5HbLvYw==}
 
-  i18n-jsautotranslate@3.13.1:
-    resolution: {integrity: sha512-WHH1WFRhK0RBVOWKv1OLXMbn+w1MWR1rSEtQEmwd2nKYcjbEkbge1hg055AfbTf6Gpuu5mA6gJubbtl+jjlwAQ==}
+  i18n-jsautotranslate@3.13.6:
+    resolution: {integrity: sha512-S9o0EzfUdClinSkq9dGfH3s0n44GBPCZ/EHtaVa0usw0POozxw6qQC2g8n2vs3O1nOeXJMQCa9cgn5ujuLnVBA==}
 
   ignore@5.3.2:
     resolution: {integrity: sha512-hsBTNUqQTDwkWtcdYI2i06Y/nUBEsNEDJKjWdigLvegy8kDuJAS8uRlpkkcQpyEXL0Z/pjDy5HBmMjRCJ2gq+g==}
@@ -2251,7 +2251,7 @@ snapshots:
 
   hosted-git-info@2.8.9: {}
 
-  i18n-jsautotranslate@3.13.1: {}
+  i18n-jsautotranslate@3.13.6: {}
 
   ignore@5.3.2: {}
 
