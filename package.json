@@ -32,9 +32,9 @@
     "release": "fixit-releaser changelog"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^4.2.1",
-    "@hugo-fixit/fixit-releaser": "^1.1.2",
-    "eslint": "^9.20.1",
+    "@antfu/eslint-config": "^4.5.1",
+    "@hugo-fixit/fixit-releaser": "^1.1.4",
+    "eslint": "^9.21.0",
     "i18n-jsautotranslate": "^3.13.6"
   }
 }
