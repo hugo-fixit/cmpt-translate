@@ -12,8 +12,8 @@ importers:
         specifier: ^4.11.0
         version: 4.11.0(@typescript-eslint/utils@8.29.0(eslint@9.24.0)(typescript@5.7.3))(@vue/compiler-sfc@3.5.13)(eslint@9.24.0)(typescript@5.7.3)
       '@hugo-fixit/fixit-releaser':
-        specifier: ^1.1.4
-        version: 1.1.4
+        specifier: ^1.1.6
+        version: 1.1.6
       eslint:
         specifier: ^9.24.0
         version: 9.24.0
@@ -188,8 +188,8 @@ packages:
     resolution: {integrity: sha512-ZAoA40rNMPwSm+AeHpCq8STiNAwzWLJuP8Xv4CHIc9wv/PSuExjMrmjfYNj682vW0OOiZ1HKxzvjQr9XZIisQA==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@hugo-fixit/fixit-releaser@1.1.4':
-    resolution: {integrity: sha512-95LpqiKKAASrfbig49fH6wcit4VF9+e4LtjHHmiYNRFjuHAn25+6oau+PpgyoQO/46bvqYrOddZik3fxjVVY5w==}
+  '@hugo-fixit/fixit-releaser@1.1.6':
+    resolution: {integrity: sha512-lucRsy0MsZJEGiV1AmlzNhr0i2x2FEV81DYOgj5/zNAf+R3cYq3Kg9t3XgQr3mYgLUNAlDgIn3PCSFAC2bRQAA==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -1739,7 +1739,7 @@ snapshots:
       '@eslint/core': 0.13.0
       levn: 0.4.1
 
-  '@hugo-fixit/fixit-releaser@1.1.4':
+  '@hugo-fixit/fixit-releaser@1.1.6':
     dependencies:
       auto-changelog: 2.5.0
     transitivePeerDependencies:
