@@ -331,7 +331,10 @@ class AutoTranslate {
     currentItem.value = window.location.pathname;
     currentItem.innerText = `👤 ${langName}`;
     this.dom.selectEl.prepend(currentItem);
-    this.toggleVisibility(originSwitchMobile, false);
+    // multilingual site missing translations
+    if (originSwitchMobile.classList.contains('language-switch')) {
+      this.toggleVisibility(originSwitchMobile, false);
+    }
   }
 
   public handle(): this {
