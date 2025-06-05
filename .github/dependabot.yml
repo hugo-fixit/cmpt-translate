@@ -14,3 +14,6 @@ updates:
       - Lruihao
     labels:
       - dependencies
+    allow:
+      - dependency-name: i18n-jsautotranslate
+        update-types: all
