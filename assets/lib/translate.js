@@ -14,7 +14,7 @@ var translate = {
 	 * 格式：major.minor.patch.date
 	 */
 	// AUTO_VERSION_START
-	version: '3.15.0.20250429',
+	version: '3.15.6.20250517',
 	// AUTO_VERSION_END
 	/*
 		当前使用的版本，默认使用v2. 可使用 setUseVersion2(); 
@@ -336,6 +336,22 @@ var translate = {
 		
 		translate.to = languageName;
 		translate.storage.set('to',languageName);	//设置目标翻译语言
+
+		/*
+			1. 先触发父级，免得当前刷新了，导致父级不执行翻译了
+		*/
+		//检测当前是否处于iframe中，如果当前是在iframe中，有父级页面，也要触发父级进行翻译
+		try{
+			if(window.self !== window.top){
+				if(typeof(window.parent.translate) == 'object' && typeof(window.parent.translate.version) == 'string'){
+					//iframe页面中存在 translate,那么也控制iframe中的进行翻译
+					window.parent.translate.changeLanguage(languageName);
+				}
+			}
+		}catch(e){
+			//增加try，避免异常导致无法用
+			console.log(e);
+		}
 		
 		if(isReload){
 			location.reload(); //刷新页面
@@ -351,7 +367,11 @@ var translate = {
 				const iframeWindow = iframe.contentWindow;        
 				if(typeof(iframeWindow.translate) == 'object' && typeof(iframeWindow.translate.version) == 'string'){
 					//iframe页面中存在 translate,那么也控制iframe中的进行翻译
-					iframeWindow.translate.execute();
+					if(iframeWindow.translate.to != languageName){
+						iframeWindow.translate.to = languageName;
+						iframeWindow.translate.storage.set('to',languageName);	//设置目标翻译语言
+						iframeWindow.translate.execute();
+					}
 				}
 			}
 		}
@@ -2902,7 +2922,7 @@ var translate = {
 			}
 		}
 
-		console.log(textArray);
+		//console.log(textArray);
 		return textArray;
 	},
 
@@ -3617,6 +3637,8 @@ var translate = {
 			thai 泰语
 			arabic 阿拉伯语
 			romanian 罗马尼亚语
+			hebrew 希伯来语
+
 		*/
 		getCharLanguage:function(charstr){
 			if(charstr == null || typeof(charstr) == 'undefined'){
@@ -3664,6 +3686,9 @@ var translate = {
 			}
 			if(this.romanian(charstr)){
 				return 'romanian';
+			}
+			if(this.hebrew(charstr)){
+				return 'hebrew';
 			}
 			//未识别是什么语种
 			//console.log('not find is language , char : '+charstr+', unicode: '+charstr.charCodeAt(0).toString(16));
@@ -4031,6 +4056,10 @@ var translate = {
 			} else {
 				return false;
 			}
+		},
+		//希伯来语
+		hebrew:function(str){
+			return /[\u0590-\u05FF]/u.test(str);
 		},
 		//0-9 阿拉伯数字
 		number:function(str){
@@ -4974,15 +5003,17 @@ var translate = {
 	//机器翻译采用哪种翻译服务
 	service:{  
 		/*
-			name填写的值有
-			translate.service 有 http://translate.zvo.cn/41160.html 提供机器翻译服务
-			client.edge 有edge浏览器接口提供翻译服务 ，也就是执行翻译时直接是
-
+			name填写的值,参考 translate.service.use 的注释
 		*/
 		name:'translate.service',  
 
 		/*
 			其实就是设置 translate.service.name
+			可以设置为：
+
+			translate.service 自行部署的translate.service 翻译API服务，部署参考： https://translate.zvo.cn/391129.html
+			client.edge 使用无服务器的翻译,有edge浏览器接口提供翻译服务
+			siliconflow 使用指点云提供的服务器、硅基流动提供的AI算力进行大模型翻译
 	
 		*/
 		use: function(serviceName){
@@ -4990,11 +5021,17 @@ var translate = {
 				console.log('您已启用了企业级翻译通道 translate.enterprise.use(); (文档：https://translate.zvo.cn/4087.html) , 所以您设置的 translate.service.use(\''+serviceName+'\'); (文档：https://translate.zvo.cn/4081.html) 将失效不起作用，有企业级翻译通道全部接管。');
 				return;
 			}
-			if(typeof(serviceName) == 'string' && serviceName == 'client.edge'){
+			if(typeof(serviceName) == 'string'){
 				translate.service.name = serviceName;
+				if(serviceName != 'translate.service'){
+					if(serviceName == 'siliconflow'){
+						//设定翻译接口为硅基流动的
+						translate.request.api.host=['https://siliconflow.zvo.cn/','https://america.api.translate.zvo.cn:1414/','https://deutsch.enterprise.api.translate.zvo.cn:1414/'];
+					}
 
-				//增加元素整体翻译能力
-				translate.whole.enableAll();
+					//增加元素整体翻译能力
+					translate.whole.enableAll();
+				}
 			}
 		},
 		//客户端方式的edge提供机器翻译服务
@@ -5034,7 +5071,10 @@ var translate = {
 				let translateTextArray = translate.util.split(textArray, 40000, 900);
 				
 				translate.request.send(translate.service.edge.api.auth, {}, function(auth){
-					var from = translate.service.edge.language.getMap()[data.from];
+					var from = data.from;
+					if(from != 'auto'){
+						from = translate.service.edge.language.getMap()[data.from];
+					}
 					var to = translate.service.edge.language.getMap()[data.to];
 					var transUrl = translate.service.edge.api.translate.replace('{from}',from).replace('{to}',to);
 
@@ -6337,7 +6377,7 @@ var translate = {
 			//console.log(JSON.stringify(kvs, null, 2));
 
 			/**** 第二步，将文本值进行翻译 ***/
-				//先将其 kvs 的key 取出来
+			//先将其 kvs 的key 取出来
 			var texts = new Array();
 			for (const key in kvs) {
 				texts.push(key);
