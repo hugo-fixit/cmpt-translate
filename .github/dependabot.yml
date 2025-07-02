@@ -14,6 +14,10 @@ updates:
       - Lruihao
     labels:
       - dependencies
-    allow:
-      - dependency-name: i18n-jsautotranslate
-        update-types: all
+    ignore:
+      - dependency-name: '@antfu/eslint-config'
+        update-types: [version-update:semver-minor, version-update:semver-patch]
+      - dependency-name: '@hugo-fixit/fixit-releaser'
+        update-types: [version-update:semver-patch]
+      - dependency-name: eslint
+        update-types: [version-update:semver-minor, version-update:semver-patch]
