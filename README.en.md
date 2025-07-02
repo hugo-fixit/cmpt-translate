@@ -184,7 +184,7 @@ autoTranslate:
 
 - `onlyLocalLang`: `Boolean` type, used to specify whether to translate only the local language of the current page, the default is `false`.
 
-    For example: the webpage itself is in Chinese, but there are summary references in other languages ​​in the content. Set `onlyLocalLang: true` to translate only Chinese.
+    For example: the webpage itself is in Chinese, but there are summary references in other languages in the content. Set `onlyLocalLang: true` to translate only Chinese.
 
 ## Custom Translation Terms
 
