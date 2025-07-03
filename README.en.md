@@ -44,8 +44,8 @@ Switch the configured translation language in the upper right corner of the webs
 
 ## Requirements
 
-- Hugo v0.139.0 or later.
-- FixIt v0.3.16 or later.
+- Hugo v0.146.0 or later.
+- FixIt v0.4.0 or later.
 
 ## Install Component
 

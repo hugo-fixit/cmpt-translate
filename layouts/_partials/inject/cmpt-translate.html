@@ -1,4 +1,4 @@
-{{- $fingerprint := .Scratch.Get "fingerprint" -}}
+{{- $fingerprint := .Site.Store.Get "fingerprint" -}}
 {{- $autoTranslate := .Site.Params.autoTranslate -}}
 {{- $frontMatter := .Params.autoTranslate -}}
 {{- $languages := site.Store.Get "languages" -}}
@@ -10,7 +10,7 @@
     {{- $cdn = $autoTranslate.cdn -}}
   {{- end -}}
   {{- $source := $cdn | default "lib/translate.js" -}}
-  {{- dict "Source" $source "Fingerprint" $fingerprint "Defer" true "Minify" hugo.IsProduction | dict "Scratch" .Scratch "Data" | partial "scratch/script.html" -}}
+  {{- dict "Source" $source "Fingerprint" $fingerprint "Defer" true "Minify" hugo.IsProduction | dict "Page" . "Data" | partial "store/script.html" -}}
 
   {{- /* Config script */ -}}
   {{- $hugoLangCodes := slice -}}
@@ -36,7 +36,7 @@
   {{- if hugo.IsServer -}}
     {{- $configJS = add $configJS "console.log('Auto Translate config:', window.ATConfig);" -}}
   {{- end -}}
-  {{- $configJS | dict "Content" | dict "Scratch" .Scratch "Data" | partial "scratch/script.html" -}}
+  {{- $configJS | dict "Content" | dict "Page" . "Data" | partial "store/script.html" -}}
 
   {{- /* translate.fixit.js */ -}}
   {{- $options := dict "targetPath" "js/translate.fixit.min.js" "minify" hugo.IsProduction -}}
@@ -56,5 +56,5 @@
   {{- if not hugo.IsProduction -}}
     {{- $options = dict "sourceMap" "inline" | merge $options -}}
   {{- end -}}
-  {{- dict "Source" "js/translate.fixit.ts" "Build" $options "Fingerprint" $fingerprint "Defer" true | dict "Scratch" .Scratch "Data" | partial "scratch/script.html" -}}
+  {{- dict "Source" "js/translate.fixit.ts" "Build" $options "Fingerprint" $fingerprint "Defer" true | dict "Page" . "Data" | partial "store/script.html" -}}
 {{- end -}}
