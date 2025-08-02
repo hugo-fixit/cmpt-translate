@@ -35,6 +35,6 @@
     "@antfu/eslint-config": "^5.0.0",
     "@hugo-fixit/fixit-releaser": "^1.2.2",
     "eslint": "^9.30.1",
-    "i18n-jsautotranslate": "^3.16.0"
+    "i18n-jsautotranslate": "^3.17.0"
   }
 }
