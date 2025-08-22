@@ -1,9 +1,8 @@
 /**
  * Ignore class list for the Fixit theme
  * 'fi-at-ignore' is a common class for hugo-fixit theme and components
- * @type {Array<string>}
  */
-export const IGNORE_FIXIT = [
+export const IGNORE_FIXIT: string[] = [
   'fi-at-ignore',
   'header-title',
   'language-switch',
@@ -18,9 +17,8 @@ export const IGNORE_FIXIT = [
 
 /**
  * Ignore class list for the hugo-fixit components
- * @type {Array<string>}
  */
-export const IGNORE_CMPTS = [
+export const IGNORE_CMPTS: string[] = [
   // hugo-fixit/component-projects
   'repo-url',
   'repo-visibility',
@@ -32,18 +30,23 @@ export const IGNORE_CMPTS = [
 
 /**
  * Ignore selector list for hugo-fixit theme and components
- * @type {Array<string>}
  */
-export const IGNORE_SELECTOR = [
+export const IGNORE_SELECTOR: string[] = [
   // hugo-fixit/component-projects
   '[data-adapters="projects"] .single-subtitle',
 ]
 
 /**
- * Ignore text list for Fixit theme
- * @type {Array<string>}
+ * Ignore tag list for hugo-fixit theme and components
  */
-export const IGNORE_TEXT = [
+export const IGNORE_TAG: string[] = [
+  'cipher-text',
+]
+
+/**
+ * Ignore text list for Fixit theme
+ */
+export const IGNORE_TEXT: string[] = [
   'Hugo',
   'FixIt',
   'hugo-fixit',
