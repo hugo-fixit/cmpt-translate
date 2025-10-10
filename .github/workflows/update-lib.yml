@@ -31,4 +31,4 @@ jobs:
           commit_user_name: Cell[bot]
           commit_user_email: lrhx@users.noreply.github.com
           commit_author: Cell[bot] <lrhx@users.noreply.github.com>
-          commit_message: 'Chore(deps): update translate.js'
+          commit_message: 'chore(deps): update translate.js'
