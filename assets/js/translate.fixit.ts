@@ -116,10 +116,10 @@ class AutoTranslate {
   /**
    * Get browser language code by language id from translate.js service
    * @param {string} id The language id, e.g. 'chinese_simplified'
-   * @returns {string} The language code, e.g. 'zh-CN'
+   * @returns {Array<string>} The language code, e.g. ['zh', 'zh-CN']
    */
-  public getLangCodeById(id: string): string {
-    return Object.keys(translate.util.browserLanguage).find(code => translate.util.browserLanguage[code] === id) || ''
+  public getLangCodeById(id: string): string[] {
+    return Object.keys(translate.util.browserLanguage).filter(code => translate.util.browserLanguage[code] === id)
   }
 
   /**
@@ -228,7 +228,7 @@ class AutoTranslate {
     fixit.util.forEach(machineItems, (item: HTMLElement) => {
       const langId = (item.children[0] as HTMLElement).dataset.lang!
       const langName = this.getLangNameById(langId)
-      const langCode = this.getLangCodeById(langId)
+      const langCodes = this.getLangCodeById(langId)
       // hide unsupported languages for 'client.edge' service
       if (this.service === 'client.edge') {
         if (!langName) {
@@ -236,7 +236,7 @@ class AutoTranslate {
           return
         }
       }
-      if (this.hugoLangCodes.includes(langCode) || langId === this.lang.local) {
+      if (langCodes.some(code => this.hugoLangCodes.includes(code)) || langId === this.lang.local) {
         this.toggleVisibility(item, false)
         return
       }
@@ -304,8 +304,8 @@ class AutoTranslate {
     fixit.util.forEach(this.dom.selectEl.querySelectorAll('option'), (option: HTMLOptionElement) => {
       option.dataset.type = 'machine'
       option.textContent = `🤖 ${option.textContent}`
-      const langCode = this.getLangCodeById(option.value)
-      if (this.hugoLangCodes.includes(langCode) || option.value === this.lang.local) {
+      const langCodes = this.getLangCodeById(option.value)
+      if (langCodes.some(code => this.hugoLangCodes.includes(code)) || option.value === this.lang.local) {
         // Safari can not use "display: none;" for option. (Safari sucks!!!)
         // this.toggleVisibility(option, false);
         option.parentElement!.removeChild(option)
@@ -495,10 +495,10 @@ class AutoTranslate {
       return false
     }
     const langName = this.getLangNameById(langId)
-    const langCode = this.getLangCodeById(langId)
+    const langCodes = this.getLangCodeById(langId)
     if (
       langName
-      && !this.hugoLangCodes.includes(langCode)
+      && !langCodes.some(code => this.hugoLangCodes.includes(code))
       && this.languages.length
       && !this.languages.includes(langId)
     ) {
@@ -531,7 +531,8 @@ class AutoTranslate {
     }
     // Redirect to the corresponding page
     if (AutoDetected !== 'true' && !this.lang.query) {
-      const langCode = this.getLangCodeById(this.lang.browser)
+      const langCodes = this.getLangCodeById(this.lang.browser)
+      const langCode = langCodes.find(code => this.hugoLangCodes.includes(code)) || ''
       if (
         this.hugoLangCodes.includes(langCode)
         && !window.location.pathname.includes(this.hugoLangMap[langCode])
