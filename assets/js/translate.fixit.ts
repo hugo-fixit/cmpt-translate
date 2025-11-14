@@ -298,6 +298,7 @@ class AutoTranslate {
         // Machine language items by translate.js service
         window.history.pushState({}, '', `?lang=${lang}`)
         translate.changeLanguage(lang)
+        document.getElementById('menu-toggle-mobile')?.click()
       }
     }
   }
