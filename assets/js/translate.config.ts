@@ -13,6 +13,7 @@ export const IGNORE_FIXIT: string[] = [
   'katex',
   'katex-display',
   'message-content',
+  'cell-watermark',
 ]
 
 /**
@@ -41,6 +42,7 @@ export const IGNORE_SELECTOR: string[] = [
  */
 export const IGNORE_TAG: string[] = [
   'cipher-text',
+  'noscript',
 ]
 
 /**
