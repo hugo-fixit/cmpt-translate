@@ -12,8 +12,8 @@ importers:
         specifier: ^6.2.0
         version: 6.2.0(@vue/compiler-sfc@3.5.13)(eslint@9.35.0)(typescript@5.7.3)
       auto-changelog-plus:
-        specifier: ^1.2.1
-        version: 1.2.1
+        specifier: ^1.2.2
+        version: 1.2.2
       eslint:
         specifier: ^9.35.0
         version: 9.35.0
@@ -367,8 +367,8 @@ packages:
   argparse@2.0.1:
     resolution: {integrity: sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==}
 
-  auto-changelog-plus@1.2.1:
-    resolution: {integrity: sha512-xTR/LgjnMiuBcwRB5g6zVVievBP/Os4quAkAXSyINFpHSIBAYVzsat9yjllJBz1OElvup+ZmzxIijl7vedN0EA==}
+  auto-changelog-plus@1.2.2:
+    resolution: {integrity: sha512-hD0c/lCYKUCbeFyL6XrV5HKsdJy9/2b/LrnhVaVsQFWOxzp5weuHs415MAr50dMgx7eA5euXt/8Yb52voVB8+g==}
     hasBin: true
 
   auto-changelog@2.5.0:
@@ -1268,11 +1268,6 @@ packages:
     resolution: {integrity: sha512-3A6sD0WYP7+QrjbfNA2FN3FsOaGGFoekCVgTyypy53gPxhbkCIjtO6YWgdrfM+n/8sI8JeXZOIxsHjMTNxQ4nQ==}
     engines: {node: ^14.0.0 || >=16.0.0}
 
-  semver@7.7.2:
-    resolution: {integrity: sha512-RF0Fw+rO5AMf9MAyaRXI4AV0Ulj5lMHqVxxdSgiVbixSCXoEmmX/jk0CuJw4+3SqroYO9VoUh+HcuJivvtJemA==}
-    engines: {node: '>=10'}
-    hasBin: true
-
   semver@7.7.3:
     resolution: {integrity: sha512-SdsKMrI9TdgjdweUSR9MweHA4EJ8YxHn8DFaDisvhVlUOe4BF1tLD7GAj0lIqWVl+dPb/rExr0Btby5loQm20Q==}
     engines: {node: '>=10'}
@@ -1837,7 +1832,7 @@ snapshots:
 
   argparse@2.0.1: {}
 
-  auto-changelog-plus@1.2.1:
+  auto-changelog-plus@1.2.2:
     dependencies:
       auto-changelog: 2.5.0
     transitivePeerDependencies:
@@ -1850,7 +1845,7 @@ snapshots:
       import-cwd: 3.0.0
       node-fetch: 2.7.0
       parse-github-url: 1.0.3
-      semver: 7.7.2
+      semver: 7.7.3
     transitivePeerDependencies:
       - encoding
 
@@ -2912,8 +2907,6 @@ snapshots:
       '@eslint-community/regexpp': 4.12.2
       refa: 0.12.1
       regexp-ast-analysis: 0.7.1
-
-  semver@7.7.2: {}
 
   semver@7.7.3: {}
 
