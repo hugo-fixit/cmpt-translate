@@ -18,8 +18,8 @@ importers:
         specifier: ^9.35.0
         version: 9.35.0
       i18n-jsautotranslate:
-        specifier: ^3.18.66
-        version: 3.18.66
+        specifier: ^3.18.89
+        version: 3.18.89
 
 packages:
 
@@ -841,8 +841,8 @@ packages:
   html-entities@2.6.0:
     resolution: {integrity: sha512-kig+rMn/QOVRvr7c86gQ8lWXq+Hkv6CbAH1hLu+RG338StTpE8Z0b44SDVaqVu7HGKf27frdmUYEs9hTUX/cLQ==}
 
-  i18n-jsautotranslate@3.18.66:
-    resolution: {integrity: sha512-RajJ4BS8dd8JceOMqwCZ/w3kOPyv042b43xXsPb+k93vlcv+MrbPOobCwhtYy/5QjJXFGDITG0+D6ZoIEPEq3Q==}
+  i18n-jsautotranslate@3.18.89:
+    resolution: {integrity: sha512-hoZI6LfkhOpGe5RbRw61r6cU/5QknOjygIFMbkpoho0OKJhebWem0a+MPsKg1fSt/JZDL9XWGw7HZERDMTwl4w==}
 
   ignore@5.3.2:
     resolution: {integrity: sha512-hsBTNUqQTDwkWtcdYI2i06Y/nUBEsNEDJKjWdigLvegy8kDuJAS8uRlpkkcQpyEXL0Z/pjDy5HBmMjRCJ2gq+g==}
@@ -2346,7 +2346,7 @@ snapshots:
 
   html-entities@2.6.0: {}
 
-  i18n-jsautotranslate@3.18.66: {}
+  i18n-jsautotranslate@3.18.89: {}
 
   ignore@5.3.2: {}
 
