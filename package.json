@@ -33,7 +33,7 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^6.2.0",
-    "auto-changelog-plus": "^1.2.1",
+    "auto-changelog-plus": "^1.2.2",
     "eslint": "^9.35.0",
     "i18n-jsautotranslate": "^3.18.66"
   }
