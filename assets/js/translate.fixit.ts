@@ -278,9 +278,10 @@ class AutoTranslate {
         if (current !== local || query) {
           this.dom.selectEl.value = current
         }
+        this.toggleVisibility(this.dom.switchMobile, true)
         this.dom.switchMobile.removeAttribute('id')
         this.dom.selectEl.id = 'auto-language-select'
-        this.toggleVisibility(this.dom.switchMobile, true)
+        translate.selectLanguageTag.show = false
       })
     })
   }
