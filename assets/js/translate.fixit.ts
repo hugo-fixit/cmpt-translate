@@ -348,7 +348,7 @@ class AutoTranslate {
     currentItem.textContent = `👤 ${langName}`
     this.dom.selectEl.prepend(currentItem)
     // multilingual site missing translations
-    if (originSwitchMobile.classList.contains('language-switch')) {
+    if (originSwitchMobile?.classList?.contains('language-switch')) {
       this.toggleVisibility(originSwitchMobile, false)
     }
   }
