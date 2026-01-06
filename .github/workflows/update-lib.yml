@@ -29,7 +29,7 @@ jobs:
       - name: Copy translate.js
         run: pnpm cp
       - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           branch: main
           commit_user_name: Cell[bot]
