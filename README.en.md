@@ -96,23 +96,17 @@ theme = [
 
 ## Configuration
 
-In order to Inject the partial `cmpt-translate.html` into the `custom-assets` through the [custom block](https://fixit.lruihao.cn/references/blocks/) opened by the FixIt theme in the `layouts/_partials/custom.html` file, you need to fill in the following necessary configurations:
+In order to Inject the partial `cmpt-translate.html` into the `custom-assets` through the [custom block](https://fixit.lruihao.cn/references/blocks/) opened by the FixIt theme, you need to fill in the following necessary configurations:
 
 ```toml
 [params]
 
 [params.customPartials]
-head = []
-menuDesktop = [ "inject/translate-menu-desktop.html", ]
-menuMobile = [ "inject/translate-menu-mobile.html", ]
-profile = []
-aside = []
-comment = []
-footer = []
-widgets = []
-assets = [ "inject/cmpt-translate.html", ]
-postFooterBefore = []
-postFooterAfter = []
+# ... other partials
+menuDesktop = [ "inject/translate-menu-desktop.html" ]
+menuMobile = [ "inject/translate-menu-mobile.html" ]
+assets = [ "inject/cmpt-translate.html" ]
+# ... other partials
 ```
 
 In addition, you can customize the translated language through the following configuration:
