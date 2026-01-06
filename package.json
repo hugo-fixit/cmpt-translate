@@ -1,6 +1,6 @@
 {
   "name": "cmpt-translate",
-  "version": "1.11.1",
+  "version": "1.11.2",
   "private": true,
   "packageManager": "pnpm@10.27.0",
   "description": "A component for website automatic translation base on translate.js.",
