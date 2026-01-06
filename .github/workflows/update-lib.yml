@@ -1,4 +1,4 @@
-name: Copy translate.js from node_modules to assets/lib
+name: Update translate assets
 
 on:
   pull_request:
@@ -22,6 +22,10 @@ jobs:
           cache: pnpm
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+      - name: Download language.json
+        run: |
+          mkdir -p assets/data
+          curl -sS https://api.translate.zvo.cn/language.json -o assets/data/language.json
       - name: Copy translate.js
         run: pnpm cp
       - name: Commit changes
@@ -31,4 +35,4 @@ jobs:
           commit_user_name: Cell[bot]
           commit_user_email: lrhx@users.noreply.github.com
           commit_author: Cell[bot] <lrhx@users.noreply.github.com>
-          commit_message: 'chore(deps): update translate.js'
+          commit_message: 'chore: sync translate assets'
