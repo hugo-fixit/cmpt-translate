@@ -24,7 +24,7 @@
     <ul class="sub-menu">
       {{- if hugo.IsMultilingual -}}
         {{- if (eq .Kind "404") -}}
-          {{- range .Sites -}}
+          {{- range hugo.Sites -}}
             {{- if ne . $.Site -}}
               {{- $link := printf "%v/404.html" .LanguagePrefix -}}
               <li class="menu-item" data-type="artificial">
@@ -62,4 +62,3 @@
     </ul>
   </li>
 {{- end -}}
-{{- /* EOF */ -}}
