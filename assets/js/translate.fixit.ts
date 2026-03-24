@@ -19,6 +19,14 @@ import {
   IGNORE_TEXT,
 } from './translate.config'
 
+import {
+  forEach,
+  isMobile,
+  // `./utils/common` is provided by the FixIt theme during the final asset build.
+  // It does not exist in this component repository, so TypeScript cannot resolve it here.
+  // @ts-expect-error -- The module is available at runtime from the parent FixIt theme.
+} from './utils/common'
+
 declare global {
   interface Window {
     ATConfig: any
@@ -85,7 +93,7 @@ class AutoTranslate {
 
   detectLocalLanguage: boolean = detectLocalLanguage
   enterprise: boolean = enterprise
-  isMobile: boolean = fixit.util.isMobile()
+  isMobile: boolean = isMobile()
   afterExecuteEvents: Set<() => void> = new Set()
   lang: Language = { ...this.getTypesLang() }
   supportLanguages: { [key: string]: any } = {
@@ -206,7 +214,7 @@ class AutoTranslate {
    */
   private handleArtificialItems(): void {
     const artificialItems = Array.from(this.dom.switchMenu.childNodes as NodeListOf<HTMLElement>).filter(node => node.dataset.type === 'artificial')
-    fixit.util.forEach(artificialItems, (item: HTMLElement) => {
+    forEach(artificialItems, (item: HTMLElement) => {
       if (item.classList.contains('active') && !item.children[0].getAttribute('title')) {
         const langName = this.getLangNameById(this.lang.local)
         if (langName) {
@@ -225,7 +233,7 @@ class AutoTranslate {
    */
   private handleMachineItems(): void {
     const machineItems = Array.from(this.dom.switchMenu.childNodes as NodeListOf<HTMLElement>).filter(node => node.dataset.type === 'machine')
-    fixit.util.forEach(machineItems, (item: HTMLElement) => {
+    forEach(machineItems, (item: HTMLElement) => {
       const langId = (item.children[0] as HTMLElement).dataset.lang!
       const langName = this.getLangNameById(langId)
       const langCodes = this.getLangCodeById(langId)
@@ -305,7 +313,7 @@ class AutoTranslate {
   }
 
   private handleMachineOptions(): void {
-    fixit.util.forEach(this.dom.selectEl.querySelectorAll('option'), (option: HTMLOptionElement) => {
+    forEach(this.dom.selectEl.querySelectorAll('option'), (option: HTMLOptionElement) => {
       option.dataset.type = 'machine'
       option.textContent = `🤖 ${option.textContent}`
       const langCodes = this.getLangCodeById(option.value)
@@ -321,7 +329,7 @@ class AutoTranslate {
     const originSwitchMobile = this.dom.switchMobile.previousElementSibling
     // multilingual handling
     if (this.hugoLangCodes.length > 1) {
-      fixit.util.forEach(originSwitchMobile.querySelectorAll('option'), (option: HTMLOptionElement) => {
+      forEach(originSwitchMobile.querySelectorAll('option'), (option: HTMLOptionElement) => {
         if (!option.getAttribute('value')) {
           return option.parentElement!.removeChild(option)
         }
@@ -388,7 +396,7 @@ class AutoTranslate {
     }
     translate.language.translateLanguagesRange = this.fromLanguages
     translate.ignore.id.push(...this.ignoreID)
-    translate.ignore.class.push(...this.ignoreClass)
+    translate.ignore.class.data.push(...this.ignoreClass)
     translate.ignore.tag.push(...this.ignoreTag)
     translate.ignore.text.push(...this.ignoreText)
     translate.language.setLocal(this.lang.local)
