@@ -29,7 +29,7 @@
   {{- if $frontMatter.onlyLocalLang -}}
     {{- $config = dict "onlyLocalLang" true | merge $config -}}
   {{- end -}}
-  {{- with .Site.Data.nomenclature -}}
+  {{- with hugo.Data.nomenclature -}}
     {{- $config = dict "nomenclature" . | merge $config -}}
   {{- end -}}
   {{- $configJS := $config | jsonify | printf "window.ATConfig=%s;" -}}
