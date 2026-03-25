@@ -2,7 +2,7 @@
   "name": "cmpt-translate",
   "version": "1.12.2",
   "private": true,
-  "packageManager": "pnpm@10.27.0",
+  "packageManager": "pnpm@10.33.0",
   "description": "A component for website automatic translation base on translate.js.",
   "author": "Lruihao (https://github.com/Lruihao)",
   "license": "MIT",
@@ -32,9 +32,9 @@
     "version": "auto-changelog-plus -p"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^7.6.1",
+    "@antfu/eslint-config": "^7.7.3",
     "auto-changelog-plus": "^1.2.3",
-    "eslint": "^9.39.2",
+    "eslint": "^10.1.0",
     "i18n-jsautotranslate": "^4.0.0"
   }
 }
