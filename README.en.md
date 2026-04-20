@@ -12,9 +12,9 @@
   <a href="https://fixit.lruihao.cn/ecosystem/hugo-fixit/cmpt-translate/?lang=russian">Русский язык</a> |
   <a href="https://fixit.lruihao.cn/ecosystem/hugo-fixit/cmpt-translate/?lang=spanish">Español</a> |
   <a href="https://fixit.lruihao.cn/ecosystem/hugo-fixit/cmpt-translate/?lang=hindi">हिन्दी</a> |
-  <a href="https://fixit.lruihao.cn/ecosystem/hugo-fixit/cmpt-translate/?lang=deutsch">deutsch</a> |
+  <a href="https://fixit.lruihao.cn/ecosystem/hugo-fixit/cmpt-translate/?lang=deutsch">Deutsch</a> |
   <a href="https://fixit.lruihao.cn/ecosystem/hugo-fixit/cmpt-translate/?lang=korean">한국어</a> |
-  <a href="https://fixit.lruihao.cn/ecosystem/hugo-fixit/cmpt-translate/?lang=japanese">しろうと</a>
+  <a href="https://fixit.lruihao.cn/ecosystem/hugo-fixit/cmpt-translate/?lang=japanese">日本語</a>
 </div>
 
 ## Demo
@@ -227,8 +227,6 @@ Those who meet the following requirements can contact me for free to open an ent
 
 - [translate.js](https://github.com/xnx3/translate) and related ecological product developers
 - [FixIt](https://github.com/hugo-fixit/FixIt) and related ecological product developers
-
-In addition, each member of the [Hugo FixIt Planet](https://wx.zsxq.com/group/88888281181442?group_id=88888281181442&coupon_code=ks2qf5zd&inviter_id=15442515242512&inviter_sid=e15da0zzz4&keyword=BQcpe&type=group) will be given a subsidy of **6 months of service / year**.
 
 ### Sponsorship method
 
