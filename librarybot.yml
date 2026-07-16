@@ -1,0 +1,9 @@
+schemaVersion: 1
+baseDir: assets/lib
+libraries:
+  - npm: i18n-jsautotranslate
+    version: 1.19.9
+    local:
+      items:
+        - from: index.js
+          to: translate.js

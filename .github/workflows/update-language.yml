@@ -1,4 +1,4 @@
-name: Update translate assets
+name: Update language.json
 
 on:
   pull_request:
@@ -14,20 +14,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: pnpm/action-setup@v5
-      - name: Setup Node.js
-        uses: actions/setup-node@v6
-        with:
-          node-version-file: .nvmrc
-          cache: pnpm
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
       - name: Download language.json
         run: |
           mkdir -p assets/data
           curl -sS https://api.translate.zvo.cn/language.json -o assets/data/language.json
-      - name: Copy translate.js
-        run: pnpm cp
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v7
         with:
@@ -35,4 +25,4 @@ jobs:
           commit_user_name: Cell[bot]
           commit_user_email: lrhx@users.noreply.github.com
           commit_author: Cell[bot] <lrhx@users.noreply.github.com>
-          commit_message: 'chore: sync translate assets'
+          commit_message: 'chore(deps): update language.json data'
