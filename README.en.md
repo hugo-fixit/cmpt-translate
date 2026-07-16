@@ -66,7 +66,7 @@ Then add this theme component to your `hugo.toml` configuration file:
 path = "github.com/hugo-fixit/FixIt"
 
 [[module.imports]]
-path = "github.com/hugo-fixit/cmpt-translate"
+path = "github.com/hugo-fixit/cmpt-translate/v2"
 ```
 
 On the first start of Hugo it will download the required files.

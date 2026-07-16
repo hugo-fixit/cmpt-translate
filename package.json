@@ -1,5 +1,5 @@
 {
-  "name": "cmpt-translate",
+  "name": "@hugo-fixit/cmpt-translate",
   "version": "1.12.3",
   "private": true,
   "packageManager": "pnpm@11.13.1",

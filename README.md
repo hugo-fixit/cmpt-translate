@@ -66,7 +66,7 @@
 path = "github.com/hugo-fixit/FixIt"
 
 [[module.imports]]
-path = "github.com/hugo-fixit/cmpt-translate"
+path = "github.com/hugo-fixit/cmpt-translate/v2"
 ```
 
 在 Hugo 的第一次启动时，它将下载所需的文件。
@@ -140,7 +140,7 @@ enterprise = false
 - `ignore_id`：需要忽略翻译的元素 ID，例如 `["comment", ...]`。
 - `ignore_class`：需要忽略翻译的类名，例如 `["post-category", ...]`。
 - `ignore_tag`：需要忽略翻译的标签，例如 `["title", ...]`。
-- `ignore_Text`：需要忽略翻译的文本，例如 `["FixIt", "Lruihao", ...]`。
+- `ignore_text`：需要忽略翻译的文本，例如 `["FixIt", "Lruihao", ...]`。
 - `detect_local_language`：是否检测本地语言。
 - `cdn`：translate.js 的 CDN，例如 `https://cdn.jsdelivr.net/npm/i18n-jsautotranslate@latest`。
 - `enterprise`：是否启用[企业级翻译通道](#enterprise)。
@@ -206,7 +206,7 @@ auto_translate:
 > 企业级稳定翻译通道，仅针对**付费用户**开放。\
 > **体验额度**：每天有 5 万字符的体验额度，超出部分将不再翻译！
 
-在 FixIt 里启用企业级翻译通道，设置 `params.autoTranslate.enterprise` 为 `true` 即可，[企业级翻译通道](https://translate.zvo.cn/4087.html)相对于普通翻译通道有以下优势：
+在 FixIt 里启用企业级翻译通道，在配置中设置 `enterprise` 为 `true` 即可，[企业级翻译通道](https://translate.zvo.cn/4087.html)相对于普通翻译通道有以下优势：
 
 | 服务           | 开源翻译通道      | 企业级翻译通道           |
 | :------------- | :---------------- | :----------------------- |
