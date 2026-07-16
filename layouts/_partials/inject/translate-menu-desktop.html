@@ -1,4 +1,4 @@
-{{- $autoTranslate := .Site.Params.autoTranslate -}}
+{{- $autoTranslate := partial "function/camel-case-keys.html" .Site.Params.auto_translate -}}
 {{- $languages := site.Store.Get "languages" -}}
 {{- if not $languages -}}
   {{- /* [Deactivate] Get languages from remote API */ -}}
@@ -17,7 +17,7 @@
 {{- end -}}
 
 {{- if $autoTranslate.enable | and (gt (len $languages) 0) -}}
-  <li class="menu-item language-switch auto d-none" aria-hidden="true">
+  <li class="menu-item language-switch auto hidden" aria-hidden="true">
     <span role="button" aria-label="{{ T "header.selectLanguage" }}" title="{{ T "header.selectLanguage" }}">
       {{- dict "Class" "fa-solid fa-language fa-fw" | partial "plugin/icon.html" -}}
     </span>

@@ -44,12 +44,14 @@ Switch the configured translation language in the upper right corner of the webs
 
 ## Requirements
 
-- Hugo v0.156.0 or later.
-- FixIt v0.4.5 or later.
+- Hugo v0.161.0 or later.
+- FixIt v1.0.0 or later.
+
+> Please use v1 version of this component if FixIt is v0.4.5.
 
 ## Install Component
 
-The installation method is the same as [installing a theme](https://fixit.lruihao.cn/documentation/installation/). There are several ways to install, choose one, Here are two mainstream ways.
+The installation method is the same as [installing a theme](https://fixit.lruihao.cn/docs/installation/). There are several ways to install, choose one, Here are two mainstream ways.
 
 ### Install as Hugo Module
 
@@ -101,7 +103,7 @@ In order to Inject the partial `cmpt-translate.html` into the `custom-assets` th
 ```toml
 [params]
 
-[params.customPartials]
+[params.custom_partials]
 # ... other partials
 menuDesktop = [ "inject/translate-menu-desktop.html" ]
 menuMobile = [ "inject/translate-menu-mobile.html" ]
@@ -115,70 +117,71 @@ In addition, you can customize the translated language through the following con
 [languages]
 
 [languages.en]
-languageCode = "en"
-languageName = "English"
+locale = "en"
+label = "English"
 
 [params]
 
-[params.autoTranslate]
+[params.auto_translate]
 enable = true
 service = 'client.edge'
 languages = []
-ignoreID = []
-ignoreClass = []
-ignoreTag = []
-detectLocalLanguage = false
+ignore_id = []
+ignore_class = []
+ignore_tag = []
+detect_local_language = false
 cdn = ""
+enterprise = false
 ```
 
 - `enable`: Whether to enable automatic translation.
 - `service`: The translation service provider, optional values are `client.edge` and `translate.service`, see: [Translation Service Provider](https://translate.zvo.cn/43086.html).
 - `languages`: List of language ID to translate to, e.g. `["english", "chinese_simplified", "chinese_traditional", ...]`, see the full language list: [Full Language List](https://api.translate.zvo.cn/language.json).
-- `ignoreID`: Element IDs that needs to be ignored for translation, e.g. `["comment", ...]`
-- `ignoreClass`: Class names that need to be ignored for translation, e.g. `["post-category", ...]`
-- `ignoreTag`: Tag names that need to be ignored for translation, e.g. `["title", ...]`
-- `ignoreText`: Texts that needs to be ignored for translation, e.g. `["FixIt", "Lruihao", ...]`
-- `detectLocalLanguage`: Whether to detect the local language
+- `ignore_id`: Element IDs that needs to be ignored for translation, e.g. `["comment", ...]`
+- `ignore_class`: Class names that need to be ignored for translation, e.g. `["post-category", ...]`
+- `ignore_tag`: Tag names that need to be ignored for translation, e.g. `["title", ...]`
+- `ignore_text`: Texts that needs to be ignored for translation, e.g. `["FixIt", "Lruihao", ...]`
+- `detect_local_language`: Whether to detect the local language
 - `cdn`: CDN of translate.js, e.g. `https://cdn.jsdelivr.net/npm/i18n-jsautotranslate@latest`
 - `enterprise`: Whether to use the [enterprise translation channel](#enterprise)
 
 > [!NOTE]
-> To avoid translation language acquisition failure, even if your site itself is single-language, you need to configure `languageCode` and `languageName`, for example:
+> To avoid translation language acquisition failure, even if your site itself is single-language, you need to configure `locale` and `label`, for example:
 >
 > ```toml
 > [languages]
 >
 > [languages.zh-cn]
-> languageCode = "en"
-> languageName = "English"
+> locale = "en"
+> label = "English"
 > ```
 
 ## Front Matter
 
 ```yaml
-autoTranslate:
+auto_translate:
   local: ''
-  fromLanguages: []
-  onlyLocalLang: false
+  from_languages: []
+  only_local_lang: false
 ```
 
 - `local`: `String` Used to specify the local language of the current page, e.g. `local: english`.
 
     The default local language is the same as the Hugo site configuration. If the actual language of a page is different from the site configuration, you can specify it through the `local` parameter.
 
-- `fromLanguages`: `Array` type, used to specify whether the languages in the current page content need to be translated.
+- `from_languages`: `Array` type, used to specify whether the languages in the current page content need to be translated.
 
     For example: the webpage itself is in Chinese, but there are other languages in the content. You can specify the language to be translated, for example:
 
     ```yaml
-    fromLanguages:
+    from_languages:
       - chinese_simplified
       - chinese_traditional
     ```
 
-- `onlyLocalLang`: `Boolean` type, used to specify whether to translate only the local language of the current page, the default is `false`.
+- `only_local_lang`: `Boolean` type, used to specify whether to translate only the local language of the current page, the default is `false`.
 
-    For example: the webpage itself is in Chinese, but there are summary references in other languages in the content. Set `onlyLocalLang: true` to translate only Chinese.
+    For example: the webpage itself is in Chinese, but there are summary references in other languages in the content. Set `only_local_lang: true` to translate only Chinese.
 
 ## Custom Translation Terms
 

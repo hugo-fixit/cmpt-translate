@@ -2,7 +2,7 @@
 
 # Auto translation configuration
 # See: https://github.com/xnx3/translate/
-[params.autoTranslate]
+[params.auto_translate]
 enable = true
 # The translation service provider, ['client.edge', 'translate.service']
 # See: https://translate.zvo.cn/43086.html
@@ -12,17 +12,17 @@ service = 'client.edge'
 # See the full language list: https://api.translate.zvo.cn/language.json
 languages = []
 # Element IDs that needs to be ignored for translation, e.g. ["comment", ...]
-ignoreID = []
+ignore_id = []
 # Class names that need to be ignored for translation, e.g. ["post-category", ...]
-ignoreClass = []
+ignore_class = []
 # Tag names that need to be ignored for translation, e.g. ["title", ...]
-ignoreTag = []
+ignore_tag = []
 # Selectors that need to be ignored for translation, e.g. ["[data-adapters='projects'] .single-subtitle", ...]
-ignoreSelector = []
+ignore_selector = []
 # Texts that need to be ignored for translation, e.g. ["FixIt", "Lruihao", ...]
-ignoreText = []
+ignore_text = []
 # Whether to detect the local language
-detectLocalLanguage = false
+detect_local_language = false
 # CDN of translate.js, e.g. https://cdn.jsdelivr.net/npm/i18n-jsautotranslate@latest
 cdn = ""
 # Whether to enable Enterprise-level translation channel

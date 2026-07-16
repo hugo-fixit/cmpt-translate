@@ -1,6 +1,6 @@
 {{- $fingerprint := .Site.Store.Get "fingerprint" -}}
-{{- $autoTranslate := .Site.Params.autoTranslate -}}
-{{- $frontMatter := .Params.autoTranslate -}}
+{{- $autoTranslate := partial "function/camel-case-keys.html" .Site.Params.auto_translate -}}
+{{- $frontMatter := partial "function/camel-case-keys.html" .Params.auto_translate -}}
 {{- $languages := site.Store.Get "languages" -}}
 
 {{- if $autoTranslate.enable -}}
@@ -36,25 +36,19 @@
   {{- if hugo.IsServer -}}
     {{- $configJS = add $configJS "console.log('Auto Translate config:', window.ATConfig);" -}}
   {{- end -}}
-  {{- $configJS | dict "Content" | dict "Page" . "Data" | partial "store/script.html" -}}
-
-  {{- /* translate.fixit.js */ -}}
-  {{- $options := dict "targetPath" "js/translate.fixit.min.js" "minify" hugo.IsProduction -}}
-  {{- $params := dict
-    "service" ($autoTranslate.service | default "client.edge")
-    "languages" ($autoTranslate.languages | default slice)
-    "ignoreID" ($autoTranslate.ignoreID | default slice)
-    "ignoreClass" ($autoTranslate.ignoreClass | default slice)
-    "ignoreTag" ($autoTranslate.ignoreTag | default slice)
-    "ignoreSelector" ($autoTranslate.ignoreSelector | default slice)
-    "ignoreText" ($autoTranslate.ignoreText | default slice)
-    "detectLocalLanguage" ($autoTranslate.detectLocalLanguage | default false)
-    "supportLanguages" ($languages | default slice)
-    "enterprise" ($autoTranslate.enterprise | default false)
-  -}}
-  {{- $options = dict "params" $params | merge $options -}}
-  {{- if not hugo.IsProduction -}}
-    {{- $options = dict "sourceMap" "inline" | merge $options -}}
+  {{- $uniqueFileId := "" -}}
+  {{- $languagePrefix := .Site.LanguagePrefix -}}
+  {{- with .File -}}
+    {{- $uniqueFileId = .UniqueID -}}
   {{- end -}}
-  {{- dict "Source" "js/translate.fixit.ts" "Build" $options "Fingerprint" $fingerprint "Defer" true | dict "Page" . "Data" | partial "store/script.html" -}}
+  {{- $targetPath := "" -}}
+  {{- if $uniqueFileId | and (not .IsHome) -}}
+    {{- $targetPath = printf "%s/js/config/auto-translate/%s.js" $languagePrefix $uniqueFileId -}}
+  {{- end -}}
+  {{- dict "Content" $configJS "Path" $targetPath "Defer" true | dict "Page" . "Data" | partial "store/script.html" -}}
+
+  {{- /* translate.fixit.min.js */ -}}
+  {{- $options := dict "targetPath" "js/translate.fixit.min.js" "minify" hugo.IsProduction -}}
+  {{- $params := dict "supportLanguages" $languages | merge $autoTranslate -}}
+  {{- dict "Source" "js/translate.fixit.ts" "Build" (dict "params" $params) "Fingerprint" $fingerprint "Defer" true | dict "Page" . "Data" | partial "store/script.html" -}}
 {{- end -}}

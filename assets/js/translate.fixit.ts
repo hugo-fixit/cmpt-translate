@@ -2,7 +2,7 @@ import {
   detectLocalLanguage,
   enterprise,
   ignoreClass,
-  ignoreID,
+  ignoreId,
   ignoreSelector,
   ignoreTag,
   ignoreText,
@@ -20,12 +20,11 @@ import {
 } from './translate.config'
 
 import {
-  forEach,
   isMobile,
-  // `./utils/common` is provided by the FixIt theme during the final asset build.
+  // `./utils` is provided by the FixIt theme during the final asset build.
   // It does not exist in this component repository, so TypeScript cannot resolve it here.
   // @ts-expect-error -- The module is available at runtime from the parent FixIt theme.
-} from './utils/common'
+} from './utils'
 
 declare global {
   interface Window {
@@ -67,7 +66,7 @@ const translate = window.translate
  */
 class AutoTranslate {
   // Get params from Hugo project config
-  service: string = service
+  service: string = service ?? 'client.edge'
   languages: string[] = languages
   ignoreClass: string[] = [
     ...IGNORE_FIXIT,
@@ -75,7 +74,7 @@ class AutoTranslate {
     ...ignoreClass,
   ]
 
-  ignoreID: string[] = ignoreID
+  ignoreId: string[] = ignoreId
   ignoreTag: string[] = [
     ...IGNORE_TAG,
     ...ignoreTag,
@@ -91,8 +90,8 @@ class AutoTranslate {
     ...ignoreText,
   ]
 
-  detectLocalLanguage: boolean = detectLocalLanguage
-  enterprise: boolean = enterprise
+  detectLocalLanguage: boolean = detectLocalLanguage ?? false
+  enterprise: boolean = enterprise ?? false
   isMobile: boolean = isMobile()
   afterExecuteEvents: Set<() => void> = new Set()
   lang: Language = { ...this.getTypesLang() }
@@ -158,7 +157,7 @@ class AutoTranslate {
    * @param {boolean} visibility
    */
   public toggleVisibility(el: HTMLElement, visibility: boolean): void {
-    el.classList.toggle('d-none', !visibility)
+    el.classList.toggle('hidden', !visibility)
     el.setAttribute('aria-hidden', `${!visibility}`)
   }
 
@@ -214,7 +213,7 @@ class AutoTranslate {
    */
   private handleArtificialItems(): void {
     const artificialItems = Array.from(this.dom.switchMenu.childNodes as NodeListOf<HTMLElement>).filter(node => node.dataset.type === 'artificial')
-    forEach(artificialItems, (item: HTMLElement) => {
+    artificialItems.forEach((item: HTMLElement) => {
       if (item.classList.contains('active') && !item.children[0].getAttribute('title')) {
         const langName = this.getLangNameById(this.lang.local)
         if (langName) {
@@ -233,7 +232,7 @@ class AutoTranslate {
    */
   private handleMachineItems(): void {
     const machineItems = Array.from(this.dom.switchMenu.childNodes as NodeListOf<HTMLElement>).filter(node => node.dataset.type === 'machine')
-    forEach(machineItems, (item: HTMLElement) => {
+    machineItems.forEach((item: HTMLElement) => {
       const langId = (item.children[0] as HTMLElement).dataset.lang!
       const langName = this.getLangNameById(langId)
       const langCodes = this.getLangCodeById(langId)
@@ -249,7 +248,7 @@ class AutoTranslate {
         return
       }
       item.addEventListener('click', () => {
-        // set query param 'lang' to url
+        // set query param 'lang' to URL
         window.history.pushState({}, '', `?lang=${langId}`)
         this.toggleMenuActive(item)
         // translate to selected language
@@ -313,7 +312,7 @@ class AutoTranslate {
   }
 
   private handleMachineOptions(): void {
-    forEach(this.dom.selectEl.querySelectorAll('option'), (option: HTMLOptionElement) => {
+    this.dom.selectEl.querySelectorAll('option').forEach((option: HTMLOptionElement) => {
       option.dataset.type = 'machine'
       option.textContent = `🤖 ${option.textContent}`
       const langCodes = this.getLangCodeById(option.value)
@@ -329,7 +328,7 @@ class AutoTranslate {
     const originSwitchMobile = this.dom.switchMobile.previousElementSibling
     // multilingual handling
     if (this.hugoLangCodes.length > 1) {
-      forEach(originSwitchMobile.querySelectorAll('option'), (option: HTMLOptionElement) => {
+      originSwitchMobile.querySelectorAll('option').forEach((option: HTMLOptionElement) => {
         if (!option.getAttribute('value')) {
           return option.parentElement!.removeChild(option)
         }
@@ -395,7 +394,7 @@ class AutoTranslate {
       this.fromLanguages = [this.lang.local]
     }
     translate.language.translateLanguagesRange = this.fromLanguages
-    translate.ignore.id.push(...this.ignoreID)
+    translate.ignore.id.push(...this.ignoreId)
     translate.ignore.class.data.push(...this.ignoreClass)
     translate.ignore.tag.push(...this.ignoreTag)
     translate.ignore.text.push(...this.ignoreText)

@@ -1,5 +1,5 @@
-{{- if .Site.Params.autoTranslate.enable -}}
-  <span id="translate" class="menu-system-item language-switch auto d-none" aria-hidden="true">
+{{- if .Site.Params.auto_translate.enable -}}
+  <span id="translate" class="menu-system-item language-switch auto hidden" aria-hidden="true">
     <span role="button" aria-label="{{ T "header.selectLanguage" }}" title="{{ T "header.selectLanguage" }}" data-current="{{ .Language.Label }}">
       {{- .Language.Label -}}
       {{- dict "Class" "dropdown-icon fa-solid fa-chevron-down" | partial "plugin/icon.html" -}}

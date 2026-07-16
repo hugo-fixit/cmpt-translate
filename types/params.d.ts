@@ -1,13 +1,13 @@
 /**
- * Hugo @params type declarations
- * This file provides TypeScript type definitions for Hugo's @params module
+ * Hugo `@params` type declarations
+ * This file provides TypeScript type definitions for Hugo's `@params` module
  */
 
 declare module '@params' {
   export const detectLocalLanguage: boolean
   export const enterprise: boolean
   export const ignoreClass: string[]
-  export const ignoreID: string[]
+  export const ignoreId: string[]
   export const ignoreSelector: string[]
   export const ignoreTag: string[]
   export const ignoreText: string[]
