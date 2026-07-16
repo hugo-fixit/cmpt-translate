@@ -28,25 +28,25 @@
             {{- if ne . $.Site -}}
               {{- $link := printf "%v/404.html" .LanguagePrefix -}}
               <li class="menu-item" data-type="artificial">
-                <a href="{{ $link }}" data-lang="{{ .Language.LanguageCode }}" class="menu-link" title="{{ .Language.LanguageName }}">
-                  {{- .Language.LanguageName -}}
+                <a href="{{ $link }}" data-lang="{{ .Language.Locale }}" class="menu-link" title="{{ .Language.Label }}">
+                  {{- .Language.Label -}}
                 </a>
               </li>
             {{- end -}}
           {{- end -}}
         {{- else -}}
           {{- range .AllTranslations -}}
-            <li class="menu-item{{ if eq .Lang $.Lang }} active{{ end }}" data-type="artificial">
-              <a href="{{ .RelPermalink }}" data-lang="{{ .Language.LanguageCode }}" class="menu-link{{ if eq .Lang $.Lang }} text-secondary{{ end }}" title="{{ .Language.LanguageName }}">
-                <i class="fa-solid fa-person fa-fw fa-sm" aria-hidden="true"></i> {{ .Language.LanguageName -}}
+            <li class="menu-item{{ if eq .Language.Name $.Language.Name }} active{{ end }}" data-type="artificial">
+              <a href="{{ .RelPermalink }}" data-lang="{{ .Language.Locale }}" class="menu-link{{ if eq .Language.Name $.Language.Name }} text-secondary{{ end }}" title="{{ .Language.Label }}">
+                <i class="fa-solid fa-person fa-fw fa-sm" aria-hidden="true"></i> {{ .Language.Label -}}
               </a>
             </li>
           {{- end -}}
         {{- end -}}
       {{- else -}}
         <li class="menu-item active" data-type="artificial">
-          <a href="{{ .RelPermalink }}" data-lang="{{ .Language.LanguageCode }}" class="menu-link text-secondary" title="{{ .Language.LanguageName }}">
-            <i class="fa-solid fa-person fa-fw fa-sm" aria-hidden="true"></i> {{ .Language.LanguageName -}}
+          <a href="{{ .RelPermalink }}" data-lang="{{ .Language.Locale }}" class="menu-link text-secondary" title="{{ .Language.Label }}">
+            <i class="fa-solid fa-person fa-fw fa-sm" aria-hidden="true"></i> {{ .Language.Label -}}
           </a>
         </li>
       {{- end -}}

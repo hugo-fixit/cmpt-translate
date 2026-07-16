@@ -16,8 +16,8 @@
   {{- $hugoLangCodes := slice -}}
   {{- $hugoLangMap := dict -}}
   {{- range .AllTranslations }}
-    {{- $hugoLangCodes = $hugoLangCodes | append .Language.LanguageCode -}}
-    {{- $hugoLangMap = $hugoLangMap | merge (dict .Language.LanguageCode .RelPermalink) -}}
+    {{- $hugoLangCodes = $hugoLangCodes | append .Language.Locale -}}
+    {{- $hugoLangMap = $hugoLangMap | merge (dict .Language.Locale .RelPermalink) -}}
   {{- end -}}
   {{- $config := dict "hugoLangCodes" $hugoLangCodes "hugoLangMap" $hugoLangMap -}}
   {{- with $frontMatter.local -}}
