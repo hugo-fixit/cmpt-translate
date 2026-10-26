@@ -1,6 +1,6 @@
 {
   "name": "@hugo-fixit/cmpt-translate",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "private": true,
   "packageManager": "pnpm@11.13.1",
   "description": "A component for website automatic translation base on translate.js.",
