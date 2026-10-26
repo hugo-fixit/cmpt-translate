@@ -18,10 +18,10 @@
 
 {{- if $autoTranslate.enable | and (gt (len $languages) 0) -}}
   <li class="menu-item language-switch auto hidden" aria-hidden="true">
-    <span role="button" aria-label="{{ T "header.selectLanguage" }}" title="{{ T "header.selectLanguage" }}">
+    <button type="button" data-submenu-toggle aria-label="{{ T "header.selectLanguage" }}" title="{{ T "header.selectLanguage" }}" aria-expanded="false" aria-controls="fi-submenu-translate-desktop">
       {{- dict "Class" "fa-solid fa-language fa-fw" | partial "plugin/icon.html" -}}
-    </span>
-    <ul class="sub-menu">
+    </button>
+    <ul class="sub-menu" id="fi-submenu-translate-desktop">
       {{- if hugo.IsMultilingual -}}
         {{- if (eq .Kind "404") -}}
           {{- range hugo.Sites -}}
